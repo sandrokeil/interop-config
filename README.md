@@ -112,7 +112,7 @@ Put the following into your composer.json
 
     {
         "require": {
-            "sandrokeil/interop-config": "~1.0"
+            "sandrokeil/interop-config": "1.0.x-dev"
         }
     }
 
