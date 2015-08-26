@@ -18,7 +18,7 @@
 [![Total Downloads](https://poser.pugx.org/sandrokeil/interop-config/downloads.png)](https://packagist.org/packages/sandrokeil/interop-config)
 [![License](https://poser.pugx.org/sandrokeil/interop-config/license.png)](https://packagist.org/packages/sandrokeil/interop-config)
 
-*ConfigInterop* provides interfaces to create instances depending on configuration.
+*InteropConfig* provides interfaces and classes to create instances depending on configuration with mandatory param check and uniform config structure.
 
  * **Well tested.** Besides unit test and continuous integration/inspection this solution is also ready for production use.
  * **Framework agnostic** This PHP library does not depends on any framework but you can use it with your favourite framework.
