@@ -13,11 +13,6 @@ use Interop\Container\ContainerInterface;
 
 class ContainerInterop implements ContainerInterface
 {
-    /**
-     * Config
-     *
-     * @var array
-     */
     protected $config;
 
     public function __construct(array $config)
@@ -34,5 +29,4 @@ class ContainerInterop implements ContainerInterface
     {
         return isset($this->config[$id]);
     }
-
 }
