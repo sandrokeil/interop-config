@@ -1,0 +1,24 @@
+<?php
+/**
+ * Sake
+ *
+ * @link      http://github.com/sandrokeil/interop-config for the canonical source repository
+ * @copyright Copyright (c] 2013 Sandro Keil
+ * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.txt New BSD License
+ */
+
+// interop config example
+return [
+    // module
+    'sake_doctrine' => [
+        // scope
+        'orm_manager' => [
+            // name
+            'orm_default' => [
+                // config params
+                'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+                'params' => [],
+            ],
+        ],
+    ],
+];
