@@ -54,11 +54,11 @@ See [docs](docs/Configurable.md) for a detailed explanation.
 
 ```php
 use Interop\Config\Service\AbstractConfigurableFactory;
-use Interop\Container\ContainerInterface as ServiceLocatorInterface;
+use Interop\Container\ContainerInterface;
 
 class MyDBALConnectionFactory extends AbstractConfigurableFactory implements MandatoryOptionsInterface
 {
-    public function __invoke(ServiceLocatorInterface $container)
+    public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
         $options = $this->getOptions($container);
