@@ -9,13 +9,13 @@
 
 namespace Interop\Config\Exception;
 
-use RuntimeException as PhpRuntimeException;
+use Interop\Container\Exception\NotFoundException as ContainerNotFoundException;
 
 /**
- * Runtime exception
+ * Not found exception
  *
- * Use this exception if the code has not the capacity to handle the request.
+ * Use this exception if an id was not found in the container
  */
-class RuntimeException extends PhpRuntimeException implements ExceptionInterface
+class NotFoundException extends RuntimeException implements ContainerNotFoundException
 {
 }

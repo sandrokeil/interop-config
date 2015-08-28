@@ -28,11 +28,11 @@ Then you have easily access to the `orm_default` options in your `createService(
 
 ```php
 use Interop\Config\AbstractConfigurableFactory;
-use Interop\Container\ContainerInterface as ServiceLocatorInterface;
+use Interop\Container\ContainerInterface;
 
 class MyDBALConnectionFactory extends AbstractConfigurableFactory
 {
-    public function __invoke(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator)
     {
         // get options for doctrine.connection.orm_default
         $options = $this->getOptions($serviceLocator);
@@ -68,17 +68,17 @@ class MyDBALConnectionFactory extends AbstractConfigurableFactory
         return $instance;
     }
 
-    public function getModule()
+    protected function getModule()
     {
         return 'doctrine';
     }
 
-    public function getScope()
+    protected function getScope()
     {
         return 'connection';
     }
 
-    public function getName()
+    protected function getName()
     {
         return 'orm_default';
     }
@@ -93,14 +93,14 @@ option `driverClass` and `params` are available. So we also implement in the exa
 ```php
 use Interop\Config\AbstractConfigurableFactory;
 use Interop\Config\MandatoryOptionsInterface;
-use Interop\Container\ContainerInterface as ServiceLocatorInterface;
+use Interop\Container\ContainerInterface;
 
 class MyDBALConnectionFactory extends AbstractConfigurableFactory implements MandatoryOptionsInterface
 {
-    public function __invoke(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
-        $options = $this->getOptions($serviceLocator);
+        $options = $this->getOptions($container);
 
         // mandatory options check is automatically done by MandatoryOptionsInterface
 
@@ -125,17 +125,17 @@ class MyDBALConnectionFactory extends AbstractConfigurableFactory implements Man
         ];
     }
 
-    public function getModule()
+    protected function getModule()
     {
         return 'doctrine';
     }
 
-    public function getScope()
+    protected function getScope()
     {
         return 'connection';
     }
 
-    public function getName()
+    protected function getName()
     {
         return 'orm_default';
     }

@@ -9,13 +9,11 @@
 
 namespace Interop\Config\Exception;
 
-use RuntimeException as PhpRuntimeException;
-
 /**
- * Runtime exception
+ * Mandatory option not found exception
  *
- * Use this exception if the code has not the capacity to handle the request.
+ * Use this exception if a mandatory option was not found in the config
  */
-class RuntimeException extends PhpRuntimeException implements ExceptionInterface
+class MandatoryOptionNotFoundException extends RuntimeException
 {
 }

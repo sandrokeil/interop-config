@@ -10,6 +10,7 @@
 namespace InteropTest\Config;
 
 use InteropTest\Config\AbstractBaseTestCase as BaseTestCase;
+use InteropTest\Config\TestAsset\ContainerInterop;
 use SebastianBergmann\PeekAndPoke\Proxy;
 
 /**
@@ -25,6 +26,21 @@ class AbstractConfigurableFactoryAbstractBaseTest extends BaseTestCase
      * @var string
      */
     protected $cut = 'Interop\Config\AbstractConfigurableFactory';
+
+    /**
+     * Tests getOptions() should throw exception if no config is available
+     *
+     * @covers Interop\Config\AbstractConfigurableFactory::getOptions
+     */
+    public function testGetOptionsShouldThrowNotFoundExceptionIfContainerHasNoConfig()
+    {
+        $stub = parent::getStub($this->cut, 'invalid_module');
+
+        $this->setExpectedException('Interop\Config\Exception\NotFoundException', 'Could not');
+
+        $Proxy = new Proxy($stub);
+        return $Proxy->getOptions(new ContainerInterop([]));
+    }
 
     /**
      * Tests getOptions() should throw exception if no config is available
@@ -49,7 +65,7 @@ class AbstractConfigurableFactoryAbstractBaseTest extends BaseTestCase
     {
         $stub = parent::getStub($this->cut, 'sake_doctrine', 'orm_manager', 'invalid');
 
-        $this->setExpectedException('Interop\Config\Exception\RuntimeException', 'Options with name');
+        $this->setExpectedException('Interop\Config\Exception\OptionNotFoundException', 'Options with name');
 
         $this->callGetOptions($stub);
     }
@@ -102,7 +118,7 @@ class AbstractConfigurableFactoryAbstractBaseTest extends BaseTestCase
             ->will($this->returnValue(['invalid']));
 
         $this->setExpectedException(
-            'Interop\Config\Exception\RuntimeException',
+            'Interop\Config\Exception\MandatoryOptionNotFoundException',
             'Mandatory option "invalid"'
         );
 
