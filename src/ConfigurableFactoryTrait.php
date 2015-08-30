@@ -61,16 +61,13 @@ trait ConfigurableFactoryTrait
                 )
             );
         }
-
         // this is the quickest way to determine a configuration error (performance)
         if (!isset($config[$vendorName][$componentName][$id])) {
-
             if (empty($config[$vendorName])) {
                 throw new Exception\RuntimeException(
                     sprintf('No vendor configuration "%s" available', $vendorName)
                 );
             }
-
             if (!isset($config[$vendorName][$componentName])) {
                 throw new Exception\OptionNotFoundException(sprintf(
                     'No options found in configuration "' . "['%s']['%s']",
@@ -87,13 +84,11 @@ trait ConfigurableFactoryTrait
                 ));
             }
         }
-
         $options = $config[$vendorName][$componentName];
 
         if (null !== $id) {
             $options = $options[$id];
         }
-
         // check for mandatory options
         if ($this instanceof MandatoryOptionsInterface) {
             foreach ($this->getMandatoryOptions() as $option) {
