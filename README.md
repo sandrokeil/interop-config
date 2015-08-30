@@ -27,19 +27,26 @@
 
 You should have coding conventions and you should have config conventions. If not, you should think about that.
 
-The config keys should have the following structure `module.scope.name`.  A common configuration looks like that:
+The config keys should have the following structure `vendor.component.id`.  A common configuration looks like that:
 
 ```php
+// interop config example
 return [
-    // module
-    'sake_doctrine' => [
-        // scope
-        'orm_manager' => [
-            // name
+    // vendor name
+    'doctrine' => [
+        // component name
+        'connection' => [
+            // container id
             'orm_default' => [
-                // config params
+                // mandatory params
                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
-                'params' => [],
+                'params' => [
+                    'host'     => 'localhost',
+                    'port'     => '3306',
+                    'user'     => 'username',
+                    'password' => 'password',
+                    'dbname'   => 'database',
+                ],
             ],
         ],
     ],
@@ -50,18 +57,18 @@ So `doctrine` is the module, `connection` is the scope and `orm_default` is the 
 With [AbstractConfigurableFactory](docs/Configurable.md) we can easily access to these options and mandatory options check. 
 See [docs](docs/Configurable.md) for a detailed explanation.
 
-> Note that the configuration above must be available in your Container Interop class (ServiceLocator/ServiceManager) as key `config`.
-
 ```php
-use Interop\Config\Service\AbstractConfigurableFactory;
-use Interop\Container\ContainerInterface;
+use Interop\Config\ConfigurableFactoryTrait;
+use Interop\Config\MandatoryOptionsInterface;
 
-class MyDBALConnectionFactory extends AbstractConfigurableFactory implements MandatoryOptionsInterface
+class MyDBALConnectionFactory implements MandatoryOptionsInterface
 {
+    use ConfigurableFactoryTrait;
+    
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
-        $options = $this->getOptions($container);
+        $options = $this->getOptions($container->get('config'), 'doctrine', 'connection', 'orm_default');
 
         // mandatory options check is automatically done by MandatoryOptionsInterface
 
@@ -84,21 +91,6 @@ class MyDBALConnectionFactory extends AbstractConfigurableFactory implements Man
             'driverClass',
             'params',
         ];
-    }
-
-    protected function getModule()
-    {
-        return 'doctrine';
-    }
-
-    protected function getScope()
-    {
-        return 'connection';
-    }
-
-    protected function getName()
-    {
-        return 'orm_default';
     }
 }
 ```

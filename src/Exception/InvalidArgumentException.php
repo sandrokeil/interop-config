@@ -9,13 +9,13 @@
 
 namespace Interop\Config\Exception;
 
-use Interop\Container\Exception\NotFoundException as ContainerNotFoundException;
+use InvalidArgumentException as PhpInvalidArgumentException;
 
 /**
- * Not found exception
+ * InvalidArgumentException exception
  *
- * Use this exception if an id was not found in the container
+ * Use this exception if a variable has not the expected value.
  */
-class NotFoundException extends RuntimeException implements ContainerNotFoundException
+class InvalidArgumentException extends PhpInvalidArgumentException implements ExceptionInterface
 {
 }

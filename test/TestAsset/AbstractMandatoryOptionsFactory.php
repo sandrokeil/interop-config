@@ -9,10 +9,11 @@
 
 namespace InteropTest\Config\TestAsset;
 
-use Interop\Config\AbstractConfigurableFactory;
+use Interop\Config\ConfigurableFactoryTrait;
 use Interop\Config\MandatoryOptionsInterface;
 
-abstract class AbstractMandatoryOptionsFactory extends AbstractConfigurableFactory implements
+abstract class AbstractMandatoryOptionsFactory implements
     MandatoryOptionsInterface
 {
+    use ConfigurableFactoryTrait;
 }

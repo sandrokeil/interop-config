@@ -12,8 +12,7 @@ namespace Interop\Config;
 /**
  * Class MandatoryOptionsInterface
  *
- * Use this interface in a factory which extends from AbstractConfigurableFactory to check for required options
- * automatically.
+ * Use this interface in a factory which uses the ConfigurableFactoryTrait to check for required options automatically.
  */
 interface MandatoryOptionsInterface
 {

@@ -9,15 +9,21 @@
 
 // interop config example
 return [
-    // module
-    'sake_doctrine' => [
-        // scope
-        'orm_manager' => [
-            // name
+    // vendor name
+    'doctrine' => [
+        // component name
+        'connection' => [
+            // container id
             'orm_default' => [
-                // config params
+                // mandatory params
                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
-                'params' => [],
+                'params' => [
+                    'host'     => 'localhost',
+                    'port'     => '3306',
+                    'user'     => 'username',
+                    'password' => 'password',
+                    'dbname'   => 'database',
+                ],
             ],
         ],
     ],
