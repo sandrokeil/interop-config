@@ -10,10 +10,10 @@
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\HasContainerId;
 use Interop\Config\HasMandatoryOptions;
+use Interop\Config\ObtainsOptions;
 
-class ConnectionMandatoryConfiguration implements HasContainerId, HasMandatoryOptions
+class ConnectionMandatoryConfiguration implements ObtainsOptions, HasMandatoryOptions
 {
     use ConfigurationTrait;
 
@@ -27,13 +27,8 @@ class ConnectionMandatoryConfiguration implements HasContainerId, HasMandatoryOp
         return 'connection';
     }
 
-    public function containerId()
-    {
-        return 'orm_default';
-    }
-
     public function mandatoryOptions()
     {
-        return ['driverClass', 'params'];
+        return ['orm_default'];
     }
 }

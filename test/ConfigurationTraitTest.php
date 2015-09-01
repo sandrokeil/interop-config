@@ -12,6 +12,7 @@ namespace InteropTest\Config;
 use InteropTest\Config\TestAsset\ConnectionConfiguration;
 use InteropTest\Config\TestAsset\ConnectionContainerIdConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryConfiguration;
+use InteropTest\Config\TestAsset\ConnectionMandatoryContainerIdConfiguration;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
@@ -31,7 +32,7 @@ class ConfigurationTraitTest extends TestCase
     /**
      * Tests options() should throw exception if config parameter is not an array
      *
-     * @covers \\Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::options
      */
     public function testOptionsThrowsInvalidArgumentExceptionIfConfigIsNotAnArray()
     {
@@ -63,7 +64,7 @@ class ConfigurationTraitTest extends TestCase
      */
     public function testOptionsThrowsOptionNotFoundExceptionIfNoComponentOptionIsAvailable()
     {
-        $stub = new ConnectionMandatoryConfiguration();
+        $stub = new ConnectionConfiguration();
 
         $this->setExpectedException('Interop\Config\Exception\OptionNotFoundException', 'No options');
 
@@ -102,6 +103,22 @@ class ConfigurationTraitTest extends TestCase
     }
 
     /**
+     * Tests if options() works with container id
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     */
+    public function testOptionsReturnsData()
+    {
+        $stub = new ConnectionConfiguration();
+
+        $testConfig = $this->getTestConfig();
+
+        $options = $stub->options($testConfig);
+
+        $this->assertArrayHasKey('orm_default', $options);
+    }
+
+    /**
      * Tests if options() works with mandatory options interface
      *
      * @covers \Interop\Config\ConfigurationTrait::options
@@ -109,6 +126,19 @@ class ConfigurationTraitTest extends TestCase
     public function testOptionsChecksMandatoryOptions()
     {
         $stub = new ConnectionMandatoryConfiguration();
+        $options = $stub->options($this->getTestConfig());
+
+        $this->assertArrayHasKey('orm_default', $options);
+    }
+
+    /**
+     * Tests if options() works with mandatory options interface
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     */
+    public function testOptionsChecksMandatoryOptionsByContainerId()
+    {
+        $stub = new ConnectionMandatoryContainerIdConfiguration();
         $options = $stub->options($this->getTestConfig());
 
         $this->assertArrayHasKey('driverClass', $options);
@@ -122,7 +152,7 @@ class ConfigurationTraitTest extends TestCase
      */
     public function testOptionsThrowsRuntimeExceptionIfMandatoryOptionIsMissing()
     {
-        $stub = new ConnectionMandatoryConfiguration();
+        $stub = new ConnectionMandatoryContainerIdConfiguration();
 
         $this->setExpectedException(
             'Interop\Config\Exception\MandatoryOptionNotFoundException',
