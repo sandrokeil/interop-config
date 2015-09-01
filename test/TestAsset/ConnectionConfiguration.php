@@ -9,11 +9,20 @@
 
 namespace InteropTest\Config\TestAsset;
 
-use Interop\Config\ConfigurableFactoryTrait;
-use Interop\Config\MandatoryOptionsInterface;
+use Interop\Config\ConfigurationTrait;
+use Interop\Config\ObtainsOptions;
 
-abstract class AbstractMandatoryOptionsFactory implements
-    MandatoryOptionsInterface
+class ConnectionConfiguration implements ObtainsOptions
 {
-    use ConfigurableFactoryTrait;
+    use ConfigurationTrait;
+
+    public function vendorName()
+    {
+        return 'doctrine';
+    }
+
+    public function componentName()
+    {
+        return 'connection';
+    }
 }

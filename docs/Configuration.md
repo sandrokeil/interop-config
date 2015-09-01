@@ -1,6 +1,6 @@
-# ConfigurableFactoryTrait
+# ConfigurationTrait
 
-Use this class if you want to retrieve the configuration options and setup your instance manually.
+Use this trait if you want to retrieve options from a configuration and optional to perform a mandatory option check
 
 Let's assume we have the following module configuration:
 
@@ -28,24 +28,25 @@ return [
 ];
 ```
 
-> Note that the configuration above must be available in your Container Interop class (ServiceLocator/ServiceManager) as key `config`.
+> Note that the configuration above is injected as `$config` in `options()`
 
 ## Array Options
 Then you have easily access to the `orm_default` options in your method with this trait.
 
 ```php
-use Interop\Config\ConfigurableFactoryTrait;
+use Interop\Config\ConfigurationTrait;
+use Interop\Config\HasContainerId;
 
-class MyDBALConnectionFactory
+class MyDBALConnectionFactory implements HasContainerId
 {
     use ConfigurableFactoryTrait;
     
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
-        $options = $this->getOptions($container->get('config'), 'doctrine', 'connection', 'orm_default');
+        $options = $this->getOptions($container->get('config'));
         
-        // check if mandatory options are available or use \Interop\Config\MandatoryOptionsInterface, see below 
+        // check if mandatory options are available or use \Interop\Config\HasMandatoryOptions, see below 
         if (empty($options['driverClass'])) {
             throw new Exception\RuntimeException(
                 sprintf(
@@ -75,26 +76,42 @@ class MyDBALConnectionFactory
 
         return $instance;
     }
+    
+    public function vendorName()
+    {
+        return 'doctrine';
+    }
+
+    public function componentName()
+    {
+        return 'connection';
+    }
+
+    public function containerId()
+    {
+        return 'orm_default';
+    }
 }
 ```
 
 ## Mandatory Options check
 You can also check for mandatory options automatically with `MandatoryOptionsInterface`. Now we want also check that
 option `driverClass` and `params` are available. So we also implement in the example above the interface
-`MandatoryOptionsInterface`. If one of these options is missing, an exception is raised.
+`HasMandatoryOptions`. If one of these options is missing, an exception is raised.
 
 ```php
-use Interop\Config\ConfigurableFactoryTrait;
-use Interop\Config\MandatoryOptionsInterface;
+use Interop\Config\ConfigurationTrait;
+use Interop\Config\HasMandatoryOptions;
+use Interop\Config\HasContainerId;
 
-class MyDBALConnectionFactory implements MandatoryOptionsInterface
+class MyDBALConnectionFactory implements HasContainerId, HasMandatoryOptions
 {
-    use ConfigurableFactoryTrait;
+    use ConfigurationTrait;
     
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
-        $options = $this->getOptions($container->get('config'), 'doctrine', 'connection', 'orm_default');
+        $options = $this->getOptions($container->get('config'));
 
         // mandatory options check is automatically done by MandatoryOptionsInterface
 
