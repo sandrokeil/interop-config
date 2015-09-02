@@ -1,0 +1,64 @@
+<?php
+/**
+ * Sake
+ *
+ * @link      http://github.com/sandrokeil/interop-config for the canonical source repository
+ * @copyright Copyright (c) 2015 Sandro Keil
+ * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.txt New BSD License
+ */
+
+namespace Interop\Config;
+
+use ArrayAccess;
+
+/**
+ * ObtainOptions Interface
+ *
+ * Use this interface if you want to retrieve options from a configuration and optional to perform a mandatory option
+ * check
+ */
+interface ObtainsOptions
+{
+    /**
+     * Returns options based on [vendor][component][id] and can perform mandatory option checks if
+     * class implements MandatoryOptionsInterface.
+     *
+     * <code>
+     * return [
+     *      // vendor name
+     *     'doctrine' => [
+     *          // component name
+     *          'connection' => [
+     *             // container id, is optional
+     *             'orm_default' => [
+     *                 // mandatory params
+     *                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+     *                 'params' => [],
+     *             ],
+     *         ],
+     *     ],
+     * ];
+     * </code>
+     *
+     * @param array|ArrayAccess $config Configuration
+     * @return mixed options
+     *
+     * @throws Exception\OptionNotFoundException If no options are available
+     * @throws Exception\MandatoryOptionNotFoundException If a mandatory option is missing
+     */
+    public function options($config);
+
+    /**
+     * Returns the vendor name
+     *
+     * @return string
+     */
+    public function vendorName();
+
+    /**
+     * Returns the component name
+     *
+     * @return string
+     */
+    public function componentName();
+}

@@ -18,7 +18,7 @@
 [![Total Downloads](https://poser.pugx.org/sandrokeil/interop-config/downloads.png)](https://packagist.org/packages/sandrokeil/interop-config)
 [![License](https://poser.pugx.org/sandrokeil/interop-config/license.png)](https://packagist.org/packages/sandrokeil/interop-config)
 
-*InteropConfig* provides interfaces and classes to create instances depending on configuration with mandatory param check and uniform config structure.
+*InteropConfig* provides interfaces and classes to create instances depending on configuration with mandatory option check and uniform config structure.
 
  * **Well tested.** Besides unit test and continuous integration/inspection this solution is also ~~ready for production use~~.
  * **Framework agnostic** This PHP library does not depends on any framework but you can use it with your favourite framework.
@@ -27,41 +27,52 @@
 
 You should have coding conventions and you should have config conventions. If not, you should think about that.
 
-The config keys should have the following structure `module.scope.name`.  A common configuration looks like that:
+The config keys should have the following structure `vendor.component.container_id`.  A common configuration looks like that:
 
 ```php
+// interop config example
 return [
-    // module
-    'sake_doctrine' => [
-        // scope
-        'orm_manager' => [
-            // name
+    // vendor name
+    'doctrine' => [
+        // component name
+        'connection' => [
+            // container id
             'orm_default' => [
-                // config params
+                // mandatory params
                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
-                'params' => [],
+                'params' => [
+                    'host'     => 'localhost',
+                    'port'     => '3306',
+                    'user'     => 'username',
+                    'password' => 'password',
+                    'dbname'   => 'database',
+                ],
             ],
         ],
     ],
 ];
 ```
 
-So `doctrine` is the module, `connection` is the scope and `orm_default` is the name. After that the specified instance options follow.
-With [AbstractConfigurableFactory](docs/Configurable.md) we can easily access to these options and mandatory options check. 
-See [docs](docs/Configurable.md) for a detailed explanation.
+So `doctrine` is the vendor, `connection` is the component and `orm_default` is the container id. 
+After that the specified instance options follow. The following example uses 
+[ConfigurationTrait](src/ConfigurationTrait.php) which implements the logic to retrieve the options from a 
+configuration.
 
-> Note that the configuration above must be available in your Container Interop class (ServiceLocator/ServiceManager) as key `config`.
 
 ```php
-use Interop\Config\Service\AbstractConfigurableFactory;
+use Interop\Config\ConfigurationTrait;
+use Interop\Config\HasMandatoryOptions;
+use Interop\Config\HasContainerId;
 use Interop\Container\ContainerInterface;
 
-class MyDBALConnectionFactory extends AbstractConfigurableFactory implements MandatoryOptionsInterface
+class MyDBALConnectionFactory implements HasMandatoryOptions, HasContainerId
 {
+    use ConfigurationTrait;
+    
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
-        $options = $this->getOptions($container);
+        $options = $this->getOptions($container->get('config'));
 
         // mandatory options check is automatically done by MandatoryOptionsInterface
 
@@ -73,32 +84,24 @@ class MyDBALConnectionFactory extends AbstractConfigurableFactory implements Man
         return $instance;
     }
 
-    /**
-     * Returns a list of mandatory options which must be available
-     *
-     * @return array
-     */
-    public function getMandatoryOptions()
-    {
-        return [
-            'driverClass',
-            'params',
-        ];
-    }
-
-    protected function getModule()
+    public function vendorName()
     {
         return 'doctrine';
     }
 
-    protected function getScope()
+    public function componentName()
     {
         return 'connection';
     }
 
-    protected function getName()
+    public function containerId()
     {
         return 'orm_default';
+    }
+
+    public function mandatoryOptions()
+    {
+        return ['driverClass', 'params'];
     }
 }
 ```
@@ -118,7 +121,7 @@ Put the following into your composer.json
 
 ## Documentation
 
-You can find documentation about the usages of factories at the following links:
+You can find documentation about the usages at the following links:
 
- * [Configurable - Get an array of options and with mandatory options check](docs/Configurable.md)
+ * [Configuration - Get an array of options and with mandatory options check](docs/Configuration.md)
 

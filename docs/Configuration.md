@@ -1,50 +1,59 @@
-# AbstractConfigurableFactory
+# ConfigurationTrait
 
-Use this class if you want to retrieve the configuration options and setup your instance manually.
+Use this trait if you want to retrieve options from a configuration and optional to perform a mandatory option check
 
 Let's assume we have the following module configuration:
 
 ```php
+// interop config example
 return [
-    // module
-    'sake_doctrine' => [
-        // scope
-        'orm_manager' => [
-            // name
+    // vendor name
+    'doctrine' => [
+        // component name
+        'connection' => [
+            // container id
             'orm_default' => [
-                // config params
+                // mandatory params
                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
-                'params' => [],
+                'params' => [
+                    'host'     => 'localhost',
+                    'port'     => '3306',
+                    'user'     => 'username',
+                    'password' => 'password',
+                    'dbname'   => 'database',
+                ],
             ],
         ],
     ],
 ];
 ```
 
-> Note that the configuration above must be available in your Container Interop class (ServiceLocator/ServiceManager) as key `config`.
+> Note that the configuration above is injected as `$config` in `options()`
 
 ## Array Options
-Then you have easily access to the `orm_default` options in your `createService()` method with this factory.
+Then you have easily access to the `orm_default` options in your method with this trait.
 
 ```php
-use Interop\Config\AbstractConfigurableFactory;
-use Interop\Container\ContainerInterface;
+use Interop\Config\ConfigurationTrait;
+use Interop\Config\HasContainerId;
 
-class MyDBALConnectionFactory extends AbstractConfigurableFactory
+class MyDBALConnectionFactory implements HasContainerId
 {
-    public function __invoke(ContainerInterface $serviceLocator)
+    use ConfigurableFactoryTrait;
+    
+    public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
-        $options = $this->getOptions($serviceLocator);
+        $options = $this->getOptions($container->get('config'));
         
-        // check if mandatory options are available or use \Sake\InteropConfig\MandatoryOptionsInterface, see below 
+        // check if mandatory options are available or use \Interop\Config\HasMandatoryOptions, see below 
         if (empty($options['driverClass'])) {
             throw new Exception\RuntimeException(
                 sprintf(
                     'Driver class was not set for configuration %s.%s.%s',
-                    $this->getModule(),
-                    $this->getScope(),
-                    $this->getName()
+                    'doctrine', 
+                    'connection', 
+                    'orm_default'
                 )
             );
         }
@@ -53,9 +62,9 @@ class MyDBALConnectionFactory extends AbstractConfigurableFactory
             throw new Exception\RuntimeException(
                 sprintf(
                     'Params was not set for configuration %s.%s.%s',
-                    $this->getModule(),
-                    $this->getScope(),
-                    $this->getName()
+                    'doctrine', 
+                    'connection', 
+                    'orm_default'
                 )
             );
         }
@@ -67,18 +76,18 @@ class MyDBALConnectionFactory extends AbstractConfigurableFactory
 
         return $instance;
     }
-
-    protected function getModule()
+    
+    public function vendorName()
     {
         return 'doctrine';
     }
 
-    protected function getScope()
+    public function componentName()
     {
         return 'connection';
     }
 
-    protected function getName()
+    public function containerId()
     {
         return 'orm_default';
     }
@@ -88,19 +97,21 @@ class MyDBALConnectionFactory extends AbstractConfigurableFactory
 ## Mandatory Options check
 You can also check for mandatory options automatically with `MandatoryOptionsInterface`. Now we want also check that
 option `driverClass` and `params` are available. So we also implement in the example above the interface
-`MandatoryOptionsInterface`. If one of these options is missing, an exception is raised.
+`HasMandatoryOptions`. If one of these options is missing, an exception is raised.
 
 ```php
-use Interop\Config\AbstractConfigurableFactory;
-use Interop\Config\MandatoryOptionsInterface;
-use Interop\Container\ContainerInterface;
+use Interop\Config\ConfigurationTrait;
+use Interop\Config\HasMandatoryOptions;
+use Interop\Config\HasContainerId;
 
-class MyDBALConnectionFactory extends AbstractConfigurableFactory implements MandatoryOptionsInterface
+class MyDBALConnectionFactory implements HasContainerId, HasMandatoryOptions
 {
+    use ConfigurationTrait;
+    
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
-        $options = $this->getOptions($container);
+        $options = $this->getOptions($container->get('config'));
 
         // mandatory options check is automatically done by MandatoryOptionsInterface
 
@@ -123,21 +134,6 @@ class MyDBALConnectionFactory extends AbstractConfigurableFactory implements Man
             'driverClass',
             'params',
         ];
-    }
-
-    protected function getModule()
-    {
-        return 'doctrine';
-    }
-
-    protected function getScope()
-    {
-        return 'connection';
-    }
-
-    protected function getName()
-    {
-        return 'orm_default';
     }
 }
 ```

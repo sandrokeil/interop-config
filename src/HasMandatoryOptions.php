@@ -10,17 +10,16 @@
 namespace Interop\Config;
 
 /**
- * Class MandatoryOptionsInterface
+ * HasMandatoryOptions Interface
  *
- * Use this interface in a factory which extends from AbstractConfigurableFactory to check for required options
- * automatically.
+ * Use this interface in a factory which uses the ConfigurableFactoryTrait to check for required options automatically.
  */
-interface MandatoryOptionsInterface
+interface HasMandatoryOptions
 {
     /**
      * Returns a list of mandatory options which must be available
      *
      * @return array List with options
      */
-    public function getMandatoryOptions();
+    public function mandatoryOptions();
 }
