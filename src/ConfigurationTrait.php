@@ -89,12 +89,12 @@ trait ConfigurationTrait
     }
 
     /**
-     * @see \Interop\Config\ObtainOptions::vendorName
+     * @see \Interop\Config\HasConfig::vendorName
      */
     abstract public function vendorName();
 
     /**
-     * @see \Interop\Config\ObtainOptions::componentName
+     * @see \Interop\Config\HasConfig::componentName
      */
     abstract public function componentName();
 }

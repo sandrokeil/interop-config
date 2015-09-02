@@ -44,7 +44,7 @@ class MyDBALConnectionFactory implements HasContainerId
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
-        $options = $this->getOptions($container->get('config'));
+        $options = $this->options($container->get('config'));
         
         // check if mandatory options are available or use \Interop\Config\HasMandatoryOptions, see below 
         if (empty($options['driverClass'])) {
@@ -111,9 +111,9 @@ class MyDBALConnectionFactory implements HasContainerId, HasMandatoryOptions
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
-        $options = $this->getOptions($container->get('config'));
+        $options = $this->options($container->get('config'));
 
-        // mandatory options check is automatically done by MandatoryOptionsInterface
+        // mandatory options check is automatically done by HasMandatoryOptions
 
         $driverClass = $options['driverClass'];
         $params = $options['params'];

@@ -12,7 +12,7 @@ namespace Interop\Config;
 /**
  * HasMandatoryOptions Interface
  *
- * Use this interface in a factory which uses the ConfigurableFactoryTrait to check for required options automatically.
+ * Use this interface if you have mandatory options
  */
 interface HasMandatoryOptions
 {

@@ -17,7 +17,7 @@ use ArrayAccess;
  * Use this interface if you want to retrieve options from a configuration and optional to perform a mandatory option
  * check
  */
-interface ObtainsOptions
+interface ObtainsOptions extends HasConfig
 {
     /**
      * Returns options based on [vendor][component][id] and can perform mandatory option checks if
@@ -47,18 +47,4 @@ interface ObtainsOptions
      * @throws Exception\MandatoryOptionNotFoundException If a mandatory option is missing
      */
     public function options($config);
-
-    /**
-     * Returns the vendor name
-     *
-     * @return string
-     */
-    public function vendorName();
-
-    /**
-     * Returns the component name
-     *
-     * @return string
-     */
-    public function componentName();
 }

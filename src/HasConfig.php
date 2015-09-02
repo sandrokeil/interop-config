@@ -10,16 +10,23 @@
 namespace Interop\Config;
 
 /**
- * HasContainerId Interface
+ * HasConfig Interface
  *
- * Use this interface if a configuration uses a container id.
+ * Use this interface if you want to use a configuration
  */
-interface HasContainerId extends HasConfig
+interface HasConfig
 {
     /**
-     * Returns the container identifier
+     * Returns the vendor name
      *
      * @return string
      */
-    public function containerId();
+    public function vendorName();
+
+    /**
+     * Returns the component name
+     *
+     * @return string
+     */
+    public function componentName();
 }
