@@ -12,7 +12,7 @@ namespace Interop\Config;
 /**
  * HasContainerId Interface
  *
- * Use this interface if a configuration uses a container id.
+ * Use this interface if a configuration is for a specific container id.
  */
 interface HasContainerId extends HasConfig
 {

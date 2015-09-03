@@ -43,7 +43,7 @@ trait ConfigurationTrait
         $vendorName = $this->vendorName();
         $componentName = $this->componentName();
 
-        // this is the quickest way to determine a configuration error (performance)
+        // this is the fastest way to determine a configuration error (performance)
         if (!isset($config[$vendorName][$componentName][$id])) {
             if (!isset($config[$vendorName][$componentName])) {
                 if (empty($config[$vendorName])) {

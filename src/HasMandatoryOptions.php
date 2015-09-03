@@ -19,7 +19,7 @@ interface HasMandatoryOptions
     /**
      * Returns a list of mandatory options which must be available
      *
-     * @return array List with options
+     * @return string[] List with mandatory options
      */
     public function mandatoryOptions();
 }

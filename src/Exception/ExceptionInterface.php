@@ -10,7 +10,7 @@
 namespace Interop\Config\Exception;
 
 /**
- * Component exception interface
+ * Base exception interface
  *
  * All exceptions must implements this exception to catch exceptions of this library
  */

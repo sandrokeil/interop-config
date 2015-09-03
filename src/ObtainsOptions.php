@@ -15,13 +15,13 @@ use ArrayAccess;
  * ObtainOptions Interface
  *
  * Use this interface if you want to retrieve options from a configuration and optional to perform a mandatory option
- * check
+ * check.
  */
 interface ObtainsOptions extends HasConfig
 {
     /**
-     * Returns options based on [vendor][component][id] and can perform mandatory option checks if
-     * class implements MandatoryOptionsInterface.
+     * Returns options based on [vendor][component][id] and can perform mandatory option checks if class implements
+     * MandatoryOptionsInterface. The HasContainerId interface is optional.
      *
      * <code>
      * return [
@@ -31,7 +31,7 @@ interface ObtainsOptions extends HasConfig
      *          'connection' => [
      *             // container id, is optional
      *             'orm_default' => [
-     *                 // mandatory params
+     *                 // mandatory options, is optional
      *                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
      *                 'params' => [],
      *             ],
@@ -43,6 +43,8 @@ interface ObtainsOptions extends HasConfig
      * @param array|ArrayAccess $config Configuration
      * @return mixed options
      *
+     * @throws Exception\InvalidArgumentException If the $config parameter has the wrong type
+     * @throws Exception\RuntimeException If vendor name was not found
      * @throws Exception\OptionNotFoundException If no options are available
      * @throws Exception\MandatoryOptionNotFoundException If a mandatory option is missing
      */

@@ -14,7 +14,7 @@ use InvalidArgumentException as PhpInvalidArgumentException;
 /**
  * InvalidArgumentException exception
  *
- * Use this exception if a variable has not the expected value.
+ * Use this exception if an argument has not the expected value.
  */
 class InvalidArgumentException extends PhpInvalidArgumentException implements ExceptionInterface
 {

@@ -4,7 +4,7 @@
 
 > You want to check automatically for mandatory params?
 
-> You want to have a uniform config structure?
+> You want to have an uniform config structure?
 
 > This library comes to the rescue!
 
@@ -19,6 +19,8 @@
 [![License](https://poser.pugx.org/sandrokeil/interop-config/license.png)](https://packagist.org/packages/sandrokeil/interop-config)
 
 *InteropConfig* provides interfaces and classes to create instances depending on configuration with mandatory option check and uniform config structure.
+
+> Please join the discussion about the [PSR config proposal](https://github.com/php-fig/fig-standards/pull/620).
 
  * **Well tested.** Besides unit test and continuous integration/inspection this solution is also ~~ready for production use~~.
  * **Framework agnostic** This PHP library does not depends on any framework but you can use it with your favourite framework.
@@ -38,7 +40,7 @@ return [
         'connection' => [
             // container id
             'orm_default' => [
-                // mandatory params
+                // mandatory options
                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
                 'params' => [
                     'host'     => 'localhost',
@@ -58,6 +60,7 @@ After that the specified instance options follow. The following example uses
 [ConfigurationTrait](src/ConfigurationTrait.php) which implements the logic to retrieve the options from a 
 configuration.
 
+> Note that the configuration above is injected as `$config` in `options()`
 
 ```php
 use Interop\Config\ConfigurationTrait;
@@ -84,21 +87,41 @@ class MyDBALConnectionFactory implements HasMandatoryOptions, HasContainerId
         return $instance;
     }
 
+    /**
+     * Returns the vendor name
+     *
+     * @return string
+     */
     public function vendorName()
     {
         return 'doctrine';
     }
 
+    /**
+     * Returns the component name
+     *
+     * @return string
+     */
     public function componentName()
     {
         return 'connection';
     }
 
+    /**
+     * Returns the container identifier
+     *
+     * @return string
+     */
     public function containerId()
     {
         return 'orm_default';
     }
 
+    /**
+     * Returns a list of mandatory options which must be available
+     *
+     * @return string[] List with mandatory options
+     */
     public function mandatoryOptions()
     {
         return ['driverClass', 'params'];
