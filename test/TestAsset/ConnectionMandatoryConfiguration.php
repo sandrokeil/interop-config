@@ -22,7 +22,7 @@ class ConnectionMandatoryConfiguration implements ObtainsOptions, HasMandatoryOp
         return 'doctrine';
     }
 
-    public function componentName()
+    public function packageName()
     {
         return 'connection';
     }

@@ -9,7 +9,7 @@ Let's assume we have the following module configuration:
 return [
     // vendor name
     'doctrine' => [
-        // component name
+        // package name
         'connection' => [
             // container id
             'orm_default' => [
@@ -82,7 +82,7 @@ class MyDBALConnectionFactory implements HasContainerId
         return 'doctrine';
     }
 
-    public function componentName()
+    public function packageName()
     {
         return 'connection';
     }

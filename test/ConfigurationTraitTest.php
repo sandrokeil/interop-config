@@ -58,7 +58,7 @@ class ConfigurationTraitTest extends TestCase
     }
 
     /**
-     * Tests options() should throw exception if no component option is available
+     * Tests options() should throw exception if no package option is available
      *
      * @covers \Interop\Config\ConfigurationTrait::options
      */
