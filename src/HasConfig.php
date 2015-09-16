@@ -24,9 +24,9 @@ interface HasConfig
     public function vendorName();
 
     /**
-     * Returns the component name
+     * Returns the package name
      *
      * @return string
      */
-    public function componentName();
+    public function packageName();
 }

@@ -29,14 +29,14 @@
 
 You should have coding conventions and you should have config conventions. If not, you should think about that.
 
-The config keys should have the following structure `vendor.component.container_id`.  A common configuration looks like that:
+The config keys should have the following structure `vendor.package.container_id`.  A common configuration looks like that:
 
 ```php
 // interop config example
 return [
     // vendor name
     'doctrine' => [
-        // component name
+        // package name
         'connection' => [
             // container id
             'orm_default' => [
@@ -55,7 +55,7 @@ return [
 ];
 ```
 
-So `doctrine` is the vendor, `connection` is the component and `orm_default` is the container id. 
+So `doctrine` is the vendor, `connection` is the package and `orm_default` is the container id. 
 After that the specified instance options follow. The following example uses 
 [ConfigurationTrait](src/ConfigurationTrait.php) which implements the logic to retrieve the options from a 
 configuration.
@@ -98,11 +98,11 @@ class MyDBALConnectionFactory implements HasMandatoryOptions, HasContainerId
     }
 
     /**
-     * Returns the component name
+     * Returns the package name
      *
      * @return string
      */
-    public function componentName()
+    public function packageName()
     {
         return 'connection';
     }

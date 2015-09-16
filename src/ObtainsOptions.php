@@ -20,14 +20,14 @@ use ArrayAccess;
 interface ObtainsOptions extends HasConfig
 {
     /**
-     * Returns options based on [vendor][component][id] and can perform mandatory option checks if class implements
+     * Returns options based on [vendor][package][id] and can perform mandatory option checks if class implements
      * MandatoryOptionsInterface. The HasContainerId interface is optional.
      *
      * <code>
      * return [
      *      // vendor name
      *     'doctrine' => [
-     *          // component name
+     *          // package name
      *          'connection' => [
      *             // container id, is optional
      *             'orm_default' => [
