@@ -62,7 +62,7 @@ class ConfigurationTraitTest extends TestCase
      *
      * @covers \Interop\Config\ConfigurationTrait::options
      */
-    public function testOptionsThrowsOptionNotFoundExceptionIfNoComponentOptionIsAvailable()
+    public function testOptionsThrowsOptionNotFoundExceptionIfNoPackageOptionIsAvailable()
     {
         $stub = new ConnectionConfiguration();
 

@@ -5,15 +5,21 @@
   "license": "BSD-3-Clause",
   "type": "library",
   "keywords": [
+    "php",
     "config",
     "interop",
     "service",
-    "options"
+    "factory",
+    "options",
+    "interfaces",
+    "standard",
+    "configuration"
   ],
   "authors": [
     {
       "name": "Sandro Keil",
-      "homepage": "https://sandro-keil.de"
+      "homepage": "https://sandro-keil.de",
+      "role": "maintainer"
     }
   ],
   "support": {
