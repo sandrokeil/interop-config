@@ -11,6 +11,7 @@ namespace InteropTest\Config;
 
 use InteropTest\Config\TestAsset\ConnectionConfiguration;
 use InteropTest\Config\TestAsset\ConnectionContainerIdConfiguration;
+use InteropTest\Config\TestAsset\ConnectionDefaultOptionsConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryContainerIdConfiguration;
 use PHPUnit_Framework_TestCase as TestCase;
@@ -103,7 +104,7 @@ class ConfigurationTraitTest extends TestCase
     }
 
     /**
-     * Tests if options() works with container id
+     * Tests if options() works without container id
      *
      * @covers \Interop\Config\ConfigurationTrait::options
      */
@@ -116,6 +117,70 @@ class ConfigurationTraitTest extends TestCase
         $options = $stub->options($testConfig);
 
         $this->assertArrayHasKey('orm_default', $options);
+    }
+
+    /**
+     * Tests if options() works with container id
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     */
+    public function testOptionsReturnsDataWithDefaultOptions()
+    {
+        $stub = new ConnectionDefaultOptionsConfiguration();
+
+        $testConfig = $this->getTestConfig();
+
+        unset($testConfig['doctrine']['connection']['orm_default']['params']['host']);
+        unset($testConfig['doctrine']['connection']['orm_default']['params']['port']);
+
+        $options = $stub->options($testConfig);
+
+        $this->assertArrayHasKey('params', $options);
+        $this->assertSame($options['params']['host'], $stub->defaultOptions()['params']['host']);
+        $this->assertSame($options['params']['port'], $stub->defaultOptions()['params']['port']);
+        $this->assertSame(
+            $options['params']['user'],
+            $testConfig['doctrine']['connection']['orm_default']['params']['user']
+        );
+
+        $testConfig = $this->getTestConfig();
+
+        # remove main index key
+        unset($testConfig['doctrine']['connection']['orm_default']['params']);
+
+        $options = $stub->options($testConfig);
+
+        $this->assertArrayHasKey('params', $options);
+        $this->assertSame($options['params']['host'], $stub->defaultOptions()['params']['host']);
+        $this->assertSame($options['params']['port'], $stub->defaultOptions()['params']['port']);
+    }
+
+    /**
+     * Tests if options() works default options and default options not override provied options
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     */
+    public function testOptionsThatDefaultOptionsNotOverrideProvidedOptions()
+    {
+        $stub = new ConnectionDefaultOptionsConfiguration();
+
+        $testConfig = $this->getTestConfig();
+
+        $options = $stub->options($testConfig);
+
+        $this->assertArrayHasKey('params', $options);
+        $this->assertSame(
+            $options['params']['host'],
+            $testConfig['doctrine']['connection']['orm_default']['params']['host']
+        );
+        $this->assertSame(
+            $options['params']['port'],
+            $testConfig['doctrine']['connection']['orm_default']['params']['port']
+        );
+        $this->assertSame(
+            $options['params']['user'],
+            $testConfig['doctrine']['connection']['orm_default']['params']['user']
+        );
     }
 
     /**
