@@ -126,14 +126,103 @@ class MyDBALConnectionFactory implements HasContainerId, HasMandatoryOptions
     /**
      * Returns a list of mandatory options which must be available
      *
-     * @return array
+     * @return string[] List with mandatory options
      */
-    public function getMandatoryOptions()
+    public function mandatoryOptions()
     {
         return [
             'driverClass',
             'params',
         ];
+    }
+    
+    public function vendorName()
+    {
+        return 'doctrine';
+    }
+
+    public function packageName()
+    {
+        return 'connection';
+    }
+
+    public function containerId()
+    {
+        return 'orm_default';
+    }
+}
+```
+
+## Optional options
+The `HasOptionalOptions` interface can be used to tell the auto discovery service which options are optional. This can
+be useful for creating a configuration file. Let's look at this example from 
+[DoctrineORMModule](https://github.com/doctrine/DoctrineORMModule/blob/master/docs/configuration.md#how-to-use-two-connections). 
+All the options under the key *orm_crawler* are optional, but it's not visible in the factory.
+
+
+```php
+return [
+    'doctrine' => [
+        'configuration' => [
+            'orm_crawler' => [
+                'metadata_cache'    => 'array',
+                'query_cache'       => 'array',
+                'result_cache'      => 'array',
+                'hydration_cache'   => 'array',
+            ],
+        ],
+    ],
+];
+```
+
+```php
+class MyDBALConnectionFactory implements HasContainerId, HasOptionalOptions
+{
+    use ConfigurationTrait;
+    
+    public function __invoke(ContainerInterface $container)
+    {
+        // get options for doctrine.connection.orm_default
+        $options = $this->options($container->get('config'));
+
+        // mandatory options check is automatically done by HasMandatoryOptions
+
+        $driverClass = $options['driverClass'];
+        $params = $options['params'];
+
+        // create your instance and set options
+
+        return $instance;
+    }
+
+    /**
+     * Returns a list of mandatory options which must be available
+     *
+     * @return array
+     */
+    public function optionalOptions()
+    {
+        return [
+            'metadata_cache',
+            'query_cache',
+            'result_cache',
+            'hydration_cache',
+        ];
+    }
+    
+    public function vendorName()
+    {
+        return 'doctrine';
+    }
+
+    public function packageName()
+    {
+        return 'configuration';
+    }
+
+    public function containerId()
+    {
+        return 'orm_crawler';
     }
 }
 ```
