@@ -176,7 +176,7 @@ return [
 ```
 
 ```php
-class MyDBALConnectionFactory implements HasContainerId, HasOptionalOptions
+class ConfigurationFactory implements HasContainerId, HasOptionalOptions
 {
     use ConfigurationTrait;
     
@@ -185,12 +185,12 @@ class MyDBALConnectionFactory implements HasContainerId, HasOptionalOptions
         // get options for doctrine.connection.orm_default
         $options = $this->options($container->get('config'));
 
-        // mandatory options check is automatically done by HasMandatoryOptions
-
-        $driverClass = $options['driverClass'];
-        $params = $options['params'];
-
         // create your instance and set options
+
+        # check if options was provided 
+        if (isset($options['metadata_cache']) {
+          // configure the instance
+        }
 
         return $instance;
     }
@@ -232,19 +232,20 @@ Use the `HasDefaultOptions` interface if you have default options. These options
 `\Interop\Config\ObtainsOptions::options()`. The configuration above has default options.
 
 ```php
-class MyDBALConnectionFactory implements HasContainerId, HasOptionalOptions, HasDefaultOptions
+class ConfigurationFactory implements HasContainerId, HasOptionalOptions, HasDefaultOptions
 {
     use ConfigurationTrait;
     
     public function __invoke(ContainerInterface $container)
     {
-        // get options for doctrine.connection.orm_default
+        // get options for doctrine.configuration.orm_crawler
         $options = $this->options($container->get('config'));
 
-        // mandatory options check is automatically done by HasMandatoryOptions
-
-        $driverClass = $options['driverClass'];
-        $params = $options['params'];
+        # these keys are always available now 
+        $options['metadata_cache'];
+        $options['query_cache'];
+        $options['result_cache'];
+        $options['hydration_cache'];
 
         // create your instance and set options
 
