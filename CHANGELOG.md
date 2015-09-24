@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.3.0 TBD
+
+### Added
+
+* [#8](https://github.com/sandrokeil/interop-config/issues/8): Introducing HasOptionalOptions Interface
+* [#9](https://github.com/sandrokeil/interop-config/issues/9): Introducing HasDefaultOptions Interface
+
+### Deprecated
+
+* Nothing
+
+### Removed
+
+* Nothing
+
+### Fixed
+
+* fixed wrong function name in documentation
+
 ## 0.2.0 (2015-09-20)
 
 ### Added

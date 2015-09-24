@@ -126,14 +126,175 @@ class MyDBALConnectionFactory implements HasContainerId, HasMandatoryOptions
     /**
      * Returns a list of mandatory options which must be available
      *
-     * @return array
+     * @return string[] List with mandatory options
      */
-    public function getMandatoryOptions()
+    public function mandatoryOptions()
     {
         return [
             'driverClass',
             'params',
         ];
+    }
+    
+    public function vendorName()
+    {
+        return 'doctrine';
+    }
+
+    public function packageName()
+    {
+        return 'connection';
+    }
+
+    public function containerId()
+    {
+        return 'orm_default';
+    }
+}
+```
+
+## Optional options
+The `HasOptionalOptions` interface can be used to tell the auto discovery service which options are optional. This can
+be useful for creating a configuration file. Let's look at this example from 
+[DoctrineORMModule](https://github.com/doctrine/DoctrineORMModule/blob/master/docs/configuration.md#how-to-use-two-connections). 
+All the options under the key *orm_crawler* are optional, but it's not visible in the factory.
+
+
+```php
+return [
+    'doctrine' => [
+        'configuration' => [
+            'orm_crawler' => [
+                'metadata_cache'    => 'array',
+                'query_cache'       => 'array',
+                'result_cache'      => 'array',
+                'hydration_cache'   => 'array',
+            ],
+        ],
+    ],
+];
+```
+
+```php
+class ConfigurationFactory implements HasContainerId, HasOptionalOptions
+{
+    use ConfigurationTrait;
+    
+    public function __invoke(ContainerInterface $container)
+    {
+        // get options for doctrine.connection.orm_default
+        $options = $this->options($container->get('config'));
+
+        // create your instance and set options
+
+        # check if options was provided 
+        if (isset($options['metadata_cache']) {
+          // configure the instance
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Returns a list of optional options
+     *
+     * @return string[] List with optional options
+     */
+    public function optionalOptions()
+    {
+        return [
+            'metadata_cache',
+            'query_cache',
+            'result_cache',
+            'hydration_cache',
+        ];
+    }
+    
+    public function vendorName()
+    {
+        return 'doctrine';
+    }
+
+    public function packageName()
+    {
+        return 'configuration';
+    }
+
+    public function containerId()
+    {
+        return 'orm_crawler';
+    }
+}
+```
+
+## Default options
+Use the `HasDefaultOptions` interface if you have default options. These options are merged with the provided options in
+`\Interop\Config\ObtainsOptions::options()`. The configuration above has default options.
+
+```php
+class ConfigurationFactory implements HasContainerId, HasOptionalOptions, HasDefaultOptions
+{
+    use ConfigurationTrait;
+    
+    public function __invoke(ContainerInterface $container)
+    {
+        // get options for doctrine.configuration.orm_crawler
+        $options = $this->options($container->get('config'));
+
+        # these keys are always available now 
+        $options['metadata_cache'];
+        $options['query_cache'];
+        $options['result_cache'];
+        $options['hydration_cache'];
+
+        // create your instance and set options
+
+        return $instance;
+    }
+    
+    /**
+     * Returns a list of default options, which are merged in \Interop\Config\ObtainsOptions::options
+     *
+     * @return string[] List with default options and values
+     */
+    public function defaultOptions()
+    {
+        return [
+            'metadata_cache' => 'array',
+            'query_cache' => 'array',
+            'result_cache' => 'array',
+            'hydration_cache' => 'array',
+        ];
+    }
+    
+    /**
+     * Returns a list of optional options
+     *
+     * @return string[] List with optional options
+     */
+    public function optionalOptions()
+    {
+        return [
+            'metadata_cache',
+            'query_cache',
+            'result_cache',
+            'hydration_cache',
+        ];
+    }
+    
+    public function vendorName()
+    {
+        return 'doctrine';
+    }
+
+    public function packageName()
+    {
+        return 'configuration';
+    }
+
+    public function containerId()
+    {
+        return 'orm_crawler';
     }
 }
 ```

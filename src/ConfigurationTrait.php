@@ -85,6 +85,10 @@ trait ConfigurationTrait
                 }
             }
         }
+        // check for default options
+        if ($this instanceof HasDefaultOptions) {
+            $options = array_replace_recursive($this->defaultOptions(), $options);
+        }
         return $options;
     }
 
