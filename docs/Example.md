@@ -52,7 +52,7 @@ Setting up composer.json and install it via `php composer.phar install`
 Put the following code to the public/index.php to get the class auto loading.
 
 ```php
-<?php 
+
 $loader = require 'vendor/autoload.php';
 $loader->add('SomeVendorName\\', __DIR__.'/library');
 
@@ -64,7 +64,7 @@ $loader->add('SomeVendorName\\', __DIR__.'/library');
 The following code is located in application_root/config/main.php
 
 ```php
-<?php
+
 return [
     'some_vendor_name' => [
         'my_component_configuration' => [
@@ -84,7 +84,6 @@ return [
 The `ServiceLocator` holds the application configuration and some plugin manager classes.  
 
 ```php
-<?php
 
 namespace SomeVendorName;
 
@@ -149,7 +148,6 @@ this simple example we satisfied by the `RuntimeException`. The following code i
 application_root/library/SomeVendorName/Exception/RuntimeException.php.
 
 ```php
-<?php
 
 namespace SomeVendorName\Exception;
 
@@ -165,7 +163,6 @@ The factory class implements `OptainOptions` and uses the `ConfigurationTrait`. 
 with the configuration we explicitly setup before. Every component created by this factory will get the same configuration parameters.
 
 ```php
-<?php
 
 namespace SomeVendorName\MyComponent;
 
@@ -231,7 +228,7 @@ class MyComponentFactory implements ObtainsOptions
 Finally we have the component class where we need the configuration.
 
 ```php
-<?php 
+
 namespace SomeVendorName\MyComponent;
 
 use SomeVendorName\Exception\RuntimeException;
@@ -255,7 +252,7 @@ class MyFirstComponent
 To run the example application we just need the following few lines in the public/index.php:
 
 ```php
-<?php 
+
 $loader = require 'vendor/autoload.php';
 $loader->add('SomeVendorName\\', __DIR__.'/library');
 
