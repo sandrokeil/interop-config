@@ -12,8 +12,8 @@ namespace Interop\Config;
 /**
  * HasOptionalOptions Interface
  *
- * Use this interface if you have optional options. This is only used to auto discover the options for a configuration
- * file
+ * Use this interface if you have optional options. This can be used to auto discover the options for a configuration
+ * file.
  */
 interface HasOptionalOptions
 {
