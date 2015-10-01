@@ -18,7 +18,9 @@
 [![Total Downloads](https://poser.pugx.org/sandrokeil/interop-config/downloads.png)](https://packagist.org/packages/sandrokeil/interop-config)
 [![License](https://poser.pugx.org/sandrokeil/interop-config/license.png)](https://packagist.org/packages/sandrokeil/interop-config)
 
-*InteropConfig* provides interfaces and classes to create instances depending on configuration with mandatory option check and uniform config structure.
+*interop-config* provides interfaces and a concrete implementation to create instances depending on configuration via 
+factory classes and ensures a uniform config structure. It can also be used to auto discover factories 
+and to create configuration files.
 
 > Please join the discussion about the [PSR config proposal](https://github.com/php-fig/fig-standards/pull/620).
 
@@ -55,10 +57,9 @@ return [
 ];
 ```
 
-So `doctrine` is the vendor, `connection` is the package and `orm_default` is the container id. 
-After that the specified instance options follow. The following example uses 
-[ConfigurationTrait](src/ConfigurationTrait.php) which implements the logic to retrieve the options from a 
-configuration.
+So `doctrine` is the vendor, `connection` is the package and `orm_default` is the container id. After that the specified 
+instance options follow. The following example uses [ConfigurationTrait](src/ConfigurationTrait.php) which implements 
+the logic to retrieve the options from a configuration. See documentation for more details.
 
 > Note that the configuration above is injected as `$config` in `options()`
 
@@ -144,7 +145,16 @@ Put the following into your composer.json
 
 ## Documentation
 
-You can find documentation about the usages at the following links:
+Documentation is [in the doc tree](doc/), and can be compiled using [bookdown](http://bookdown.io) and [Docker](https://www.docker.com/)
 
- * [Configuration - Get an array of options and with mandatory options check](docs/Configuration.md)
- * [PSR config proposal - detailed explanation of interfaces](https://github.com/php-fig/fig-standards/pull/620)
+```console
+$ docker run -i -t=false --rm -v $(pwd):/app sandrokeil/bookdown doc/bookdown.json
+$ docker run -i -t=false --rm -p 8080:8080 -v $(pwd):/app php:5.6-cli php -S 0.0.0.0:8080 -t /app/doc/html
+```
+
+or make sure bookdown is installed globally via composer and `$HOME/.composer/vendor/bin` is on your `$PATH`.
+
+```console
+$ bookdown doc/bookdown.json
+$ php -S 0.0.0.0:8080 -t doc/html/ # then browse to http://localhost:8080/
+```
