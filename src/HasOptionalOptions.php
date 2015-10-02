@@ -10,23 +10,17 @@
 namespace Interop\Config;
 
 /**
- * HasConfig Interface
+ * HasOptionalOptions Interface
  *
- * Use this interface if you want to use a configuration
+ * Use this interface if you have optional options. This is only used to auto discover the options for a configuration
+ * file
  */
-interface HasConfig
+interface HasOptionalOptions
 {
     /**
-     * Returns the vendor name
+     * Returns a list of optional options
      *
-     * @return string
+     * @return string[] List with optional options
      */
-    public function vendorName();
-
-    /**
-     * Returns the package name
-     *
-     * @return string
-     */
-    public function packageName();
+    public function optionalOptions();
 }

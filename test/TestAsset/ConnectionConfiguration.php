@@ -21,7 +21,7 @@ class ConnectionConfiguration implements ObtainsOptions
         return 'doctrine';
     }
 
-    public function componentName()
+    public function packageName()
     {
         return 'connection';
     }

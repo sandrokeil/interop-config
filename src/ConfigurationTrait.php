@@ -41,11 +41,11 @@ trait ConfigurationTrait
         }
 
         $vendorName = $this->vendorName();
-        $componentName = $this->componentName();
+        $packageName = $this->packageName();
 
         // this is the fastest way to determine a configuration error (performance)
-        if (!isset($config[$vendorName][$componentName][$id])) {
-            if (!isset($config[$vendorName][$componentName])) {
+        if (!isset($config[$vendorName][$packageName][$id])) {
+            if (!isset($config[$vendorName][$packageName])) {
                 if (empty($config[$vendorName])) {
                     throw new Exception\RuntimeException(
                         sprintf('No vendor configuration "%s" available', $vendorName)
@@ -54,19 +54,19 @@ trait ConfigurationTrait
                 throw new Exception\OptionNotFoundException(sprintf(
                     'No options set in configuration "' . "['%s']['%s']",
                     $vendorName,
-                    $componentName
+                    $packageName
                 ));
             }
             if (null !== $id) {
                 throw new Exception\OptionNotFoundException(sprintf(
                     'No options set in configuration "' . "['%s']['%s']['%s']",
                     $vendorName,
-                    $componentName,
+                    $packageName,
                     $id
                 ));
             }
         }
-        $options = $config[$vendorName][$componentName];
+        $options = $config[$vendorName][$packageName];
 
         if (null !== $id) {
             $options = $options[$id];
@@ -79,11 +79,15 @@ trait ConfigurationTrait
                         'Mandatory option "%s" was not set for configuration "' . "['%s']['%s']%s",
                         $option,
                         $vendorName,
-                        $componentName,
+                        $packageName,
                         $id ? '[' . $id . ']' : ''
                     ));
                 }
             }
+        }
+        // check for default options
+        if ($this instanceof HasDefaultOptions) {
+            $options = array_replace_recursive($this->defaultOptions(), $options);
         }
         return $options;
     }
@@ -94,7 +98,7 @@ trait ConfigurationTrait
     abstract public function vendorName();
 
     /**
-     * @see \Interop\Config\HasConfig::componentName
+     * @see \Interop\Config\HasConfig::packageName
      */
-    abstract public function componentName();
+    abstract public function packageName();
 }

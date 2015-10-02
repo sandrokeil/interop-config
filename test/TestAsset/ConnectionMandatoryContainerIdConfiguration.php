@@ -23,7 +23,7 @@ class ConnectionMandatoryContainerIdConfiguration implements ObtainsOptions, Has
         return 'doctrine';
     }
 
-    public function componentName()
+    public function packageName()
     {
         return 'connection';
     }
