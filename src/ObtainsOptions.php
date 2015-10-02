@@ -15,13 +15,14 @@ use ArrayAccess;
  * ObtainOptions Interface
  *
  * Use this interface if you want to retrieve options from a configuration and optional to perform a mandatory option
- * check.
+ * check. Default options are merged and overridden of the provided options.
  */
 interface ObtainsOptions extends HasConfig
 {
     /**
      * Returns options based on [vendor][package][id] and can perform mandatory option checks if class implements
-     * MandatoryOptionsInterface. The HasContainerId interface is optional.
+     * MandatoryOptionsInterface. If the HasDefaultOptions interface is implemented, these options must be overriden
+     * by the provided config. The HasContainerId interface is optional.
      *
      * <code>
      * return [
@@ -33,7 +34,11 @@ interface ObtainsOptions extends HasConfig
      *             'orm_default' => [
      *                 // mandatory options, is optional
      *                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
-     *                 'params' => [],
+     *                 'params' => [
+     *                     // default options, is optional
+     *                     'host' => 'localhost',
+     *                     'port' => '3306',
+     *                 ],
      *             ],
      *         ],
      *     ],
