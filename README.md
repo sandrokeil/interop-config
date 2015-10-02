@@ -148,3 +148,4 @@ You can find documentation about the usages at the following links:
 
  * [Configuration - Get an array of options and with mandatory options check](docs/Configuration.md)
  * [PSR config proposal - detailed explanation of interfaces](https://github.com/php-fig/fig-standards/pull/620)
+ * [Implementation Example - Implementing a simple Example](docs/Example.md)
