@@ -10,7 +10,7 @@
 
 [![Build Status](https://travis-ci.org/sandrokeil/interop-config.png?branch=master)](https://travis-ci.org/sandrokeil/interop-config)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/sandrokeil/interop-config/badges/quality-score.png?s=cdef161c14156e3e36ed0ce3d6fd7979d38d916c)](https://scrutinizer-ci.com/g/sandrokeil/interop-config/)
-[![Coverage Status](https://coveralls.io/repos/sandrokeil/interop-config/badge.png?branch=master)](https://coveralls.io/r/sandrokeil/interop-config?branch=master)
+[![Coverage Status](https://coveralls.io/repos/sandrokeil/interop-config/badge.svg?branch=master)](https://coveralls.io/r/sandrokeil/interop-config?branch=master)
 [![HHVM Status](http://hhvm.h4cc.de/badge/sandrokeil/interop-config.svg)](http://hhvm.h4cc.de/package/sandrokeil/interop-config)
 [![PHP 7 ready](http://php7ready.timesplinter.ch/sandrokeil/interop-config/badge.svg)](https://travis-ci.org/sandrokeil/interop-config)
 [![Latest Stable Version](https://poser.pugx.org/sandrokeil/interop-config/v/stable.png)](https://packagist.org/packages/sandrokeil/interop-config)
@@ -27,7 +27,7 @@ and to create configuration files.
  * **Well tested.** Besides unit test and continuous integration/inspection this solution is also ~~ready for production use~~.
  * **Framework agnostic** This PHP library does not depends on any framework but you can use it with your favourite framework.
  * **Every change is tracked**. Want to know whats new? Take a look at [CHANGELOG.md](https://github.com/sandrokeil/interop-config/blob/master/CHANGELOG.md)
- * **Listen to your ideas.** Have a great idea? Bring your tested pull request or open a new issue.
+ * **Listen to your ideas.** Have a great idea? Bring your tested pull request or open a new issue. See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 You should have coding conventions and you should have config conventions. If not, you should think about that.
 

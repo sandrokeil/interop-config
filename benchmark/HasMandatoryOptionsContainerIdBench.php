@@ -9,30 +9,33 @@
 
 namespace InteropBench\Config;
 
-use Athletic\AthleticEvent;
-use InteropTest\Config\TestAsset\ConnectionDefaultOptionsConfiguration;
+use InteropTest\Config\TestAsset\ConnectionMandatoryContainerIdConfiguration;
 
-class HasDefaultOptions extends AthleticEvent
+/**
+ * @beforeMethod classSetUp
+ */
+class HasMandatoryOptionsContainerId
 {
     private $config;
 
     /**
-     * @var ConnectionDefaultOptionsConfiguration
+     * @var ConnectionMandatoryContainerIdConfiguration
      */
     private $factory;
 
     public function classSetUp()
     {
         $this->config = $this->getTestConfig();
-        $this->factory = new ConnectionDefaultOptionsConfiguration();
+        $this->factory = new ConnectionMandatoryContainerIdConfiguration();
     }
 
     /**
      * Retrieve options
      *
-     * @iterations 10000
+     * @revs 1000
+     * @iterations 10
      */
-    public function options()
+    public function benchOptions()
     {
         $this->factory->options($this->config);
     }

@@ -45,7 +45,7 @@
     "phpunit/phpunit": "~4.8",
     "phpunit/php-invoker": "~1.1",
     "squizlabs/php_codesniffer": "~2.3",
-    "athletic/athletic": "^0.1"
+    "phpbench/phpbench": "dev-master"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
