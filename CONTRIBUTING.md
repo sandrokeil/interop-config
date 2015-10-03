@@ -30,3 +30,11 @@ To do so:
  -  Copy `TestConfig.php.dist` file to `TestConfig.php`
  -  Edit `TestConfig.php` to enable any specific functionality you want to test, as well as to provide test values to
     utilize.
+
+## RUNNING BENCHMARKS
+
+To run benchmarks execute phpbench
+
+  ```sh
+  $ ./vendor/bin/phpbench run --report=aggregate
+  ```

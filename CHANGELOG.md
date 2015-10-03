@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 * [#8](https://github.com/sandrokeil/interop-config/issues/8): Introducing HasOptionalOptions Interface
 * [#9](https://github.com/sandrokeil/interop-config/issues/9): Introducing HasDefaultOptions Interface
+* [#13](https://github.com/sandrokeil/interop-config/issues/13): Support for recursive mandatory options check
 * Benchmark suite
 
 ### Deprecated
