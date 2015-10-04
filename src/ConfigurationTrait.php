@@ -73,23 +73,47 @@ trait ConfigurationTrait
         }
         // check for mandatory options
         if ($this instanceof HasMandatoryOptions) {
-            foreach ($this->mandatoryOptions() as $option) {
-                if (!isset($options[$option])) {
-                    throw new Exception\MandatoryOptionNotFoundException(sprintf(
-                        'Mandatory option "%s" was not set for configuration "' . "['%s']['%s']%s",
-                        $option,
-                        $vendorName,
-                        $packageName,
-                        $id ? '[' . $id . ']' : ''
-                    ));
-                }
-            }
+            $this->checkMandatoryOptions($this->mandatoryOptions(), $options);
         }
         // check for default options
         if ($this instanceof HasDefaultOptions) {
             $options = array_replace_recursive($this->defaultOptions(), $options);
         }
         return $options;
+    }
+
+    /**
+     * Checks if a mandatory param is missing, supports recursion
+     *
+     * @param array|ArrayAccess $mandatoryOptions
+     * @param array|ArrayAccess $options
+     * @throws Exception\MandatoryOptionNotFoundException
+     */
+    private function checkMandatoryOptions($mandatoryOptions, $options)
+    {
+        foreach ($mandatoryOptions as $key => $mandatoryOption) {
+            # if a string key exists it indicates a recursive check
+            if (isset($options[$key])) {
+                $this->checkMandatoryOptions($mandatoryOption, $options[$key]);
+                return;
+            }
+            if (isset($options[$mandatoryOption])) {
+                continue;
+            }
+            $id = null;
+
+            if ($this instanceof HasContainerId) {
+                $id = $this->containerId();
+            }
+
+            throw new Exception\MandatoryOptionNotFoundException(sprintf(
+                'Mandatory option "%s" was not set for configuration "' . "['%s']['%s']%s",
+                $mandatoryOption,
+                $this->vendorName(),
+                $this->packageName(),
+                $id ? '[' . $id . ']' : ''
+            ));
+        }
     }
 
     /**

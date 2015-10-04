@@ -14,6 +14,7 @@ use InteropTest\Config\TestAsset\ConnectionContainerIdConfiguration;
 use InteropTest\Config\TestAsset\ConnectionDefaultOptionsConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryContainerIdConfiguration;
+use InteropTest\Config\TestAsset\ConnectionMandatoryRecursiveContainerIdConfiguration;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
@@ -187,6 +188,7 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with mandatory options interface
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
     public function testOptionsChecksMandatoryOptions()
     {
@@ -200,6 +202,7 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with mandatory options interface
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
     public function testOptionsChecksMandatoryOptionsByContainerId()
     {
@@ -214,6 +217,7 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() throws a runtime exception if mandatory option is missing
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
     public function testOptionsThrowsRuntimeExceptionIfMandatoryOptionIsMissing()
     {
@@ -226,6 +230,28 @@ class ConfigurationTraitTest extends TestCase
 
         $config = $this->getTestConfig();
         unset($config['doctrine']['connection']['orm_default']['params']);
+
+        $stub->options($config);
+    }
+
+    /**
+     * Tests if options() throws a runtime exception if a recursive mandatory option is missing
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     */
+    public function testOptionsThrowsRuntimeExceptionIfMandatoryOptionRecursiveIsMissing()
+    {
+        $stub = new ConnectionMandatoryRecursiveContainerIdConfiguration();
+
+        $this->setExpectedException(
+            'Interop\Config\Exception\MandatoryOptionNotFoundException',
+            'Mandatory option "dbname"'
+        );
+
+        $config = $this->getTestConfig();
+
+        unset($config['doctrine']['connection']['orm_default']['params']['dbname']);
 
         $stub->options($config);
     }

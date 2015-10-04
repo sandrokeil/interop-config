@@ -1,6 +1,7 @@
-# ConfigurationTrait
+# Examples
 
-Use this trait if you want to retrieve options from a configuration and optional to perform a mandatory option check
+This files contains examples for each interface. The factory class uses the `ConfigurationTrait` to retrieve options 
+from a configuration and optional to perform a mandatory option check or merge default options.
 
 Let's assume we have the following module configuration:
 

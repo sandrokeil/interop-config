@@ -10,7 +10,7 @@
 
 [![Build Status](https://travis-ci.org/sandrokeil/interop-config.png?branch=master)](https://travis-ci.org/sandrokeil/interop-config)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/sandrokeil/interop-config/badges/quality-score.png?s=cdef161c14156e3e36ed0ce3d6fd7979d38d916c)](https://scrutinizer-ci.com/g/sandrokeil/interop-config/)
-[![Coverage Status](https://coveralls.io/repos/sandrokeil/interop-config/badge.png?branch=master)](https://coveralls.io/r/sandrokeil/interop-config?branch=master)
+[![Coverage Status](https://coveralls.io/repos/sandrokeil/interop-config/badge.svg?branch=master)](https://coveralls.io/r/sandrokeil/interop-config?branch=master)
 [![HHVM Status](http://hhvm.h4cc.de/badge/sandrokeil/interop-config.svg)](http://hhvm.h4cc.de/package/sandrokeil/interop-config)
 [![PHP 7 ready](http://php7ready.timesplinter.ch/sandrokeil/interop-config/badge.svg)](https://travis-ci.org/sandrokeil/interop-config)
 [![Latest Stable Version](https://poser.pugx.org/sandrokeil/interop-config/v/stable.png)](https://packagist.org/packages/sandrokeil/interop-config)
@@ -18,14 +18,16 @@
 [![Total Downloads](https://poser.pugx.org/sandrokeil/interop-config/downloads.png)](https://packagist.org/packages/sandrokeil/interop-config)
 [![License](https://poser.pugx.org/sandrokeil/interop-config/license.png)](https://packagist.org/packages/sandrokeil/interop-config)
 
-*InteropConfig* provides interfaces and classes to create instances depending on configuration with mandatory option check and uniform config structure.
+*interop-config* provides interfaces and a concrete implementation to create instances depending on configuration via 
+factory classes and ensures a uniform config structure. It can also be used to auto discover factories 
+and to create configuration files.
 
 > Please join the discussion about the [PSR config proposal](https://github.com/php-fig/fig-standards/pull/620).
 
  * **Well tested.** Besides unit test and continuous integration/inspection this solution is also ~~ready for production use~~.
  * **Framework agnostic** This PHP library does not depends on any framework but you can use it with your favourite framework.
  * **Every change is tracked**. Want to know whats new? Take a look at [CHANGELOG.md](https://github.com/sandrokeil/interop-config/blob/master/CHANGELOG.md)
- * **Listen to your ideas.** Have a great idea? Bring your tested pull request or open a new issue.
+ * **Listen to your ideas.** Have a great idea? Bring your tested pull request or open a new issue. See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 You should have coding conventions and you should have config conventions. If not, you should think about that.
 
@@ -55,10 +57,9 @@ return [
 ];
 ```
 
-So `doctrine` is the vendor, `connection` is the package and `orm_default` is the container id. 
-After that the specified instance options follow. The following example uses 
-[ConfigurationTrait](src/ConfigurationTrait.php) which implements the logic to retrieve the options from a 
-configuration.
+So `doctrine` is the vendor, `connection` is the package and `orm_default` is the container id. After that the specified 
+instance options follow. The following example uses [ConfigurationTrait](src/ConfigurationTrait.php) which implements 
+the logic to retrieve the options from a configuration. See documentation for more details.
 
 > Note that the configuration above is injected as `$config` in `options()`
 
@@ -144,7 +145,16 @@ Put the following into your composer.json
 
 ## Documentation
 
-You can find documentation about the usages at the following links:
+Documentation is [in the doc tree](doc/), and can be compiled using [bookdown](http://bookdown.io) and [Docker](https://www.docker.com/)
 
- * [Configuration - Get an array of options and with mandatory options check](docs/Configuration.md)
- * [PSR config proposal - detailed explanation of interfaces](https://github.com/php-fig/fig-standards/pull/620)
+```console
+$ docker run -i -t=false --rm -v $(pwd):/app sandrokeil/bookdown doc/bookdown.json
+$ docker run -i -t=false --rm -p 8080:8080 -v $(pwd):/app php:5.6-cli php -S 0.0.0.0:8080 -t /app/doc/html
+```
+
+or make sure bookdown is installed globally via composer and `$HOME/.composer/vendor/bin` is on your `$PATH`.
+
+```console
+$ bookdown doc/bookdown.json
+$ php -S 0.0.0.0:8080 -t doc/html/ # then browse to http://localhost:8080/
+```
