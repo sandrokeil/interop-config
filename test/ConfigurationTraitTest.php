@@ -188,6 +188,7 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with mandatory options interface
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
     public function testOptionsChecksMandatoryOptions()
     {
@@ -201,6 +202,7 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with mandatory options interface
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
     public function testOptionsChecksMandatoryOptionsByContainerId()
     {
@@ -215,6 +217,7 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() throws a runtime exception if mandatory option is missing
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
     public function testOptionsThrowsRuntimeExceptionIfMandatoryOptionIsMissing()
     {
@@ -235,6 +238,7 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() throws a runtime exception if a recursive mandatory option is missing
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
     public function testOptionsThrowsRuntimeExceptionIfMandatoryOptionRecursiveIsMissing()
     {
