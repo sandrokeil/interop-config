@@ -19,11 +19,31 @@ use ArrayAccess;
 trait ConfigurationTrait
 {
     /**
-     * @see \Interop\Config\ObtainOptions::options
+     * @see \Interop\Config\HasConfig::vendorName
      */
-    public function options($config)
+    abstract public function vendorName();
+
+    /**
+     * @see \Interop\Config\HasConfig::packageName
+     */
+    abstract public function packageName();
+
+    /**
+     * Returns options and it is possible to disable exceptions and return a default value instead.
+     *
+     * @see \Interop\Config\ObtainOptions::options
+     *
+     * @param $config
+     * @param bool $throwException Whether or not to throw an exception, optional default true
+     * @param mixed $default Value is returned of $throwException is false, optional default null
+     * @return mixed options
+     */
+    public function options($config, $throwException = true, $default = null)
     {
         if (!is_array($config) && !$config instanceof ArrayAccess) {
+            if (false === $throwException) {
+                return $default;
+            }
             throw new Exception\InvalidArgumentException(
                 sprintf(
                     '$config parameter provided to "%s" must be an "%s" or "%s"',
@@ -45,6 +65,9 @@ trait ConfigurationTrait
 
         // this is the fastest way to determine a configuration error (performance)
         if (!isset($config[$vendorName][$packageName][$id])) {
+            if (false === $throwException) {
+                return $default;
+            }
             if (!isset($config[$vendorName][$packageName])) {
                 if (empty($config[$vendorName])) {
                     throw new Exception\RuntimeException(
@@ -115,14 +138,4 @@ trait ConfigurationTrait
             ));
         }
     }
-
-    /**
-     * @see \Interop\Config\HasConfig::vendorName
-     */
-    abstract public function vendorName();
-
-    /**
-     * @see \Interop\Config\HasConfig::packageName
-     */
-    abstract public function packageName();
 }

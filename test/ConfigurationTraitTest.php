@@ -42,7 +42,20 @@ class ConfigurationTraitTest extends TestCase
 
         $this->setExpectedException('Interop\Config\Exception\InvalidArgumentException', '$config parameter');
 
-        return $stub->options('');
+        $stub->options('');
+    }
+
+    /**
+     * Tests options() throws not an exception if config parameter is not an array and throwing an exception is
+     * disabled
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     */
+    public function testOptionsThrowsNoExceptionIfConfigIsNotAnArrayAndThrowingExceptionIsDisabled()
+    {
+        $stub = new ConnectionConfiguration();
+
+        $this->assertSame(null, $stub->options('', false));
     }
 
     /**
@@ -56,7 +69,7 @@ class ConfigurationTraitTest extends TestCase
 
         $this->setExpectedException('Interop\Config\Exception\RuntimeException', 'No vendor');
 
-        return $stub->options(['doctrine' => []]);
+        $stub->options(['doctrine' => []]);
     }
 
     /**
@@ -70,7 +83,7 @@ class ConfigurationTraitTest extends TestCase
 
         $this->setExpectedException('Interop\Config\Exception\OptionNotFoundException', 'No options');
 
-        return $stub->options(['doctrine' => ['connection' => null]]);
+        $stub->options(['doctrine' => ['connection' => null]]);
     }
 
     /**
@@ -84,7 +97,20 @@ class ConfigurationTraitTest extends TestCase
 
         $this->setExpectedException('Interop\Config\Exception\OptionNotFoundException', 'No options');
 
-        return $stub->options(['doctrine' => ['connection' => ['orm_default' => null]]]);
+        $stub->options(['doctrine' => ['connection' => ['orm_default' => null]]]);
+    }
+
+    /**
+     * Tests options() throws not an exception if no container id option is available and throwing exceptions is
+     * disabled
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     */
+    public function testOptionsThrowsNoExceptionIfNoIdOptionIsAvailableAndThrowingExceptionIsDisabled()
+    {
+        $stub = new ConnectionContainerIdConfiguration();
+
+        $this->assertSame([], $stub->options(['doctrine' => ['connection' => ['orm_default' => null]]], false, []));
     }
 
     /**
