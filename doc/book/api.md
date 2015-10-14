@@ -38,7 +38,7 @@ The `HasMandatoryOptions` interface exposes one method: `mandatoryOptions`
     public function mandatoryOptions() : string[]
 ```
 The `mandatoryOptions` method has no parameters and MUST return an array of strings which represents the list of mandatory 
-options.
+options. This array can have a multiple depth.
 
 ## ObtainsOptions
 The `ObtainsOptions` interface exposes one method: `options`
