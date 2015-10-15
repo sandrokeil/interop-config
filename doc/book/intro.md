@@ -7,5 +7,6 @@ configuration files.
 * Configure a vendor package
 * Configure a concrete container
 * Check for mandatory options
+* Check if options can be retrieved from configuration
 * Merging of default options
 * Discovering of optional options

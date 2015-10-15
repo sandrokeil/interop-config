@@ -46,12 +46,21 @@ interface ObtainsOptions extends HasConfig
      * </code>
      *
      * @param array|ArrayAccess $config Configuration
-     * @return mixed options
+     * @return array|ArrayAccess options
      *
-     * @throws Exception\InvalidArgumentException If the $config parameter has the wrong type
-     * @throws Exception\RuntimeException If vendor name was not found
+     * @throws Exception\UnexpectedValueException If the $config parameter has the wrong type
+     * @throws Exception\OutOfBoundsException If vendor name was not found
      * @throws Exception\OptionNotFoundException If no options are available
      * @throws Exception\MandatoryOptionNotFoundException If a mandatory option is missing
      */
     public function options($config);
+
+    /**
+     * Checks if options are available depending on implemented interfaces and checks that the retrieved options are an
+     * array or have implemented \ArrayAccess.
+     *
+     * @param array|ArrayAccess $config Configuration
+     * @return bool True if options are available, otherwise false
+     */
+    public function canRetrieveOptions($config);
 }

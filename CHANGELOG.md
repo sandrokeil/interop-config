@@ -9,8 +9,11 @@ All notable changes to this project will be documented in this file, in reverse 
 * [#8](https://github.com/sandrokeil/interop-config/issues/8): Introducing HasOptionalOptions Interface
 * [#9](https://github.com/sandrokeil/interop-config/issues/9): Introducing HasDefaultOptions Interface
 * [#13](https://github.com/sandrokeil/interop-config/issues/13): Support for recursive mandatory options check
-* `ConfigurationTrait` Support to disable exceptions and return a default value instead
+* `canRetrieveOptions()` to `ConfigurationTrait` to perform the options check without throwing an exception 
+* OptionNotFoundException and MandatoryOptionNotFoundException extends OutOfBoundsException instead of RuntimeException
+* Check if retrieved options are an array or an instance of ArrayAccess
 * Benchmark suite
+* Updated documentation
 
 ### Deprecated
 
