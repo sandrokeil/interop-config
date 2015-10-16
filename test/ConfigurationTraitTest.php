@@ -40,7 +40,7 @@ class ConfigurationTraitTest extends TestCase
     {
         $stub = new ConnectionConfiguration();
 
-        $this->setExpectedException('Interop\Config\Exception\InvalidArgumentException', '$config parameter');
+        $this->setExpectedException('Interop\Config\Exception\InvalidArgumentException', 'Provided parameter');
 
         $stub->options('');
     }
@@ -321,18 +321,37 @@ class ConfigurationTraitTest extends TestCase
     }
 
     /**
-     * Tests if options() throws a runtime exception if a recursive mandatory option is missing
+     * Tests options() with recursive mandatory options check
      *
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
-    public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfMandatoryOptionRecursiveIsMissing2()
+    public function testOptionsWithRecursiveMandatoryOptionCheck()
     {
         $stub = new ConnectionMandatoryRecursiveContainerIdConfiguration();
 
         $config = $this->getTestConfig();
 
         self::assertArrayHasKey('params', $stub->options($config));
+    }
+
+    /**
+     * Tests if options() throws a runtime exception if a recursive mandatory option is missing
+     *
+     * @covers \Interop\Config\ConfigurationTrait::optionsWithFallback
+     */
+    public function testoptionsWithFallback()
+    {
+        $stub = new ConnectionDefaultOptionsConfiguration();
+
+        $config = $this->getTestConfig();
+
+        self::assertArrayHasKey('params', $stub->optionsWithFallback([]));
+        self::assertArrayHasKey('params', $stub->optionsWithFallback($config));
+
+        unset($config['doctrine']['connection']['orm_default']['params']);
+
+        self::assertArrayHasKey('params', $stub->optionsWithFallback($config));
     }
 
     /**

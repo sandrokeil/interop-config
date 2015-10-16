@@ -2,6 +2,8 @@
 
 > You want to configure your factories?
 
+> You want to reduce your factory boilerplate code?
+
 > You want to check automatically for mandatory params?
 
 > You want to have an uniform config structure?
@@ -24,7 +26,7 @@ and to create configuration files.
 
 > Please join the discussion about the [PSR config proposal](https://github.com/php-fig/fig-standards/pull/620).
 
- * **Well tested.** Besides unit test and continuous integration/inspection this solution is also ~~ready for production use~~.
+ * **Well tested.** Besides unit test and continuous integration/inspection this solution is also ready for production use.
  * **Framework agnostic** This PHP library does not depends on any framework but you can use it with your favourite framework.
  * **Every change is tracked**. Want to know whats new? Take a look at [CHANGELOG.md](https://github.com/sandrokeil/interop-config/blob/master/CHANGELOG.md)
  * **Listen to your ideas.** Have a great idea? Bring your tested pull request or open a new issue. See [CONTRIBUTING.md](CONTRIBUTING.md)
@@ -65,11 +67,12 @@ the logic to retrieve the options from a configuration. See documentation for mo
 
 ```php
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\HasMandatoryOptions;
 use Interop\Config\HasContainerId;
+use Interop\Config\HasMandatoryOptions;
+use Interop\Config\ObtainsOptions;
 use Interop\Container\ContainerInterface;
 
-class MyDBALConnectionFactory implements HasMandatoryOptions, HasContainerId
+class MyDBALConnectionFactory implements ObtainsOptions, HasMandatoryOptions, HasContainerId
 {
     use ConfigurationTrait;
     
@@ -125,7 +128,7 @@ class MyDBALConnectionFactory implements HasMandatoryOptions, HasContainerId
      */
     public function mandatoryOptions()
     {
-        return ['driverClass', 'params'];
+        return ['params' => ['user', 'password', 'dbname']];
     }
 }
 ```

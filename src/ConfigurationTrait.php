@@ -65,12 +65,7 @@ trait ConfigurationTrait
     {
         if (!is_array($config) && !$config instanceof ArrayAccess) {
             throw new Exception\InvalidArgumentException(
-                sprintf(
-                    '$config parameter provided to "%s" must either be of type "array" or implement "\ArrayAccess".',
-                    __METHOD__,
-                    'array',
-                    'ArrayAccess'
-                )
+                sprintf('Provided parameter $config  must either be of type "array" or implement "\ArrayAccess".')
             );
         }
         $id = null;
@@ -120,6 +115,26 @@ trait ConfigurationTrait
         }
         if ($this instanceof HasDefaultOptions) {
             $options = array_replace_recursive($this->defaultOptions(), $options);
+        }
+        return $options;
+    }
+
+    /**
+     * Checks if options can be retrieved from config and if not, default options (HasDefaultOptions interface) or an
+     * empty array will be returned.
+     *
+     * @param array|ArrayAccess $config Configuration
+     * @return array|ArrayAccess options Default options or an empty array
+     */
+    public function optionsWithFallback($config)
+    {
+        $options = [];
+
+        if ($this->canRetrieveOptions($config)) {
+            $options = $this->options($config);
+        }
+        if (empty($options) && $this instanceof HasDefaultOptions) {
+            $options = $this->defaultOptions();
         }
         return $options;
     }

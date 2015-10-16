@@ -1,6 +1,14 @@
 # interop-config API
 
-This file describes the classes of this package.
+This file describes the classes of this package. All the interfaces can be combined. Don't panic, the interfaces are quite easy and the `ConfigurationTrait`, which is a concrete implementation, has full support of those interfaces. You need only one interface called `HasConfig` to start and then you can implement the others if they are needed.
+
+* HasConfig Interface
+* HasContainerId Interface
+* HasMandatoryOptions Interface
+* HasDefaultOptions Interface
+* HasOptionalOptions Interface
+* ObtainsOptions Interface
+* ConfigurationTrait
 
 ## HasConfig Interface
 
@@ -40,6 +48,27 @@ The `HasMandatoryOptions` interface exposes one method: `mandatoryOptions`
 The `mandatoryOptions` method has no parameters and MUST return an array of strings which represents the list of mandatory 
 options. This array can have a multiple depth.
 
+## HasOptionalOptions Interface
+The `OptionalOptions` interface exposes one method: `optionalOptions`
+
+### optionalOptions()
+```php
+    public function optionalOptions() : []
+```
+The `optionalOptions` has no parameters and MUST return an array of strings which represents the list of optional options. 
+This array can have a multiple depth.
+
+## HasDefaultOptions Interface
+The `DefaultOptions` interface exposes one method: `defaultOptions`
+
+### defaultOptions()
+```php
+    public function defaultOptions() : []
+```
+The `defaultOptions` method has no parameters and MUST return an key value array where the key is the option name and 
+the value is the default value for this option. This array can have a multiple depth.
+The return value MUST be compatible with the PHP function `array_replace_recursive`.
+
 ## ObtainsOptions Interface
 The `ObtainsOptions` interface exposes two method: `canRetrieveOptions` and `options`
 
@@ -47,6 +76,7 @@ The `ObtainsOptions` interface exposes two method: `canRetrieveOptions` and `opt
 ```php
     public function canRetrieveOptions($config) : bool
 ```
+Checks if options are available depending on implemented interfaces and checks that the retrieved options are an array or have implemented \ArrayAccess.
 
 ### options()
 ```php
@@ -82,23 +112,13 @@ in the options array which was retrieved from the configuration parameter before
 
 If the retrieved options are not of type array or \ArrayAccess the method SHOULD throw a `Interop\Config\Exception\UnexpectedValueException`.
 
-## OptionalOptions Interface
-The `OptionalOptions` interface exposes one method: `optionalOptions`
+## ConfigurationTrait
+The `ConfigurationTrait` uses the functions of `HasConfig` and `ObtainsOptions` interface and has support for `DefaultOptions`, `HasMandatoryOptions`, `HasContainerId` interface if the the class has they implemented.
 
-### optionalOptions()
+Additional it has one more method `optionsWithFallback` to reduce biolerplate code.
+
+### optionsWithFallback()
 ```php
-    public function optionalOptions() : []
+    public function optionsWithFallback($config) : []
 ```
-The `optionalOptions` has no parameters and MUST return an array of strings which represents the list of optional options. 
-This array can have a multiple depth.
-
-## DefaultOptions Interface
-The `DefaultOptions` interface exposes one method: `defaultOptions`
-
-### defaultOptions()
-```php
-    public function defaultOptions() : []
-```
-The `defaultOptions` method has no parameters and MUST return an key value array where the key is the option name and 
-the value is the default value for this option. This array can have a multiple depth.
-The return value MUST be compatible with the PHP function `array_replace_recursive`.
+Checks if options can be retrieved from config and if not, default options (`HasDefaultOptions` interface) or an empty array will be returned.
