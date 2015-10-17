@@ -12,17 +12,31 @@ namespace Interop\Config;
 use ArrayAccess;
 
 /**
- * ObtainOptions Interface
+ * RequiresConfig Interface
  *
  * Use this interface if you want to retrieve options from a configuration and optional to perform a mandatory option
  * check. Default options are merged and overridden of the provided options.
  */
-interface ObtainsOptions extends HasConfig
+interface RequiresConfig
 {
     /**
+     * Returns the vendor name
+     *
+     * @return string
+     */
+    public function vendorName();
+
+    /**
+     * Returns the package name
+     *
+     * @return string
+     */
+    public function packageName();
+
+    /**
      * Returns options based on [vendor][package][id] and can perform mandatory option checks if class implements
-     * MandatoryOptionsInterface. If the HasDefaultOptions interface is implemented, these options must be overriden
-     * by the provided config. The HasContainerId interface is optional.
+     * MandatoryOptionsInterface. If the ProvidesDefaultOptions interface is implemented, these options must be
+     * overridden by the provided config. The RequiresContainerId interface is optional.
      *
      * <code>
      * return [

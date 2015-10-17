@@ -10,10 +10,10 @@
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\HasMandatoryOptions;
-use Interop\Config\ObtainsOptions;
+use Interop\Config\RequiresConfig;
+use Interop\Config\RequiresMandatoryOptions;
 
-class ConnectionMandatoryConfiguration implements ObtainsOptions, HasMandatoryOptions
+class ConnectionMandatoryConfiguration implements RequiresConfig, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
 

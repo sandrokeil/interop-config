@@ -1,13 +1,13 @@
 # Quick Start
 Typically you will have a factory which creates a concrete instance depending on some options (dependencies).
 
-## `HasConfig` interface
-Let's say *My factory has a configuration* so you will implement the `HasConfig` interface.
+## `RequiresConfig` interface
+Let's say *My factory requires a configuration* so you will implement the `RequiresConfig` interface.
 
 ```php
-use Interop\Config\HasConfig;
+use Interop\Config\RequiresConfig;
 
-class MyAwesomeFactory implements HasConfig
+class MyAwesomeFactory implements RequiresConfig
 {
     public function vendorName()
     {
@@ -18,66 +18,28 @@ class MyAwesomeFactory implements HasConfig
     {
         return 'mypackage';
     }
+        
+    public function canRetrieveOptions($config)
+    {
+        // custom implementation depending on specifications
+    }
+    
+    public function options($config)
+    {
+        // custom implementation depending on specifications
+    }
 }
 ```
 
-## `HasContainerId` interface
+## `RequiresContainerId` interface
 If you support more than one instance with different configuration then you can say 
-*My factory has a configuration and has a container id* then you use the `HasContainerId` interface which also 
-implements the `HasConfig` interface.
+*My factory requires a configuration and requires a container id.* Then you use the `RequiresContainerId` interface which also 
+implements the `RequiresConfig` interface.
 
 ```php
-use Interop\Config\HasContainerId;
+use Interop\Config\RequiresContainerId;
 
-class MyAwesomeFactory implements HasContainerId
-{
-    public function vendorName()
-    {
-        return 'myvendor';
-    }
-    
-    public function packageName()
-    {
-        return 'mypackage';
-    }
-    
-    public function containerId()
-    {
-        return 'mycontainerid';
-    }
-}
-```
-
-## `ObtainsOptions` interface
-Ok you have now a factory which says that the factory supports a configuration and you have a PHP file which contains
-the configuration as a PHP array, but how is the configuration used? This is where the `ObtainsOptions` interface comes 
-into play.
-
-Depending on the implemented interfaces above our configuration PHP file looks like that:
-
-```php
-// interop config example
-return [
-    // vendor name
-    'myvendor' => [
-        // package name
-        'mypackage' => [
-            // container id
-            'mycontainerid' => [
-                // some options ...
-            ],
-        ],
-    ],
-];
-```
-
-Simply add the `ObtainsOptions` interface to the factory.
-
-```php
-use Interop\Config\HasContainerId;
-use Interop\Config\ObtainsOptions;
-
-class MyAwesomeFactory implements ObtainsOptions, HasContainerId
+class MyAwesomeFactory implements RequiresContainerId
 {
     public function vendorName()
     {
@@ -103,25 +65,45 @@ class MyAwesomeFactory implements ObtainsOptions, HasContainerId
     {
         // custom implementation depending on specifications
     }
-    
 }
 ```
-You can see that you have to implement the functionality of `canRetrieveOptions()` and `options()` method. Good news, 
+
+Ok you have now a factory which says that the factory supports a configuration and you have a PHP file which contains
+the configuration as a PHP array, but how is the configuration used?
+
+Depending on the implemented interfaces above our configuration PHP file looks like that:
+
+```php
+// interop config example
+return [
+    // vendor name
+    'myvendor' => [
+        // package name
+        'mypackage' => [
+            // container id
+            'mycontainerid' => [
+                // some options ...
+            ],
+        ],
+    ],
+];
+```
+
+As you can see that you have to implement the functionality of `canRetrieveOptions()` and `options()` method. Good news, 
 this is not necessary. See `ConfigurationTrait`. 
 
 ## `ConfigurationTrait`
-The `ConfigurationTrait` is a concreate implementation of the `ObtainsOptions` interface and has full support of 
-`DefaultOptions`, `HasMandatoryOptions`, `HasContainerId` interface. It's a [PHP Trait](http://php.net/manual/en/language.oop5.traits.php "PHP Trait Documentation") so you can extend your factory
+The `ConfigurationTrait` is a concreate implementation of the `RequiresConfig` interface and has full support of 
+`ProvidesDefaultOptions`, `RequiresMandatoryOptions` and `RequiresContainerId` interface. It's a [PHP Trait](http://php.net/manual/en/language.oop5.traits.php "PHP Trait Documentation") so you can extend your factory
 from a class.
 
 Your factory looks now like that:
 
 ```php
-use Interop\Config\HasContainerId;
-use Interop\Config\ObtainsOptions;
+use Interop\Config\RequiresContainerId;
 use Interop\Config\ConfigurationTrait;
 
-class MyAwesomeFactory implements ObtainsOptions, HasContainerId
+class MyAwesomeFactory implements RequiresContainerId
 {
     use ConfigurationTrait;
     
@@ -154,12 +136,11 @@ provided to retrieve the configuration.
 > Note that the configuration above is injected as `$config` in `options()`
 
 ```php
-use Interop\Config\HasContainerId;
-use Interop\Config\ObtainsOptions;
+use Interop\Config\RequiresContainerId;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements ObtainsOptions, HasContainerId
+class MyAwesomeFactory implements RequiresContainerId
 {
     use ConfigurationTrait;
     
@@ -188,10 +169,10 @@ class MyAwesomeFactory implements ObtainsOptions, HasContainerId
     }
 }
 ```
-The `ConfigurationTrait` does the job to check and retrieve options depending on implemented interfaces. Nice, but what is
-if I have mandatory options? See `HasMandatoryOptions` interface.
+The `ConfigurationTrait` does the job to check and retrieve options depending on implemented interfaces. *Nice, but what is
+if I have mandatory options?* See `RequiresMandatoryOptions` interface.
 
-## `HasMandatoryOptions` interface
+## `RequiresMandatoryOptions` interface
 The `ObtainsOptions` interface specification says that it MUST support mandatory options check. Let's say that we need
 params for a db connection. Our config *should* looks like that:
 
@@ -215,18 +196,17 @@ return [
 ];
 ```
 
-Remember our factory sentence. *My factory has a configuration and has a container id and has mandatory options*.
+Remember our factory sentence. *My factory requires a configuration and requires a container id along with mandatory options.*.
 The `ConfigurationTrait` ensures that these options are available, otherwise an exception is thrown. This is great, because
 the developer becomes an exact exception message with what is wrong. This is useful for developers who use your factory the first time.
 
 ```php
-use Interop\Config\HasContainerId;
-use Interop\Config\ObtainsOptions;
+use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\HasMandatoryOptions;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements ObtainsOptions, HasContainerId, HasMandatoryOptions
+class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
     
@@ -262,25 +242,24 @@ class MyAwesomeFactory implements ObtainsOptions, HasContainerId, HasMandatoryOp
 }
 ```
 
-Hey, the database port and host is missing. That's right, but the default value of the port is *3306* and the host is 
-*localhost*. It makes no sense to set it in the configuration. So I make the database port/host not configurable? No, you 
-use the `HasDefaultOptions` interface.
+*Hey, the database port and host is missing.* That's right, but the default value of the port is *3306* and the host is 
+*localhost*. It makes no sense to set it in the configuration. *So I make the database port/host not configurable?* No, you 
+use the `RequiresDefaultOptions` interface.
  
-## `HasDefaultOptions` interface
-The `HasDefaultOptions` interface defines default options for your instance. These options are merged with the provided 
-options.
+## `RequiresDefaultOptions` interface
+The `RequiresDefaultOptions` interface defines default options for your instance. These options are merged with the provided 
+options. 
 
-Remember: *My factory has a configuration and has a container id and has mandatory options and has default options*.
+Remember: *My factory requires configuration, requires a container id along with mandatory options and default options.*
 
 ```php
-use Interop\Config\HasContainerId;
-use Interop\Config\ObtainsOptions;
+use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresMandatoryOptions;
+use Interop\Config\RequiresDefaultOptions;
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\HasMandatoryOptions;
-use Interop\Config\HasDefaultOptions;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements ObtainsOptions, HasContainerId, HasMandatoryOptions, HasDefaultOptions
+class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, RequiresDefaultOptions
 {
     use ConfigurationTrait;
     
@@ -331,21 +310,20 @@ Now you have a bullet proof factory class which throws meaningful exceptions if 
 I don't want to use exceptions.* No problem, see next.
 
 ## Avoid exceptions
-The `ObtainsOptions` interface provides a method `canRetrieveOptions()`. This method checks if options are available depending on 
-implemented interfaces and checks that the retrieved options are an array or have implemented \ArrayAccess.
+The `RequiresConfig` interface provides a method `canRetrieveOptions()`. This method checks if options are available depending on 
+implemented interfaces and checks that the retrieved options are an array or have implemented `\ArrayAccess`.
 
 You can call this function and if it returns false, you can use the default options.
 
 
 ```php
-use Interop\Config\HasContainerId;
-use Interop\Config\ObtainsOptions;
+use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresMandatoryOptions;
+use Interop\Config\RequiresDefaultOptions;
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\HasMandatoryOptions;
-use Interop\Config\HasDefaultOptions;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements ObtainsOptions, HasContainerId, HasMandatoryOptions, HasDefaultOptions
+class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, RequiresDefaultOptions
 {
     use ConfigurationTrait;
     
@@ -362,7 +340,7 @@ class MyAwesomeFactory implements ObtainsOptions, HasContainerId, HasMandatoryOp
             // method options() is implemented in ConfigurationTrait
             // if host/port is missing, default options will be used
             $options = $this->options($config);
-        } elseif ($this instanceof HasDefaultOptions) {
+        } elseif ($this instanceof RequiresDefaultOptions) {
             $options = $this->defaultOptions();
         }
         
@@ -375,14 +353,13 @@ class MyAwesomeFactory implements ObtainsOptions, HasContainerId, HasMandatoryOp
 of the specification but is implemented in `ConfigurationTrait` to reduce some boilerplate code.
 
 ```php
-use Interop\Config\HasContainerId;
-use Interop\Config\ObtainsOptions;
+use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresMandatoryOptions;
+use Interop\Config\RequiresDefaultOptions;
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\HasMandatoryOptions;
-use Interop\Config\HasDefaultOptions;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements ObtainsOptions, HasContainerId, HasMandatoryOptions, HasDefaultOptions
+class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, RequiresDefaultOptions
 {
     use ConfigurationTrait;
     
@@ -400,5 +377,5 @@ class MyAwesomeFactory implements ObtainsOptions, HasContainerId, HasMandatoryOp
 }
 ```
 
-*Using `optionsWithFallback()` method and the `HasMandatoryOptions` is ambiguous or?* Yes, so it's up to you to implement
+*Using `optionsWithFallback()` method and the `RequiresMandatoryOptions` is ambiguous or?* Yes, so it's up to you to implement
 the interfaces in a sense order.

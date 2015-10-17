@@ -10,9 +10,9 @@
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\ObtainsOptions;
+use Interop\Config\RequiresConfig;
 
-class ConnectionConfiguration implements ObtainsOptions
+class ConnectionConfiguration implements RequiresConfig
 {
     use ConfigurationTrait;
 

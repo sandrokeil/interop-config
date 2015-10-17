@@ -67,12 +67,11 @@ the logic to retrieve the options from a configuration. See documentation for mo
 
 ```php
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\HasContainerId;
-use Interop\Config\HasMandatoryOptions;
-use Interop\Config\ObtainsOptions;
+use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresMandatoryOptions;
 use Interop\Container\ContainerInterface;
 
-class MyDBALConnectionFactory implements ObtainsOptions, HasMandatoryOptions, HasContainerId
+class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
     
@@ -81,7 +80,7 @@ class MyDBALConnectionFactory implements ObtainsOptions, HasMandatoryOptions, Ha
         // get options for doctrine.connection.orm_default
         $options = $this->options($container->get('config'));
 
-        // mandatory options check is automatically done by MandatoryOptionsInterface
+        // mandatory options check is automatically done by RequiresMandatoryOptions
 
         $driverClass = $options['driverClass'];
         $params = $options['params'];
@@ -159,5 +158,7 @@ or make sure bookdown is installed globally via composer and `$HOME/.composer/ve
 
 ```console
 $ bookdown doc/bookdown.json
-$ php -S 0.0.0.0:8080 -t doc/html/ # then browse to http://localhost:8080/
+$ php -S 0.0.0.0:8080 -t doc/html/
 ```
+
+Then browse to [http://localhost:8080/](http://localhost:8080/)

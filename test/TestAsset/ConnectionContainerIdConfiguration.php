@@ -10,10 +10,9 @@
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\HasContainerId;
-use Interop\Config\ObtainsOptions;
+use Interop\Config\RequiresContainerId;
 
-class ConnectionContainerIdConfiguration implements ObtainsOptions, HasContainerId
+class ConnectionContainerIdConfiguration implements RequiresContainerId
 {
     use ConfigurationTrait;
 

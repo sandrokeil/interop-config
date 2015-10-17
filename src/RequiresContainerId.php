@@ -10,11 +10,11 @@
 namespace Interop\Config;
 
 /**
- * HasContainerId Interface
+ * RequiresContainerId Interface
  *
  * Use this interface if a configuration is for a specific container id.
  */
-interface HasContainerId extends HasConfig
+interface RequiresContainerId extends RequiresConfig
 {
     /**
      * Returns the container identifier

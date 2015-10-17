@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-* [#9](https://github.com/sandrokeil/interop-config/issues/9): Introducing HasDefaultOptions Interface
+* [#9](https://github.com/sandrokeil/interop-config/issues/9): Introducing ProvidesDefaultOptions interface
 * [#13](https://github.com/sandrokeil/interop-config/issues/13): Support for recursive mandatory options check
 * `canRetrieveOptions()` to `ConfigurationTrait` to perform the options check without throwing an exception 
 * `optionsWithFallback()` to `ConfigurationTrait` which uses default options if config can not be retrieved
@@ -21,7 +21,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-* Nothing
+* `HasConfig` interface, was renamed to `RequiresConfig`
+* `HasContainer` interface, was renamed to `RequiresContainerId`
+* `HasMandatoryOptions` interface, was renamed to `RequiresMandatoryOptions`
+* `HasDefaultOptions` interface, was renamed to `ProvidesDefaultOptions`
+* `ObtainsOptions` interface, was merged in `RequiresConfig`
+* `OptionalOptions` interface, can be achieved via `ProvidesDefaultOptions`
 
 ### Fixed
 

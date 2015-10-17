@@ -14,7 +14,7 @@ namespace Interop\Config;
  *
  * Use this interface if you have mandatory options
  */
-interface HasMandatoryOptions
+interface RequiresMandatoryOptions
 {
     /**
      * Returns a list of mandatory options which must be available

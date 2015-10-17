@@ -20,17 +20,17 @@ use ArrayAccess;
 trait ConfigurationTrait
 {
     /**
-     * @see \Interop\Config\HasConfig::vendorName
+     * @see \Interop\Config\RequiresConfig::vendorName
      */
     abstract public function vendorName();
 
     /**
-     * @see \Interop\Config\HasConfig::packageName
+     * @see \Interop\Config\RequiresConfig::packageName
      */
     abstract public function packageName();
 
     /**
-     * @see \Interop\Config\HasConfig::canRetrieveOptions
+     * @see \Interop\Config\RequiresConfig::canRetrieveOptions
      */
     public function canRetrieveOptions($config)
     {
@@ -39,7 +39,7 @@ trait ConfigurationTrait
         }
         $id = null;
 
-        if ($this instanceof HasContainerId) {
+        if ($this instanceof RequiresContainerId) {
             $id = $this->containerId();
         }
         $vendorName = $this->vendorName();
@@ -59,7 +59,7 @@ trait ConfigurationTrait
     }
 
     /**
-     * @see \Interop\Config\ObtainsOptions::options
+     * @see \Interop\Config\RequiresConfig::options
      */
     public function options($config)
     {
@@ -70,7 +70,7 @@ trait ConfigurationTrait
         }
         $id = null;
 
-        if ($this instanceof HasContainerId) {
+        if ($this instanceof RequiresContainerId) {
             $id = $this->containerId();
         }
         $vendorName = $this->vendorName();
@@ -110,18 +110,18 @@ trait ConfigurationTrait
                 )
             );
         }
-        if ($this instanceof HasMandatoryOptions) {
+        if ($this instanceof RequiresMandatoryOptions) {
             $this->checkMandatoryOptions($this->mandatoryOptions(), $options);
         }
-        if ($this instanceof HasDefaultOptions) {
+        if ($this instanceof ProvidesDefaultOptions) {
             $options = array_replace_recursive($this->defaultOptions(), $options);
         }
         return $options;
     }
 
     /**
-     * Checks if options can be retrieved from config and if not, default options (HasDefaultOptions interface) or an
-     * empty array will be returned.
+     * Checks if options can be retrieved from config and if not, default options (ProvidesDefaultOptions interface) or
+     * an empty array will be returned.
      *
      * @param array|ArrayAccess $config Configuration
      * @return array|ArrayAccess options Default options or an empty array
@@ -133,7 +133,7 @@ trait ConfigurationTrait
         if ($this->canRetrieveOptions($config)) {
             $options = $this->options($config);
         }
-        if (empty($options) && $this instanceof HasDefaultOptions) {
+        if (empty($options) && $this instanceof ProvidesDefaultOptions) {
             $options = $this->defaultOptions();
         }
         return $options;
@@ -159,7 +159,7 @@ trait ConfigurationTrait
             }
             $id = null;
 
-            if ($this instanceof HasContainerId) {
+            if ($this instanceof RequiresContainerId) {
                 $id = $this->containerId();
             }
 
