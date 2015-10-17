@@ -146,6 +146,7 @@ Put the following into your composer.json
     }
 
 ## Documentation
+For the latest online documentation you can visit [http://sandrokeil.github.io/interop-config/](http://sandrokeil.github.io/interop-config/).
 
 Documentation is [in the doc tree](doc/), and can be compiled using [bookdown](http://bookdown.io) and [Docker](https://www.docker.com/)
 
