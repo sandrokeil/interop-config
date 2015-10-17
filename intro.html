@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8" />
+    <head>
+    <title>Interop Configuration</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/darkly/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
+
+    <style>
+        *, html {
+            font-family: 'Lato', sans-serif;
+            font-weight: 400;
+        }
+
+        /* Global Rules */
+
+        .container {
+            /*background: #ddd;*/
+        }
+
+        .clearfix {
+            clear: both;
+        }
+
+        .rtrim {
+            padding-right: 0px;
+        }
+
+        .ltrim {
+            padding-left: 0px;
+        }
+
+        /* Header Section */
+
+        header {
+            border-bottom: 1px solid #ddd;
+            background: #f8f8f8;
+            color: white;
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        header .prev {
+            text-align: left;
+            padding-top: 30px;
+        }
+
+        header .next {
+            text-align: right;
+            padding-top: 30px;
+        }
+
+        header label {
+            display: block;
+            color: #ddd;
+            font-weight: 300;
+        }
+
+        header a {
+            /*color: white;*/
+        }
+
+        header .current {
+            text-align: center;
+            padding: 24px;
+        }
+
+        header .current h3.title {
+            padding: 0;
+            margin: 0;
+            color: #444;
+        }
+
+        header .current small.parent {
+            margin: 10px 0;
+            display: block;
+            font-size: 16px;
+            color: #888;
+            font-weight: 300;
+        }
+
+        /* Content Section */
+
+        section#content {
+            margin: 24px 0;
+            font-size: 17px;
+        }
+
+        #content code {
+            padding: 3px;
+            /*border: 1px solid #ddd;*/
+            margin: 0 3px;
+            background: #444;
+            color: white;
+        }
+
+        #content pre code {
+            border: none;
+            background: none;
+            color: #444;
+            font-size: 17px;
+        }
+
+        #content h1,
+        #content h2,
+        #content h3,
+        #content h4,
+        #content h5,
+        #content h6 {
+            color: #337ab7;
+        }
+
+        /* Footer Section */
+        footer #links {
+            border-top: 1px solid #ddd;
+            border-bottom: none;
+            padding: 30px 0;
+        }
+
+        footer #links .prev {
+            text-align: left;
+        }
+
+        footer #links .parent {
+            text-align: center;
+        }
+
+        footer #links .next {
+            text-align: right;
+        }
+
+        footer #links label {
+            display: block;
+            color: #ddd;
+            font-weight: 300;
+        }
+
+        footer #copyright {
+            padding: 50px;
+            background: #222;
+            text-align: center;
+            color: #444;
+        }
+
+        footer #copyright span a {
+            color: white;
+        }
+    </style>
+
+</head>
+    <body>
+
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="prev col-md-3">
+                                <label for="">Prev</label>
+                <a href="/">interop-config: Create instances depending on configuration</a>            </div>
+            <div class="current col-md-6">
+                <h3 class="title">
+                    1. Interop Configuration                </h3>
+                <small class="parent">My Book</small>
+            </div>
+            <div class="next col-md-3">
+                                <label for="">Next</label>
+                <a href="/overview.html">interop-config: Overview</a>            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</header>
+
+<section id="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                
+            
+<h1 id="1">1. Interop Configuration</h1>
+<blockquote>
+<p>You want to configure your factories?</p>
+</blockquote>
+<blockquote>
+<p>You want to reduce your factory boilerplate code?</p>
+</blockquote>
+<blockquote>
+<p>You want to check automatically for mandatory params?</p>
+</blockquote>
+<blockquote>
+<p>You want to have an uniform config structure?</p>
+</blockquote>
+<blockquote>
+<p>This library comes to the rescue!</p>
+</blockquote>
+<p><a href="https://travis-ci.org/sandrokeil/interop-config"><img src="https://travis-ci.org/sandrokeil/interop-config.png?branch=master" alt="Build Status"></a>
+<a href="https://scrutinizer-ci.com/g/sandrokeil/interop-config/"><img src="https://scrutinizer-ci.com/g/sandrokeil/interop-config/badges/quality-score.png?s=cdef161c14156e3e36ed0ce3d6fd7979d38d916c" alt="Scrutinizer Quality Score"></a>
+<a href="https://coveralls.io/r/sandrokeil/interop-config?branch=master"><img src="https://coveralls.io/repos/sandrokeil/interop-config/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="http://hhvm.h4cc.de/package/sandrokeil/interop-config"><img src="http://hhvm.h4cc.de/badge/sandrokeil/interop-config.svg" alt="HHVM Status"></a>
+<a href="https://travis-ci.org/sandrokeil/interop-config"><img src="http://php7ready.timesplinter.ch/sandrokeil/interop-config/badge.svg" alt="PHP 7 ready"></a>
+<a href="https://packagist.org/packages/sandrokeil/interop-config"><img src="https://poser.pugx.org/sandrokeil/interop-config/v/stable.png" alt="Latest Stable Version"></a>
+<a href="https://www.versioneye.com/user/projects/53615c75fe0d0720eb00009e"><img src="https://www.versioneye.com/user/projects/53615c75fe0d0720eb00009e/badge.png" alt="Dependency Status"></a>
+<a href="https://packagist.org/packages/sandrokeil/interop-config"><img src="https://poser.pugx.org/sandrokeil/interop-config/downloads.png" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/sandrokeil/interop-config"><img src="https://poser.pugx.org/sandrokeil/interop-config/license.png" alt="License"></a></p>
+<p><em>interop-config</em> provides interfaces and a concrete implementation to create instances depending on configuration via
+factory classes and ensures a uniform config structure. It can also be used to auto discover factories
+and to create configuration files.</p>
+<blockquote>
+<p>Please join the discussion about the <a href="https://github.com/php-fig/fig-standards/pull/620">PSR config proposal</a>.</p>
+</blockquote>
+<ul>
+<li>
+<strong>Well tested.</strong> Besides unit test and continuous integration/inspection this solution is also ready for production use.</li>
+<li>
+<strong>Framework agnostic</strong> This PHP library does not depends on any framework but you can use it with your favourite framework.</li>
+<li>
+<strong>Every change is tracked</strong>. Want to know whats new? Take a look at <a href="https://github.com/sandrokeil/interop-config/blob/master/CHANGELOG.md">CHANGELOG.md</a>
+</li>
+<li>
+<strong>Listen to your ideas.</strong> Have a great idea? Bring your tested pull request or open a new issue. See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>
+</li>
+</ul>
+<p>You should have coding conventions and you should have config conventions. If not, you should think about that.</p>
+<p>The config keys should have the following structure <code>vendor.package.container_id</code>.  A common configuration looks like that:</p>
+<pre><code class="language-php">// interop config example
+return [
+    // vendor name
+    'doctrine' =&gt; [
+        // package name
+        'connection' =&gt; [
+            // container id
+            'orm_default' =&gt; [
+                // mandatory options
+                'driverClass' =&gt; 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+                'params' =&gt; [
+                    'host'     =&gt; 'localhost',
+                    'port'     =&gt; '3306',
+                    'user'     =&gt; 'username',
+                    'password' =&gt; 'password',
+                    'dbname'   =&gt; 'database',
+                ],
+            ],
+        ],
+    ],
+];
+</code></pre>
+<p>So <code>doctrine</code> is the vendor, <code>connection</code> is the package and <code>orm_default</code> is the container id. After that the specified
+instance options follow. The following example uses <a href="src/ConfigurationTrait.php">ConfigurationTrait</a> which implements
+the logic to retrieve the options from a configuration. See documentation for more details.</p>
+<blockquote>
+<p>Note that the configuration above is injected as <code>$config</code> in <code>options()</code></p>
+</blockquote>
+<pre><code class="language-php">use Interop\Config\ConfigurationTrait;
+use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresMandatoryOptions;
+use Interop\Container\ContainerInterface;
+
+class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryOptions
+{
+    use ConfigurationTrait;
+    
+    public function __invoke(ContainerInterface $container)
+    {
+        // get options for doctrine.connection.orm_default
+        $options = $this-&gt;options($container-&gt;get('config'));
+
+        // mandatory options check is automatically done by RequiresMandatoryOptions
+
+        $driverClass = $options['driverClass'];
+        $params = $options['params'];
+
+        // create your instance and set options
+
+        return $instance;
+    }
+
+    /**
+     * Returns the vendor name
+     *
+     * @return string
+     */
+    public function vendorName()
+    {
+        return 'doctrine';
+    }
+
+    /**
+     * Returns the package name
+     *
+     * @return string
+     */
+    public function packageName()
+    {
+        return 'connection';
+    }
+
+    /**
+     * Returns the container identifier
+     *
+     * @return string
+     */
+    public function containerId()
+    {
+        return 'orm_default';
+    }
+
+    /**
+     * Returns a list of mandatory options which must be available
+     *
+     * @return string[] List with mandatory options
+     */
+    public function mandatoryOptions()
+    {
+        return ['params' =&gt; ['user', 'password', 'dbname']];
+    }
+}
+</code></pre>
+<h2 id="1.1">1.1. Installation</h2>
+<p>Installation of this module uses composer. For composer documentation, please refer to
+<a href="http://getcomposer.org/">getcomposer.org</a>.</p>
+<p>Put the following into your composer.json</p>
+<pre><code>{
+    "require": {
+        "sandrokeil/interop-config": "1.0.x-dev"
+    }
+}
+</code></pre>
+<h2 id="1.2">1.2. Documentation</h2>
+<p>Documentation is <a href="doc/">in the doc tree</a>, and can be compiled using <a href="http://bookdown.io">bookdown</a> and <a href="https://www.docker.com/">Docker</a></p>
+<pre><code class="language-console">$ docker run -i -t=false --rm -v $(pwd):/app sandrokeil/bookdown doc/bookdown.json
+$ docker run -i -t=false --rm -p 8080:8080 -v $(pwd):/app php:5.6-cli php -S 0.0.0.0:8080 -t /app/doc/html
+</code></pre>
+<p>or make sure bookdown is installed globally via composer and <code>$HOME/.composer/vendor/bin</code> is on your <code>$PATH</code>.</p>
+<pre><code class="language-console">$ bookdown doc/bookdown.json
+$ php -S 0.0.0.0:8080 -t doc/html/
+</code></pre>
+<p>Then browse to <a href="http://localhost:8080/">http://localhost:8080/</a></p>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <section id="links">
+        <div class="container">
+            <div class="row">
+                <div class="prev col-md-3">
+                                        <label for="">Prev</label>
+                    <a href="/">interop-config: Create instances depending on configuration</a>                </div>
+                <div class="parent col-md-6">
+                                        <label for="">Up</label>
+                    <a href="/">interop-config: Create instances depending on configuration</a>                </div>
+                <div class="next col-md-3">
+                                        <label for="">Next</label>
+                    <a href="/overview.html">2. interop-config: Overview</a>                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </section>
+    <section id="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    
+                    <span>
+                        Powered by <a href="">Bookdown.io</a>, <a href="bootswatch.com">bootswatch.com</a> | Designed by <a href="">yuripertamax</a>
+                    </span>
+     
+                </div>
+            </div>
+        </div>
+    </section>
+</footer>
+</body>
+</html>

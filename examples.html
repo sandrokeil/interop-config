@@ -1,0 +1,433 @@
+
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8" />
+    <head>
+    <title>Examples</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/darkly/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
+
+    <style>
+        *, html {
+            font-family: 'Lato', sans-serif;
+            font-weight: 400;
+        }
+
+        /* Global Rules */
+
+        .container {
+            /*background: #ddd;*/
+        }
+
+        .clearfix {
+            clear: both;
+        }
+
+        .rtrim {
+            padding-right: 0px;
+        }
+
+        .ltrim {
+            padding-left: 0px;
+        }
+
+        /* Header Section */
+
+        header {
+            border-bottom: 1px solid #ddd;
+            background: #f8f8f8;
+            color: white;
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        header .prev {
+            text-align: left;
+            padding-top: 30px;
+        }
+
+        header .next {
+            text-align: right;
+            padding-top: 30px;
+        }
+
+        header label {
+            display: block;
+            color: #ddd;
+            font-weight: 300;
+        }
+
+        header a {
+            /*color: white;*/
+        }
+
+        header .current {
+            text-align: center;
+            padding: 24px;
+        }
+
+        header .current h3.title {
+            padding: 0;
+            margin: 0;
+            color: #444;
+        }
+
+        header .current small.parent {
+            margin: 10px 0;
+            display: block;
+            font-size: 16px;
+            color: #888;
+            font-weight: 300;
+        }
+
+        /* Content Section */
+
+        section#content {
+            margin: 24px 0;
+            font-size: 17px;
+        }
+
+        #content code {
+            padding: 3px;
+            /*border: 1px solid #ddd;*/
+            margin: 0 3px;
+            background: #444;
+            color: white;
+        }
+
+        #content pre code {
+            border: none;
+            background: none;
+            color: #444;
+            font-size: 17px;
+        }
+
+        #content h1,
+        #content h2,
+        #content h3,
+        #content h4,
+        #content h5,
+        #content h6 {
+            color: #337ab7;
+        }
+
+        /* Footer Section */
+        footer #links {
+            border-top: 1px solid #ddd;
+            border-bottom: none;
+            padding: 30px 0;
+        }
+
+        footer #links .prev {
+            text-align: left;
+        }
+
+        footer #links .parent {
+            text-align: center;
+        }
+
+        footer #links .next {
+            text-align: right;
+        }
+
+        footer #links label {
+            display: block;
+            color: #ddd;
+            font-weight: 300;
+        }
+
+        footer #copyright {
+            padding: 50px;
+            background: #222;
+            text-align: center;
+            color: #444;
+        }
+
+        footer #copyright span a {
+            color: white;
+        }
+    </style>
+
+</head>
+    <body>
+
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="prev col-md-3">
+                                <label for="">Prev</label>
+                <a href="/quick-Start.html">Quick Start</a>            </div>
+            <div class="current col-md-6">
+                <h3 class="title">
+                    4. Examples                </h3>
+                <small class="parent">My Book</small>
+            </div>
+            <div class="next col-md-3">
+                                <label for="">Next</label>
+                <a href="/tutorial.html">Tutorial (TBD)</a>            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</header>
+
+<section id="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                
+            
+<h1 id="4">4. Examples</h1>
+<p>This files contains examples for each interface. The factory class uses the <code>ConfigurationTrait</code> to retrieve options
+from a configuration and optional to perform a mandatory option check or merge default options.</p>
+<p>Let's assume we have the following module configuration:</p>
+<pre><code class="language-php">// interop config example
+return [
+    // vendor name
+    'doctrine' =&gt; [
+        // package name
+        'connection' =&gt; [
+            // container id
+            'orm_default' =&gt; [
+                // mandatory params
+                'driverClass' =&gt; 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+                'params' =&gt; [
+                    'host'     =&gt; 'localhost',
+                    'port'     =&gt; '3306',
+                    'user'     =&gt; 'username',
+                    'password' =&gt; 'password',
+                    'dbname'   =&gt; 'database',
+                ],
+            ],
+        ],
+    ],
+];
+</code></pre>
+<blockquote>
+<p>Note that the configuration above is injected as <code>$config</code> in <code>options()</code></p>
+</blockquote>
+<h2 id="4.1">4.1. Retrieving options</h2>
+<p>Then you have easily access to the <code>orm_default</code> options in your method with this trait.</p>
+<pre><code class="language-php">use Interop\Config\ConfigurationTrait;
+use Interop\Config\RequiresContainerId;
+
+class MyDBALConnectionFactory implements RequiresContainerId
+{
+    use ConfigurableFactoryTrait;
+    
+    public function __invoke(ContainerInterface $container)
+    {
+        // get options for doctrine.connection.orm_default
+        $options = $this-&gt;options($container-&gt;get('config'));
+        
+        // check if mandatory options are available or use \Interop\Config\RequiresMandatoryOptions, see below 
+        if (empty($options['driverClass'])) {
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Driver class was not set for configuration %s.%s.%s',
+                    'doctrine', 
+                    'connection', 
+                    'orm_default'
+                )
+            );
+        }
+
+        if (empty($options['params'])) {
+            throw new Exception\RuntimeException(
+                sprintf(
+                    'Params was not set for configuration %s.%s.%s',
+                    'doctrine', 
+                    'connection', 
+                    'orm_default'
+                )
+            );
+        }
+
+        $driverClass = $options['driverClass'];
+        $params = $options['params'];
+
+        // create your instance and set options
+
+        return $instance;
+    }
+    
+    public function vendorName()
+    {
+        return 'doctrine';
+    }
+
+    public function packageName()
+    {
+        return 'connection';
+    }
+
+    public function containerId()
+    {
+        return 'orm_default';
+    }
+}
+</code></pre>
+<h2 id="4.2">4.2. Mandatory options check</h2>
+<p>You can also check for mandatory options automatically with <code>MandatoryOptionsInterface</code>. Now we want also check that
+option <code>driverClass</code> and <code>params</code> are available. So we also implement in the example above the interface
+<code>RequiresMandatoryOptions</code>. If one of these options is missing, an exception is raised.</p>
+<pre><code class="language-php">use Interop\Config\ConfigurationTrait;
+use Interop\Config\RequiresMandatoryOptions;
+use Interop\Config\RequiresContainerId;
+
+class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryOptions
+{
+    use ConfigurationTrait;
+    
+    public function __invoke(ContainerInterface $container)
+    {
+        // get options for doctrine.connection.orm_default
+        $options = $this-&gt;options($container-&gt;get('config'));
+
+        // mandatory options check is automatically done by RequiresMandatoryOptions
+
+        $driverClass = $options['driverClass'];
+        $params = $options['params'];
+
+        // create your instance and set options
+
+        return $instance;
+    }
+
+    /**
+     * Returns a list of mandatory options which must be available
+     *
+     * @return string[] List with mandatory options
+     */
+    public function mandatoryOptions()
+    {
+        return [
+            'driverClass',
+            'params',
+        ];
+    }
+    
+    public function vendorName()
+    {
+        return 'doctrine';
+    }
+
+    public function packageName()
+    {
+        return 'connection';
+    }
+
+    public function containerId()
+    {
+        return 'orm_default';
+    }
+}
+</code></pre>
+<h2 id="4.3">4.3. Default options</h2>
+<p>Use the <code>RequiresDefaultOptions</code> interface if you have default options. These options are merged with the provided options in
+<code>\Interop\Config\RequiresConfig::options()</code>. Let's look at this example from
+<a href="https://github.com/doctrine/DoctrineORMModule/blob/master/docs/configuration.md#how-to-use-two-connections">DoctrineORMModule</a>.
+All the options under the key <em>orm_crawler</em> are optional, but it's not visible in the factory.</p>
+<pre><code class="language-php">return [
+    'doctrine' =&gt; [
+        'configuration' =&gt; [
+            'orm_crawler' =&gt; [
+                'metadata_cache'    =&gt; 'array',
+                'query_cache'       =&gt; 'array',
+                'result_cache'      =&gt; 'array',
+                'hydration_cache'   =&gt; 'array',
+            ],
+        ],
+    ],
+];
+</code></pre>
+<pre><code class="language-php">class ConfigurationFactory implements RequiresContainerId, RequiresDefaultOptions
+{
+    use ConfigurationTrait;
+    
+    public function __invoke(ContainerInterface $container)
+    {
+        // get options for doctrine.configuration.orm_crawler
+        $options = $this-&gt;options($container-&gt;get('config'));
+
+        # these keys are always available now 
+        $options['metadata_cache'];
+        $options['query_cache'];
+        $options['result_cache'];
+        $options['hydration_cache'];
+
+        // create your instance and set options
+
+        return $instance;
+    }
+    
+    /**
+     * Returns a list of default options, which are merged in \Interop\Config\RequiresConfig::options
+     *
+     * @return string[] List with default options and values
+     */
+    public function defaultOptions()
+    {
+        return [
+            'metadata_cache' =&gt; 'array',
+            'query_cache' =&gt; 'array',
+            'result_cache' =&gt; 'array',
+            'hydration_cache' =&gt; 'array',
+        ];
+    }
+    
+    public function vendorName()
+    {
+        return 'doctrine';
+    }
+
+    public function packageName()
+    {
+        return 'configuration';
+    }
+
+    public function containerId()
+    {
+        return 'orm_crawler';
+    }
+}
+</code></pre>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <section id="links">
+        <div class="container">
+            <div class="row">
+                <div class="prev col-md-3">
+                                        <label for="">Prev</label>
+                    <a href="/quick-Start.html">3. Quick Start</a>                </div>
+                <div class="parent col-md-6">
+                                        <label for="">Up</label>
+                    <a href="/">interop-config: Create instances depending on configuration</a>                </div>
+                <div class="next col-md-3">
+                                        <label for="">Next</label>
+                    <a href="/tutorial.html">5. Tutorial (TBD)</a>                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </section>
+    <section id="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    
+                    <span>
+                        Powered by <a href="">Bookdown.io</a>, <a href="bootswatch.com">bootswatch.com</a> | Designed by <a href="">yuripertamax</a>
+                    </span>
+     
+                </div>
+            </div>
+        </div>
+    </section>
+</footer>
+</body>
+</html>
