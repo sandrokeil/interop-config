@@ -6,7 +6,6 @@ This file describes the classes of this package. All the interfaces can be combi
 * HasContainerId Interface
 * HasMandatoryOptions Interface
 * HasDefaultOptions Interface
-* HasOptionalOptions Interface
 * ObtainsOptions Interface
 * ConfigurationTrait
 
@@ -47,16 +46,6 @@ The `HasMandatoryOptions` interface exposes one method: `mandatoryOptions`
 ```
 The `mandatoryOptions` method has no parameters and MUST return an array of strings which represents the list of mandatory 
 options. This array can have a multiple depth.
-
-## HasOptionalOptions Interface
-The `OptionalOptions` interface exposes one method: `optionalOptions`
-
-### optionalOptions()
-```php
-    public function optionalOptions() : []
-```
-The `optionalOptions` has no parameters and MUST return an array of strings which represents the list of optional options. 
-This array can have a multiple depth.
 
 ## HasDefaultOptions Interface
 The `DefaultOptions` interface exposes one method: `defaultOptions`
