@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <head>
     <title>Interop Configuration</title>
+    <base href="http://sandrokeil.github.io/interop-config/">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/darkly/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
@@ -157,7 +158,7 @@
         <div class="row">
             <div class="prev col-md-3">
                                 <label for="">Prev</label>
-                <a href="/">interop-config: Create instances depending on configuration</a>            </div>
+                <a href="">interop-config: Create instances depending on configuration</a>            </div>
             <div class="current col-md-6">
                 <h3 class="title">
                     1. Interop Configuration                </h3>
@@ -165,7 +166,7 @@
             </div>
             <div class="next col-md-3">
                                 <label for="">Next</label>
-                <a href="/overview.html">interop-config: Overview</a>            </div>
+                <a href="overview.html">interop-config: Overview</a>            </div>
             <div class="clearfix"></div>
         </div>
     </div>
@@ -175,8 +176,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                
-            
+
+
 <h1 id="1">1. Interop Configuration</h1>
 <blockquote>
 <p>You want to configure your factories?</p>
@@ -258,7 +259,7 @@ use Interop\Container\ContainerInterface;
 class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
-    
+
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
@@ -347,13 +348,13 @@ $ php -S 0.0.0.0:8080 -t doc/html/
             <div class="row">
                 <div class="prev col-md-3">
                                         <label for="">Prev</label>
-                    <a href="/">interop-config: Create instances depending on configuration</a>                </div>
+                    <a href="">interop-config: Create instances depending on configuration</a>                </div>
                 <div class="parent col-md-6">
                                         <label for="">Up</label>
-                    <a href="/">interop-config: Create instances depending on configuration</a>                </div>
+                    <a href="">interop-config: Create instances depending on configuration</a>                </div>
                 <div class="next col-md-3">
                                         <label for="">Next</label>
-                    <a href="/overview.html">2. interop-config: Overview</a>                </div>
+                    <a href="overview.html">2. interop-config: Overview</a>                </div>
                 <div class="clearfix"></div>
             </div>
         </div>
@@ -362,11 +363,11 @@ $ php -S 0.0.0.0:8080 -t doc/html/
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    
+
                     <span>
                         Powered by <a href="">Bookdown.io</a>, <a href="bootswatch.com">bootswatch.com</a> | Designed by <a href="">yuripertamax</a>
                     </span>
-     
+
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <head>
     <title>Examples</title>
+    <base href="http://sandrokeil.github.io/interop-config/">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/darkly/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
@@ -157,7 +158,7 @@
         <div class="row">
             <div class="prev col-md-3">
                                 <label for="">Prev</label>
-                <a href="/quick-Start.html">Quick Start</a>            </div>
+                <a href="quick-Start.html">Quick Start</a>            </div>
             <div class="current col-md-6">
                 <h3 class="title">
                     4. Examples                </h3>
@@ -165,7 +166,7 @@
             </div>
             <div class="next col-md-3">
                                 <label for="">Next</label>
-                <a href="/tutorial.html">Tutorial (TBD)</a>            </div>
+                <a href="tutorial.html">Tutorial (TBD)</a>            </div>
             <div class="clearfix"></div>
         </div>
     </div>
@@ -175,8 +176,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                
-            
+
+
 <h1 id="4">4. Examples</h1>
 <p>This files contains examples for each interface. The factory class uses the <code>ConfigurationTrait</code> to retrieve options
 from a configuration and optional to perform a mandatory option check or merge default options.</p>
@@ -214,19 +215,19 @@ use Interop\Config\RequiresContainerId;
 class MyDBALConnectionFactory implements RequiresContainerId
 {
     use ConfigurableFactoryTrait;
-    
+
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
         $options = $this-&gt;options($container-&gt;get('config'));
-        
-        // check if mandatory options are available or use \Interop\Config\RequiresMandatoryOptions, see below 
+
+        // check if mandatory options are available or use \Interop\Config\RequiresMandatoryOptions, see below
         if (empty($options['driverClass'])) {
             throw new Exception\RuntimeException(
                 sprintf(
                     'Driver class was not set for configuration %s.%s.%s',
-                    'doctrine', 
-                    'connection', 
+                    'doctrine',
+                    'connection',
                     'orm_default'
                 )
             );
@@ -236,8 +237,8 @@ class MyDBALConnectionFactory implements RequiresContainerId
             throw new Exception\RuntimeException(
                 sprintf(
                     'Params was not set for configuration %s.%s.%s',
-                    'doctrine', 
-                    'connection', 
+                    'doctrine',
+                    'connection',
                     'orm_default'
                 )
             );
@@ -250,7 +251,7 @@ class MyDBALConnectionFactory implements RequiresContainerId
 
         return $instance;
     }
-    
+
     public function vendorName()
     {
         return 'doctrine';
@@ -278,7 +279,7 @@ use Interop\Config\RequiresContainerId;
 class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
-    
+
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
@@ -306,7 +307,7 @@ class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryO
             'params',
         ];
     }
-    
+
     public function vendorName()
     {
         return 'doctrine';
@@ -344,13 +345,13 @@ All the options under the key <em>orm_crawler</em> are optional, but it's not vi
 <pre><code class="language-php">class ConfigurationFactory implements RequiresContainerId, RequiresDefaultOptions
 {
     use ConfigurationTrait;
-    
+
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.configuration.orm_crawler
         $options = $this-&gt;options($container-&gt;get('config'));
 
-        # these keys are always available now 
+        # these keys are always available now
         $options['metadata_cache'];
         $options['query_cache'];
         $options['result_cache'];
@@ -360,7 +361,7 @@ All the options under the key <em>orm_crawler</em> are optional, but it's not vi
 
         return $instance;
     }
-    
+
     /**
      * Returns a list of default options, which are merged in \Interop\Config\RequiresConfig::options
      *
@@ -375,7 +376,7 @@ All the options under the key <em>orm_crawler</em> are optional, but it's not vi
             'hydration_cache' =&gt; 'array',
         ];
     }
-    
+
     public function vendorName()
     {
         return 'doctrine';
@@ -404,13 +405,13 @@ All the options under the key <em>orm_crawler</em> are optional, but it's not vi
             <div class="row">
                 <div class="prev col-md-3">
                                         <label for="">Prev</label>
-                    <a href="/quick-Start.html">3. Quick Start</a>                </div>
+                    <a href="quick-Start.html">3. Quick Start</a>                </div>
                 <div class="parent col-md-6">
                                         <label for="">Up</label>
-                    <a href="/">interop-config: Create instances depending on configuration</a>                </div>
+                    <a href="">interop-config: Create instances depending on configuration</a>                </div>
                 <div class="next col-md-3">
                                         <label for="">Next</label>
-                    <a href="/tutorial.html">5. Tutorial (TBD)</a>                </div>
+                    <a href="tutorial.html">5. Tutorial (TBD)</a>                </div>
                 <div class="clearfix"></div>
             </div>
         </div>
@@ -419,11 +420,11 @@ All the options under the key <em>orm_crawler</em> are optional, but it's not vi
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    
+
                     <span>
                         Powered by <a href="">Bookdown.io</a>, <a href="bootswatch.com">bootswatch.com</a> | Designed by <a href="">yuripertamax</a>
                     </span>
-     
+
                 </div>
             </div>
         </div>
