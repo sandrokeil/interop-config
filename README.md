@@ -4,7 +4,7 @@
 
 > You want to reduce your factory boilerplate code?
 
-> You want to check automatically for mandatory params?
+> You want to check automatically for mandatory options?
 
 > You want to have an uniform config structure?
 
@@ -141,12 +141,12 @@ Put the following into your composer.json
 
     {
         "require": {
-            "sandrokeil/interop-config": "1.0.x-dev"
+            "sandrokeil/interop-config": "^0.3"
         }
     }
 
 ## Documentation
-For the latest online documentation you can visit [http://sandrokeil.github.io/interop-config/](http://sandrokeil.github.io/interop-config/).
+For the latest online documentation you can visit [http://sandrokeil.github.io/interop-config/](http://sandrokeil.github.io/interop-config/ "Latest interop-config documentation").
 
 Documentation is [in the doc tree](doc/), and can be compiled using [bookdown](http://bookdown.io) and [Docker](https://www.docker.com/)
 
@@ -163,3 +163,16 @@ $ php -S 0.0.0.0:8080 -t doc/html/
 ```
 
 Then browse to [http://localhost:8080/](http://localhost:8080/)
+
+## Benchmarks
+The benchmarks uses [PHPBench](https://github.com/phpbench/phpbench) and can be started by the following command:
+ 
+```console
+$ ./vendor/bin/phpbench run --report=aggregate
+```
+ 
+ or with Docker
+ 
+```console
+$ docker run --rm -it --volume $(pwd):/app sandrokeil/php:5.6-cli php ./vendor/bin/phpbench run --report=aggregate
+```

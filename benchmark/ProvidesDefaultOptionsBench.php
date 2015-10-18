@@ -9,33 +9,33 @@
 
 namespace InteropBench\Config;
 
-use InteropTest\Config\TestAsset\ConnectionMandatoryRecursiveContainerIdConfiguration;
+use InteropTest\Config\TestAsset\ConnectionDefaultOptionsConfiguration;
 
 /**
- * @beforeMethod classSetUp
+ * @BeforeMethods({"classSetUp"})
  */
-class HasMandatoryOptionsRecursiveContainerId
+class ProvidesDefaultOptions
 {
     private $config;
 
     /**
-     * @var ConnectionMandatoryRecursiveContainerIdConfiguration
+     * @var ConnectionDefaultOptionsConfiguration
      */
     private $factory;
 
     public function classSetUp()
     {
         $this->config = $this->getTestConfig();
-        $this->factory = new ConnectionMandatoryRecursiveContainerIdConfiguration();
+        $this->factory = new ConnectionDefaultOptionsConfiguration();
     }
 
     /**
      * Retrieve options
      *
-     * @revs 1000
-     * @iterations 10
+     * @Revs(10000)
+     * @Iterations(10)
      */
-    public function options()
+    public function benchOptions()
     {
         $this->factory->options($this->config);
     }

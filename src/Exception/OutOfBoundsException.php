@@ -12,7 +12,7 @@ namespace Interop\Config\Exception;
 use OutOfBoundsException as PhpOutOfBoundsException;
 
 /**
- * UnexpectedValueException exception
+ * OutOfBoundsException exception
  *
  * Use this exception if the code attempts to access an associative array, but performs a check for the key.
  */

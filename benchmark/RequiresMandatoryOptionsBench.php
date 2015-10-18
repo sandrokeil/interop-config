@@ -9,31 +9,31 @@
 
 namespace InteropBench\Config;
 
-use InteropTest\Config\TestAsset\ConnectionMandatoryContainerIdConfiguration;
+use InteropTest\Config\TestAsset\ConnectionMandatoryConfiguration;
 
 /**
- * @beforeMethod classSetUp
+ * @BeforeMethods({"classSetUp"})
  */
-class HasMandatoryOptionsContainerId
+class RequiresMandatoryOptions
 {
     private $config;
 
     /**
-     * @var ConnectionMandatoryContainerIdConfiguration
+     * @var ConnectionMandatoryConfiguration
      */
     private $factory;
 
     public function classSetUp()
     {
         $this->config = $this->getTestConfig();
-        $this->factory = new ConnectionMandatoryContainerIdConfiguration();
+        $this->factory = new ConnectionMandatoryConfiguration();
     }
 
     /**
      * Retrieve options
      *
-     * @revs 1000
-     * @iterations 10
+     * @Revs(10000)
+     * @Iterations(10)
      */
     public function benchOptions()
     {
