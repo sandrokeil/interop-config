@@ -31,14 +31,14 @@ return [
 
 > Note that the configuration above is injected as `$config` in `options()`
 
-## Array Options
+## Retrieving options
 Then you have easily access to the `orm_default` options in your method with this trait.
 
 ```php
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\HasContainerId;
+use Interop\Config\RequiresContainerId;
 
-class MyDBALConnectionFactory implements HasContainerId
+class MyDBALConnectionFactory implements RequiresContainerId
 {
     use ConfigurableFactoryTrait;
     
@@ -47,7 +47,7 @@ class MyDBALConnectionFactory implements HasContainerId
         // get options for doctrine.connection.orm_default
         $options = $this->options($container->get('config'));
         
-        // check if mandatory options are available or use \Interop\Config\HasMandatoryOptions, see below 
+        // check if mandatory options are available or use \Interop\Config\RequiresMandatoryOptions, see below 
         if (empty($options['driverClass'])) {
             throw new Exception\RuntimeException(
                 sprintf(
@@ -95,17 +95,17 @@ class MyDBALConnectionFactory implements HasContainerId
 }
 ```
 
-## Mandatory Options check
+## Mandatory options check
 You can also check for mandatory options automatically with `MandatoryOptionsInterface`. Now we want also check that
 option `driverClass` and `params` are available. So we also implement in the example above the interface
-`HasMandatoryOptions`. If one of these options is missing, an exception is raised.
+`RequiresMandatoryOptions`. If one of these options is missing, an exception is raised.
 
 ```php
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\HasMandatoryOptions;
-use Interop\Config\HasContainerId;
+use Interop\Config\RequiresMandatoryOptions;
+use Interop\Config\RequiresContainerId;
 
-class MyDBALConnectionFactory implements HasContainerId, HasMandatoryOptions
+class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
     
@@ -114,7 +114,7 @@ class MyDBALConnectionFactory implements HasContainerId, HasMandatoryOptions
         // get options for doctrine.connection.orm_default
         $options = $this->options($container->get('config'));
 
-        // mandatory options check is automatically done by HasMandatoryOptions
+        // mandatory options check is automatically done by RequiresMandatoryOptions
 
         $driverClass = $options['driverClass'];
         $params = $options['params'];
@@ -154,12 +154,11 @@ class MyDBALConnectionFactory implements HasContainerId, HasMandatoryOptions
 }
 ```
 
-## Optional options
-The `HasOptionalOptions` interface can be used to tell the auto discovery service which options are optional. This can
-be useful for creating a configuration file. Let's look at this example from 
+## Default options
+Use the `RequiresDefaultOptions` interface if you have default options. These options are merged with the provided options in
+`\Interop\Config\RequiresConfig::options()`. Let's look at this example from 
 [DoctrineORMModule](https://github.com/doctrine/DoctrineORMModule/blob/master/docs/configuration.md#how-to-use-two-connections). 
 All the options under the key *orm_crawler* are optional, but it's not visible in the factory.
-
 
 ```php
 return [
@@ -177,63 +176,7 @@ return [
 ```
 
 ```php
-class ConfigurationFactory implements HasContainerId, HasOptionalOptions
-{
-    use ConfigurationTrait;
-    
-    public function __invoke(ContainerInterface $container)
-    {
-        // get options for doctrine.connection.orm_default
-        $options = $this->options($container->get('config'));
-
-        // create your instance and set options
-
-        # check if options was provided 
-        if (isset($options['metadata_cache']) {
-          // configure the instance
-        }
-
-        return $instance;
-    }
-
-    /**
-     * Returns a list of optional options
-     *
-     * @return string[] List with optional options
-     */
-    public function optionalOptions()
-    {
-        return [
-            'metadata_cache',
-            'query_cache',
-            'result_cache',
-            'hydration_cache',
-        ];
-    }
-    
-    public function vendorName()
-    {
-        return 'doctrine';
-    }
-
-    public function packageName()
-    {
-        return 'configuration';
-    }
-
-    public function containerId()
-    {
-        return 'orm_crawler';
-    }
-}
-```
-
-## Default options
-Use the `HasDefaultOptions` interface if you have default options. These options are merged with the provided options in
-`\Interop\Config\ObtainsOptions::options()`. The configuration above has default options.
-
-```php
-class ConfigurationFactory implements HasContainerId, HasOptionalOptions, HasDefaultOptions
+class ConfigurationFactory implements RequiresContainerId, RequiresDefaultOptions
 {
     use ConfigurationTrait;
     
@@ -254,7 +197,7 @@ class ConfigurationFactory implements HasContainerId, HasOptionalOptions, HasDef
     }
     
     /**
-     * Returns a list of default options, which are merged in \Interop\Config\ObtainsOptions::options
+     * Returns a list of default options, which are merged in \Interop\Config\RequiresConfig::options
      *
      * @return string[] List with default options and values
      */
@@ -265,21 +208,6 @@ class ConfigurationFactory implements HasContainerId, HasOptionalOptions, HasDef
             'query_cache' => 'array',
             'result_cache' => 'array',
             'hydration_cache' => 'array',
-        ];
-    }
-    
-    /**
-     * Returns a list of optional options
-     *
-     * @return string[] List with optional options
-     */
-    public function optionalOptions()
-    {
-        return [
-            'metadata_cache',
-            'query_cache',
-            'result_cache',
-            'hydration_cache',
         ];
     }
     

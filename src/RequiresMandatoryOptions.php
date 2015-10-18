@@ -10,17 +10,16 @@
 namespace Interop\Config;
 
 /**
- * HasOptionalOptions Interface
+ * HasMandatoryOptions Interface
  *
- * Use this interface if you have optional options. This can be used to auto discover the options for a configuration
- * file.
+ * Use this interface if you have mandatory options
  */
-interface HasOptionalOptions
+interface RequiresMandatoryOptions
 {
     /**
-     * Returns a list of optional options
+     * Returns a list of mandatory options which must be available
      *
-     * @return string[] List with optional options
+     * @return string[] List with mandatory options
      */
-    public function optionalOptions();
+    public function mandatoryOptions();
 }

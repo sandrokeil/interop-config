@@ -10,16 +10,14 @@
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\HasContainerId;
-use Interop\Config\HasDefaultOptions;
-use Interop\Config\HasMandatoryOptions;
-use Interop\Config\ObtainsOptions;
+use Interop\Config\RequiresContainerId;
+use Interop\Config\ProvidesDefaultOptions;
+use Interop\Config\RequiresMandatoryOptions;
 
 class ConnectionDefaultOptionsConfiguration implements
-    ObtainsOptions,
-    HasContainerId,
-    HasMandatoryOptions,
-    HasDefaultOptions
+    RequiresContainerId,
+    RequiresMandatoryOptions,
+    ProvidesDefaultOptions
 {
     use ConfigurationTrait;
 

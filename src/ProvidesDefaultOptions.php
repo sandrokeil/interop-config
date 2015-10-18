@@ -10,15 +10,15 @@
 namespace Interop\Config;
 
 /**
- * HasDefaultOptions Interface
+ * ProvidesDefaultOptions Interface
  *
  * Use this interface if you have default options. These options are merged with the provided options in
- * \Interop\Config\ObtainsOptions::options
+ * \Interop\Config\RequiresConfig::options
  */
-interface HasDefaultOptions
+interface ProvidesDefaultOptions
 {
     /**
-     * Returns a list of default options, which are merged in \Interop\Config\ObtainsOptions::options
+     * Returns a list of default options, which are merged in \Interop\Config\RequiresConfig::options
      *
      * @return string[] List with default options and values
      */

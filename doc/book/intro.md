@@ -5,7 +5,7 @@ factory classes and ensures a uniform config structure. It can also be used to a
 configuration files.
 
 * Configure a vendor package
-* Configure a concrete container
+* Configure a specific container id
 * Check for mandatory options
+* Check if options can be retrieved from configuration
 * Merging of default options
-* Discovering of optional options

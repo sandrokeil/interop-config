@@ -8,5 +8,6 @@
     {"tutorial": "book/tutorial.md"},
     {"api": "book/api.md"}
   ],
-  "target": "./html"
+  "target": "./html",
+  "template": "../vendor/tobiju/bookdown-bootswatch-templates/templates/darkly/main.php"
 }

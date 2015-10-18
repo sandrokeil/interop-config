@@ -14,6 +14,6 @@ namespace Interop\Config\Exception;
  *
  * Use this exception if a mandatory option was not found in the config
  */
-class MandatoryOptionNotFoundException extends RuntimeException
+class MandatoryOptionNotFoundException extends OutOfBoundsException
 {
 }

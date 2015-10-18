@@ -9,11 +9,13 @@
 
 namespace Interop\Config\Exception;
 
+use OutOfBoundsException as PhpOutOfBoundsException;
+
 /**
- * Option not found exception
+ * OutOfBoundsException exception
  *
- * Use this exception if an option was not found in the config
+ * Use this exception if the code attempts to access an associative array, but performs a check for the key.
  */
-class OptionNotFoundException extends OutOfBoundsException
+class OutOfBoundsException extends PhpOutOfBoundsException implements ExceptionInterface
 {
 }

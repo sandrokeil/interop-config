@@ -2,7 +2,9 @@
 
 > You want to configure your factories?
 
-> You want to check automatically for mandatory params?
+> You want to reduce your factory boilerplate code?
+
+> You want to check automatically for mandatory options?
 
 > You want to have an uniform config structure?
 
@@ -24,7 +26,7 @@ and to create configuration files.
 
 > Please join the discussion about the [PSR config proposal](https://github.com/php-fig/fig-standards/pull/620).
 
- * **Well tested.** Besides unit test and continuous integration/inspection this solution is also ~~ready for production use~~.
+ * **Well tested.** Besides unit test and continuous integration/inspection this solution is also ready for production use.
  * **Framework agnostic** This PHP library does not depends on any framework but you can use it with your favourite framework.
  * **Every change is tracked**. Want to know whats new? Take a look at [CHANGELOG.md](https://github.com/sandrokeil/interop-config/blob/master/CHANGELOG.md)
  * **Listen to your ideas.** Have a great idea? Bring your tested pull request or open a new issue. See [CONTRIBUTING.md](CONTRIBUTING.md)
@@ -65,11 +67,11 @@ the logic to retrieve the options from a configuration. See documentation for mo
 
 ```php
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\HasMandatoryOptions;
-use Interop\Config\HasContainerId;
+use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresMandatoryOptions;
 use Interop\Container\ContainerInterface;
 
-class MyDBALConnectionFactory implements HasMandatoryOptions, HasContainerId
+class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
     
@@ -78,7 +80,7 @@ class MyDBALConnectionFactory implements HasMandatoryOptions, HasContainerId
         // get options for doctrine.connection.orm_default
         $options = $this->options($container->get('config'));
 
-        // mandatory options check is automatically done by MandatoryOptionsInterface
+        // mandatory options check is automatically done by RequiresMandatoryOptions
 
         $driverClass = $options['driverClass'];
         $params = $options['params'];
@@ -125,7 +127,7 @@ class MyDBALConnectionFactory implements HasMandatoryOptions, HasContainerId
      */
     public function mandatoryOptions()
     {
-        return ['driverClass', 'params'];
+        return ['params' => ['user', 'password', 'dbname']];
     }
 }
 ```
@@ -139,22 +141,38 @@ Put the following into your composer.json
 
     {
         "require": {
-            "sandrokeil/interop-config": "1.0.x-dev"
+            "sandrokeil/interop-config": "^0.3"
         }
     }
 
 ## Documentation
+For the latest online documentation you can visit [http://sandrokeil.github.io/interop-config/](http://sandrokeil.github.io/interop-config/ "Latest interop-config documentation").
 
 Documentation is [in the doc tree](doc/), and can be compiled using [bookdown](http://bookdown.io) and [Docker](https://www.docker.com/)
 
 ```console
-$ docker run -i -t=false --rm -v $(pwd):/app sandrokeil/bookdown doc/bookdown.json
-$ docker run -i -t=false --rm -p 8080:8080 -v $(pwd):/app php:5.6-cli php -S 0.0.0.0:8080 -t /app/doc/html
+$ docker run -it --rm -v $(pwd):/app sandrokeil/bookdown doc/bookdown.json
+$ docker run -it --rm -p 8080:8080 -v $(pwd):/app php:5.6-cli php -S 0.0.0.0:8080 -t /app/doc/html
 ```
 
 or make sure bookdown is installed globally via composer and `$HOME/.composer/vendor/bin` is on your `$PATH`.
 
 ```console
 $ bookdown doc/bookdown.json
-$ php -S 0.0.0.0:8080 -t doc/html/ # then browse to http://localhost:8080/
+$ php -S 0.0.0.0:8080 -t doc/html/
+```
+
+Then browse to [http://localhost:8080/](http://localhost:8080/)
+
+## Benchmarks
+The benchmarks uses [PHPBench](https://github.com/phpbench/phpbench) and can be started by the following command:
+ 
+```console
+$ ./vendor/bin/phpbench run --report=aggregate
+```
+ 
+ or with Docker
+ 
+```console
+$ docker run --rm -it --volume $(pwd):/app sandrokeil/php:5.6-cli php ./vendor/bin/phpbench run --report=aggregate
 ```
