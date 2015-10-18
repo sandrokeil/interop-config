@@ -151,8 +151,8 @@ For the latest online documentation you can visit [http://sandrokeil.github.io/i
 Documentation is [in the doc tree](doc/), and can be compiled using [bookdown](http://bookdown.io) and [Docker](https://www.docker.com/)
 
 ```console
-$ docker run -i -t=false --rm -v $(pwd):/app sandrokeil/bookdown doc/bookdown.json
-$ docker run -i -t=false --rm -p 8080:8080 -v $(pwd):/app php:5.6-cli php -S 0.0.0.0:8080 -t /app/doc/html
+$ docker run -it --rm -v $(pwd):/app sandrokeil/bookdown doc/bookdown.json
+$ docker run -it --rm -p 8080:8080 -v $(pwd):/app php:5.6-cli php -S 0.0.0.0:8080 -t /app/doc/html
 ```
 
 or make sure bookdown is installed globally via composer and `$HOME/.composer/vendor/bin` is on your `$PATH`.
