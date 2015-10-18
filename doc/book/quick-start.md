@@ -173,7 +173,7 @@ The `ConfigurationTrait` does the job to check and retrieve options depending on
 if I have mandatory options?* See `RequiresMandatoryOptions` interface.
 
 ## `RequiresMandatoryOptions` interface
-The `ObtainsOptions` interface specification says that it MUST support mandatory options check. Let's say that we need
+The `RequiresMandatoryOptions` interface specification says that it MUST support mandatory options check. Let's say that we need
 params for a db connection. Our config *should* looks like that:
 
 ```php
@@ -198,7 +198,7 @@ return [
 
 Remember our factory sentence. *My factory requires a configuration and requires a container id along with mandatory options.*.
 The `ConfigurationTrait` ensures that these options are available, otherwise an exception is thrown. This is great, because
-the developer becomes an exact exception message with what is wrong. This is useful for developers who use your factory the first time.
+the developer gets an exact exception message with what is wrong. This is useful for developers who use your factory the first time.
 
 ```php
 use Interop\Config\RequiresContainerId;
@@ -244,13 +244,13 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions
 
 *Hey, the database port and host is missing.* That's right, but the default value of the port is *3306* and the host is 
 *localhost*. It makes no sense to set it in the configuration. *So I make the database port/host not configurable?* No, you 
-use the `RequiresDefaultOptions` interface.
+use the `ProvidesDefaultOptions` interface.
  
-## `RequiresDefaultOptions` interface
-The `RequiresDefaultOptions` interface defines default options for your instance. These options are merged with the provided 
+## `ProvidesDefaultOptions` interface
+The `ProvidesDefaultOptions` interface defines default options for your instance. These options are merged with the provided 
 options. 
 
-Remember: *My factory requires configuration, requires a container id along with mandatory options and default options.*
+Remember: *My factory requires configuration, requires a container id along with mandatory options and it provides default options.*
 
 ```php
 use Interop\Config\RequiresContainerId;
@@ -323,7 +323,7 @@ use Interop\Config\RequiresDefaultOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, RequiresDefaultOptions
+class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
     
@@ -349,7 +349,7 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions,
 }
 ```
 
-*Nice, is there a one-liners?* Of course. You can use the `optionsWithFallback()` method. This function is not a part
+*Nice, is there a one-liner?* Of course. You can use the `optionsWithFallback()` method. This function is not a part
 of the specification but is implemented in `ConfigurationTrait` to reduce some boilerplate code.
 
 ```php
@@ -359,7 +359,7 @@ use Interop\Config\RequiresDefaultOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, RequiresDefaultOptions
+class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
     
