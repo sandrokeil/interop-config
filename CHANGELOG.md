@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.3.1 (2015-10-21)
+
+### Added
+
+* Nothing
+
+### Deprecated
+
+* Nothing
+
+### Removed
+
+* Nothing
+
+### Fixed
+
+* Fixed *Illegal offset type in isset or empty* if options are empty and recursive mandatory options are used
+
 ## 0.3.0 (2015-10-18)
 
 ### Added

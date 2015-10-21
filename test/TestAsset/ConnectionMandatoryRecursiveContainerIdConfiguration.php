@@ -36,6 +36,6 @@ class ConnectionMandatoryRecursiveContainerIdConfiguration implements
 
     public function mandatoryOptions()
     {
-        return ['driverClass', 'params' => ['user', 'dbname']];
+        return ['params' => ['user', 'dbname'], 'driverClass'];
     }
 }
