@@ -355,6 +355,25 @@ class ConfigurationTraitTest extends TestCase
     }
 
     /**
+     * Tests if options() throws a runtime exception if a recursive mandatory option is missing
+     *
+     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     */
+    public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfOptionsAreEmpty()
+    {
+        $stub = new ConnectionMandatoryRecursiveContainerIdConfiguration();
+
+        $config = ['doctrine' => ['connection' => ['orm_default' => []]]];
+
+        $this->setExpectedException(
+            'Interop\Config\Exception\MandatoryOptionNotFoundException',
+            'Mandatory option "params"'
+        );
+
+        $stub->options($config);
+    }
+
+    /**
      * Returns test config
      *
      * @return array

@@ -149,12 +149,13 @@ trait ConfigurationTrait
     private function checkMandatoryOptions($mandatoryOptions, $options)
     {
         foreach ($mandatoryOptions as $key => $mandatoryOption) {
-            # if a string key exists it indicates a recursive check
-            if (isset($options[$key])) {
+            $useRecursion = !is_scalar($mandatoryOption);
+
+            if ($useRecursion && isset($options[$key])) {
                 $this->checkMandatoryOptions($mandatoryOption, $options[$key]);
                 return;
             }
-            if (isset($options[$mandatoryOption])) {
+            if (!$useRecursion && isset($options[$mandatoryOption])) {
                 continue;
             }
             $id = null;
@@ -165,7 +166,7 @@ trait ConfigurationTrait
 
             throw new Exception\MandatoryOptionNotFoundException(sprintf(
                 'Mandatory option "%s" was not set for configuration "' . "['%s']['%s']%s",
-                $mandatoryOption,
+                $useRecursion ? $key : $mandatoryOption,
                 $this->vendorName(),
                 $this->packageName(),
                 $id ? '["' . $id . '""]' : ''
