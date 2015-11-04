@@ -2,10 +2,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>interop-config: Create instances depending on configuration</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
-    <link rel="stylesheet" href="http://tobiju.github.io/share/prismjs/prism.css" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
+    <link rel="stylesheet" href="http://tobiju.github.io/share/prismjs/prism.css"/>
     <script src="http://tobiju.github.io/share/prismjs/main.js"></script>
     <script src="http://tobiju.github.io/share/prismjs/prism.js"></script>
 
@@ -89,30 +90,6 @@
             font-size: 17px;
         }
 
-        #content code {
-            padding: 3px;
-            /*border: 1px solid #ddd;*/
-            margin: 0 3px;
-            background: #444;
-            color: white;
-        }
-
-        #content pre code {
-            border: none;
-            background: none;
-            color: #444;
-            font-size: 17px;
-        }
-
-        #content h1,
-        #content h2,
-        #content h3,
-        #content h4,
-        #content h5,
-        #content h6 {
-            color: #337ab7;
-        }
-
         /* Footer Section */
         footer #links {
             border-top: 1px solid #ddd;
@@ -139,10 +116,14 @@
         }
 
         footer #copyright {
-            padding: 50px;
-            background: #222;
+            padding: 30px;
+            background: #fff;
             text-align: center;
             color: #444;
+        }
+
+        footer #copyright p {
+            margin: 0;
         }
 
         footer #copyright span a {
@@ -164,8 +145,8 @@
                 <small class="parent">My Book</small>
             </div>
             <div class="next col-md-3">
-                                <label for="">Next</label>
-                <a href="http://sandrokeil.github.io/interop-config/intro.html">Interop Configuration</a>            </div>
+                                    <p>Next</p>
+                    <a href="http://sandrokeil.github.io/interop-config/intro.html">Interop Configuration</a>                            </div>
             <div class="clearfix"></div>
         </div>
     </div>
@@ -179,69 +160,16 @@
             
 
 <h1>interop-config: Create instances depending on configuration</h1>
-<dl>
-<dt>1. <a href="http://sandrokeil.github.io/interop-config/intro.html#1">Interop Configuration</a></dt>
-<dd><dl>
-<dt>1.1. <a href="http://sandrokeil.github.io/interop-config/intro.html#1.1">Installation</a></dt>
-<dt>1.2. <a href="http://sandrokeil.github.io/interop-config/intro.html#1.2">Documentation</a></dt>
-<dt>1.3. <a href="http://sandrokeil.github.io/interop-config/intro.html#1.3">Benchmarks</a></dt>
-</dl></dd>
-<dt>2. <a href="http://sandrokeil.github.io/interop-config/overview.html#2">interop-config: Overview</a></dt>
-<dt>3. <a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3">Quick Start</a></dt>
-<dd><dl>
-<dt>3.1. <a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.1"><code>RequiresConfig</code> interface</a></dt>
-<dt>3.2. <a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.2"><code>RequiresContainerId</code> interface</a></dt>
-<dt>3.3. <a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.3"><code>ConfigurationTrait</code></a></dt>
-<dt>3.4. <a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.4">Create an instance</a></dt>
-<dt>3.5. <a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.5"><code>RequiresMandatoryOptions</code> interface</a></dt>
-<dt>3.6. <a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.6"><code>ProvidesDefaultOptions</code> interface</a></dt>
-<dt>3.7. <a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.7">Avoid exceptions</a></dt>
-</dl></dd>
-<dt>4. <a href="http://sandrokeil.github.io/interop-config/examples.html#4">Examples</a></dt>
-<dd><dl>
-<dt>4.1. <a href="http://sandrokeil.github.io/interop-config/examples.html#4.1">Retrieving options</a></dt>
-<dt>4.2. <a href="http://sandrokeil.github.io/interop-config/examples.html#4.2">Mandatory options check</a></dt>
-<dt>4.3. <a href="http://sandrokeil.github.io/interop-config/examples.html#4.3">Default options</a></dt>
-</dl></dd>
-<dt>5. <a href="http://sandrokeil.github.io/interop-config/tutorial.html#5">Tutorial (TBD)</a></dt>
-<dt>6. <a href="http://sandrokeil.github.io/interop-config/api.html#6">interop-config API</a></dt>
-<dd><dl>
-<dt>6.1. <a href="http://sandrokeil.github.io/interop-config/api.html#6.1">RequiresConfig Interface</a></dt>
-<dd><dl>
-<dt>6.1.1. <a href="http://sandrokeil.github.io/interop-config/api.html#6.1.1">vendorName()</a></dt>
-<dt>6.1.2. <a href="http://sandrokeil.github.io/interop-config/api.html#6.1.2">packageName()</a></dt>
-<dt>6.1.3. <a href="http://sandrokeil.github.io/interop-config/api.html#6.1.3">canRetrieveOptions()</a></dt>
-<dt>6.1.4. <a href="http://sandrokeil.github.io/interop-config/api.html#6.1.4">options()</a></dt>
-<dd><dl>
-<dt>6.1.4.1. <a href="http://sandrokeil.github.io/interop-config/api.html#6.1.4.1">Exceptions</a></dt>
-</dl></dd>
-</dl></dd>
-<dt>6.2. <a href="http://sandrokeil.github.io/interop-config/api.html#6.2">RequiresContainerId Interface</a></dt>
-<dd><dl>
-<dt>6.2.1. <a href="http://sandrokeil.github.io/interop-config/api.html#6.2.1">containerId()</a></dt>
-</dl></dd>
-<dt>6.3. <a href="http://sandrokeil.github.io/interop-config/api.html#6.3">RequiresMandatoryOptions Interface</a></dt>
-<dd><dl>
-<dt>6.3.1. <a href="http://sandrokeil.github.io/interop-config/api.html#6.3.1">mandatoryOptions()</a></dt>
-</dl></dd>
-<dt>6.4. <a href="http://sandrokeil.github.io/interop-config/api.html#6.4">ProvidesDefaultOptions Interface</a></dt>
-<dd><dl>
-<dt>6.4.1. <a href="http://sandrokeil.github.io/interop-config/api.html#6.4.1">defaultOptions()</a></dt>
-</dl></dd>
-<dt>6.5. <a href="http://sandrokeil.github.io/interop-config/api.html#6.5">ConfigurationTrait</a></dt>
-<dd><dl>
-<dt>6.5.1. <a href="http://sandrokeil.github.io/interop-config/api.html#6.5.1">optionsWithFallback()</a></dt>
-</dl></dd>
-</dl></dd>
-</dl>
+<table class="table table-striped">
+    <tr><td>1</td><td><a href="http://sandrokeil.github.io/interop-config/intro.html#1">Interop Configuration</a></td></tr><tr><td>1.1</td><td><a href="http://sandrokeil.github.io/interop-config/intro.html#1.1">Installation</a></td></tr><tr><td>1.2</td><td><a href="http://sandrokeil.github.io/interop-config/intro.html#1.2">Documentation</a></td></tr><tr><td>1.3</td><td><a href="http://sandrokeil.github.io/interop-config/intro.html#1.3">Benchmarks</a></td></tr><tr><td>2</td><td><a href="http://sandrokeil.github.io/interop-config/overview.html#2">interop-config: Overview</a></td></tr><tr><td>3</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3">Quick Start</a></td></tr><tr><td>3.1</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.1"><code>RequiresConfig</code> interface</a></td></tr><tr><td>3.2</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.2"><code>RequiresContainerId</code> interface</a></td></tr><tr><td>3.3</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.3"><code>ConfigurationTrait</code></a></td></tr><tr><td>3.4</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.4">Create an instance</a></td></tr><tr><td>3.5</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.5"><code>RequiresMandatoryOptions</code> interface</a></td></tr><tr><td>3.6</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.6"><code>ProvidesDefaultOptions</code> interface</a></td></tr><tr><td>3.7</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.7">Avoid exceptions</a></td></tr><tr><td>4</td><td><a href="http://sandrokeil.github.io/interop-config/examples.html#4">Examples</a></td></tr><tr><td>4.1</td><td><a href="http://sandrokeil.github.io/interop-config/examples.html#4.1">Retrieving options</a></td></tr><tr><td>4.2</td><td><a href="http://sandrokeil.github.io/interop-config/examples.html#4.2">Mandatory options check</a></td></tr><tr><td>4.3</td><td><a href="http://sandrokeil.github.io/interop-config/examples.html#4.3">Default options</a></td></tr><tr><td>5</td><td><a href="http://sandrokeil.github.io/interop-config/tutorial.html#5">Tutorial (TBD)</a></td></tr><tr><td>6</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6">interop-config API</a></td></tr><tr><td>6.1</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.1">RequiresConfig Interface</a></td></tr><tr><td>6.1.1</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.1.1">vendorName()</a></td></tr><tr><td>6.1.2</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.1.2">packageName()</a></td></tr><tr><td>6.1.3</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.1.3">canRetrieveOptions()</a></td></tr><tr><td>6.1.4</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.1.4">options()</a></td></tr><tr><td>6.1.4.1</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.1.4.1">Exceptions</a></td></tr><tr><td>6.2</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.2">RequiresContainerId Interface</a></td></tr><tr><td>6.2.1</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.2.1">containerId()</a></td></tr><tr><td>6.3</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.3">RequiresMandatoryOptions Interface</a></td></tr><tr><td>6.3.1</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.3.1">mandatoryOptions()</a></td></tr><tr><td>6.4</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.4">ProvidesDefaultOptions Interface</a></td></tr><tr><td>6.4.1</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.4.1">defaultOptions()</a></td></tr><tr><td>6.5</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.5">ConfigurationTrait</a></td></tr><tr><td>6.5.1</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.5.1">optionsWithFallback()</a></td></tr></table>
 
-            </div>
-        </div>
-    </div>
+</div>
+</div>
+</div>
 </section>
 
 <footer>
-    <section id="links">
+    <div id="links">
         <div class="container">
             <div class="row">
                 <div class="prev col-md-3">
@@ -249,25 +177,33 @@
                 <div class="parent col-md-6">
                                     </div>
                 <div class="next col-md-3">
-                                        <label for="">Next</label>
-                    <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>                </div>
+                                            <p>Next</p>
+                        <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>                                    </div>
                 <div class="clearfix"></div>
             </div>
         </div>
-    </section>
-    <section id="copyright">
+    </div>
+    <div id="copyright">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    
-                    <span>
-                        Powered by <a href="">Bookdown.io</a>, <a href="bootswatch.com">bootswatch.com</a> | Designed by <a href="">yuripertamax</a>
-                    </span>
-     
+                    <p>
+                        Powered by <a href="www.bookdown.io">Bookdown.io</a> and <a
+                            href="bootswatch.com">bootswatch.com</a>.
+                    </p>
+
+                    <p>
+                        Designed by <a href="https://github.com/yuripertamax">yuripertamax</a>.
+                    </p>
+
+                    <p>
+                        Contributed by <a href="https://github.com/tobiju">tobiju</a> and <a
+                            href="https://github.com/sandrokeil">skeil</a>.
+                    </p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </footer>
 </body>
 </html>
