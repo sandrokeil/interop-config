@@ -369,7 +369,7 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions,
     {
         // get options for myvendor.mypackage.mycontainerid
         // method options() is implemented in ConfigurationTrait
-        // if host/port is missing, default options will be used
+        // if configuration is not available, default options will be used
         $options = $this->optionsWithFallback($container->get('config'));
         
         return new Awesome($options);

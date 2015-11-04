@@ -45,7 +45,8 @@
     "phpunit/phpunit": "~4.8",
     "phpunit/php-invoker": "~1.1",
     "squizlabs/php_codesniffer": "~2.3",
-    "phpbench/phpbench": "^0.5",
+    "phpbench/phpbench": "^0.6",
+    "humbug/humbug": "1.0.x-dev",
     "tobiju/bookdown-bootswatch-templates": "1.0.x-dev"
   },
   "minimum-stability": "dev",
