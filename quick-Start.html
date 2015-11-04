@@ -157,8 +157,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                
-            
+
+
 <h1 id="3">3. Quick Start</h1>
 <p>Typically you will have a factory which creates a concrete instance depending on some options (dependencies).</p>
 <h2 id="3.1">3.1. <code>RequiresConfig</code> interface</h2>
@@ -171,17 +171,17 @@ class MyAwesomeFactory implements RequiresConfig
     {
         return 'myvendor';
     }
-    
+
     public function packageName()
     {
         return 'mypackage';
     }
-        
+
     public function canRetrieveOptions($config)
     {
         // custom implementation depending on specifications
     }
-    
+
     public function options($config)
     {
         // custom implementation depending on specifications
@@ -200,22 +200,22 @@ class MyAwesomeFactory implements RequiresContainerId
     {
         return 'myvendor';
     }
-    
+
     public function packageName()
     {
         return 'mypackage';
     }
-    
+
     public function containerId()
     {
         return 'mycontainerid';
     }
-    
+
     public function canRetrieveOptions($config)
     {
         // custom implementation depending on specifications
     }
-    
+
     public function options($config)
     {
         // custom implementation depending on specifications
@@ -253,17 +253,17 @@ use Interop\Config\ConfigurationTrait;
 class MyAwesomeFactory implements RequiresContainerId
 {
     use ConfigurationTrait;
-    
+
     public function vendorName()
     {
         return 'myvendor';
     }
-    
+
     public function packageName()
     {
         return 'mypackage';
     }
-    
+
     public function containerId()
     {
         return 'mycontainerid';
@@ -286,28 +286,28 @@ use Interop\Container\ContainerInterface;
 class MyAwesomeFactory implements RequiresContainerId
 {
     use ConfigurationTrait;
-    
+
     public function vendorName()
     {
         return 'myvendor';
     }
-    
+
     public function packageName()
     {
         return 'mypackage';
     }
-    
+
     public function containerId()
     {
         return 'mycontainerid';
     }
-    
+
     public function __invoke(ContainerInterface $container)
     {
         // get options for myvendor.mypackage.mycontainerid
         // method options() is implemented in ConfigurationTrait
         $options = $this-&gt;options($container-&gt;get('config'));
-        
+
         return new Awesome($options);
     }
 }
@@ -346,34 +346,34 @@ use Interop\Container\ContainerInterface;
 class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
-    
+
     public function vendorName()
     {
         return 'myvendor';
     }
-    
+
     public function packageName()
     {
         return 'mypackage';
     }
-    
+
     public function containerId()
     {
         return 'mycontainerid';
     }
-    
+
     public function mandatoryOptions()
     {
         return ['params' =&gt; ['user', 'password', 'dbname']];
     }
-    
+
     public function __invoke(ContainerInterface $container)
     {
         // get options for myvendor.mypackage.mycontainerid
         // method options() is implemented in ConfigurationTrait
         // an exception is raised when a mandatory option is missing
         $options = $this-&gt;options($container-&gt;get('config'));
-        
+
         return new Awesome($options);
     }
 }
@@ -394,27 +394,27 @@ use Interop\Container\ContainerInterface;
 class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, RequiresDefaultOptions
 {
     use ConfigurationTrait;
-    
+
     public function vendorName()
     {
         return 'myvendor';
     }
-    
+
     public function packageName()
     {
         return 'mypackage';
     }
-    
+
     public function containerId()
     {
         return 'mycontainerid';
     }
-    
+
     public function mandatoryOptions()
     {
         return ['params' =&gt; ['user', 'password', 'dbname']];
     }
-    
+
     public function defaultOptions()
     {
         return [
@@ -424,7 +424,7 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions,
             ],
         ];
     }
-    
+
     public function __invoke(ContainerInterface $container)
     {
         // get options for myvendor.mypackage.mycontainerid
@@ -432,7 +432,7 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions,
         // an exception is raised when a mandatory option is missing
         // if host/port is missing, default options will be used
         $options = $this-&gt;options($container-&gt;get('config'));
-        
+
         return new Awesome($options);
     }
 }
@@ -452,15 +452,15 @@ use Interop\Container\ContainerInterface;
 class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
-    
+
     // other functions see above
-    
+
     public function __invoke(ContainerInterface $container)
     {
         $config = $container-&gt;get('config')
-        
+
         $options = [];
-        
+
         if ($this-&gt;canRetrieveOptions($config)) {
             // get options for myvendor.mypackage.mycontainerid
             // method options() is implemented in ConfigurationTrait
@@ -469,7 +469,7 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions,
         } elseif ($this instanceof RequiresDefaultOptions) {
             $options = $this-&gt;defaultOptions();
         }
-        
+
         return new Awesome($options);
     }
 }
@@ -485,16 +485,16 @@ use Interop\Container\ContainerInterface;
 class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
-    
+
     // other functions see above
-    
+
     public function __invoke(ContainerInterface $container)
     {
         // get options for myvendor.mypackage.mycontainerid
         // method options() is implemented in ConfigurationTrait
-        // if something is missed, default options will be used
+        // if configuration is not available, default options will be used
         $options = $this-&gt;optionsWithFallback($container-&gt;get('config'));
-        
+
         return new Awesome($options);
     }
 }
