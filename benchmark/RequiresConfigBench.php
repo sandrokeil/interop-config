@@ -11,10 +11,7 @@ namespace InteropBench\Config;
 
 use InteropTest\Config\TestAsset\ConnectionConfiguration;
 
-/**
- * @BeforeMethods({"classSetUp"})
- */
-class RequiresConfigBench
+class RequiresConfigBench extends BaseCase
 {
     private $config;
 
@@ -31,9 +28,6 @@ class RequiresConfigBench
 
     /**
      * Retrieve options
-     *
-     * @Revs(10000)
-     * @Iterations(10)
      */
     public function benchOptions()
     {

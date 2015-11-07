@@ -11,10 +11,7 @@ namespace InteropBench\Config;
 
 use InteropTest\Config\TestAsset\ConnectionContainerIdConfiguration;
 
-/**
- * @BeforeMethods({"classSetUp"})
- */
-class RequiresContainerId
+class RequiresContainerId extends BaseCase
 {
     private $config;
 
@@ -31,9 +28,6 @@ class RequiresContainerId
 
     /**
      * Retrieve options
-     *
-     * @Revs(10000)
-     * @Iterations(10)
      */
     public function benchOptions()
     {

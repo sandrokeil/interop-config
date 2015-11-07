@@ -11,10 +11,7 @@ namespace InteropBench\Config;
 
 use InteropTest\Config\TestAsset\ConnectionDefaultOptionsConfiguration;
 
-/**
- * @BeforeMethods({"classSetUp"})
- */
-class ProvidesDefaultOptions
+class ProvidesDefaultOptions extends BaseCase
 {
     private $config;
 
@@ -31,9 +28,6 @@ class ProvidesDefaultOptions
 
     /**
      * Retrieve options
-     *
-     * @Revs(10000)
-     * @Iterations(10)
      */
     public function benchOptions()
     {
