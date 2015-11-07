@@ -11,10 +11,7 @@ namespace InteropBench\Config;
 
 use InteropTest\Config\TestAsset\ConnectionMandatoryRecursiveContainerIdConfiguration;
 
-/**
- * @BeforeMethods({"classSetUp"})
- */
-class RequiresMandatoryOptionsRecursiveContainerId
+class RequiresMandatoryOptionsRecursiveContainerId extends BaseCase
 {
     private $config;
 
@@ -31,9 +28,6 @@ class RequiresMandatoryOptionsRecursiveContainerId
 
     /**
      * Retrieve options
-     *
-     * @Revs(10000)
-     * @Iterations(10)
      */
     public function options()
     {

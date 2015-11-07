@@ -1,4 +1,5 @@
 {
   "bootstrap": "vendor/autoload.php",
-  "path": "benchmark"
+  "path": "benchmark",
+  "retry_threshold": 4
 }
