@@ -1,123 +1,63 @@
-
 <!DOCTYPE html>
 <html>
     <head>
     <meta charset="utf-8"/>
     <title>Interop Configuration</title>
     <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
-    <link rel="stylesheet" href="http://tobiju.github.io/share/prismjs/prism.css"/>
+          href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/superhero/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="http://tobiju.github.io/share/prismjs/prism-prism.css"/>
+    <link rel="stylesheet"
+          href="http://tobiju.github.io/share/prismjs/prism-linenumbers.css"/>
+
     <script src="http://tobiju.github.io/share/prismjs/main.js"></script>
     <script src="http://tobiju.github.io/share/prismjs/prism.js"></script>
 
     <style>
-        *, html {
-            font-family: 'Lato', sans-serif;
-            font-weight: 400;
-        }
-
-        /* Global Rules */
-
-        .container {
-            /*background: #ddd;*/
-        }
-
-        .clearfix {
-            clear: both;
-        }
-
-        .rtrim {
-            padding-right: 0px;
-        }
-
-        .ltrim {
-            padding-left: 0px;
-        }
 
         /* Header Section */
 
         header {
-            border-bottom: 1px solid #ddd;
-            background: #f8f8f8;
-            color: white;
+            background: white;
+            color: black;
             font-size: 16px;
-            font-weight: 300;
-        }
-
-        header .prev {
-            text-align: left;
-            padding-top: 30px;
-        }
-
-        header .next {
-            text-align: right;
-            padding-top: 30px;
-        }
-
-        header label {
-            display: block;
-            color: #ddd;
-            font-weight: 300;
-        }
-
-        header a {
-            /*color: white;*/
-        }
-
-        header .current {
-            text-align: center;
-            padding: 24px;
-        }
-
-        header .current h3.title {
-            padding: 0;
-            margin: 0;
-            color: #444;
-        }
-
-        header .current small.parent {
-            margin: 10px 0;
-            display: block;
-            font-size: 16px;
-            color: #888;
             font-weight: 300;
         }
 
         /* Content Section */
-
-        section#content {
-            margin: 24px 0;
+        #content {
+            margin-bottom: 16px;
             font-size: 17px;
         }
 
-        /* Footer Section */
-        footer #links {
-            border-top: 1px solid #ddd;
-            border-bottom: none;
-            padding: 30px 0;
+        .links {
+            background: #f8f8f8;
+            border-top: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 16px 0;
         }
 
-        footer #links .prev {
+        .links .prev {
             text-align: left;
         }
 
-        footer #links .parent {
+        .links .parent {
             text-align: center;
         }
 
-        footer #links .next {
+        .links .next {
             text-align: right;
         }
 
-        footer #links label {
-            display: block;
-            color: #ddd;
-            font-weight: 300;
+
+        /* Footer Section */
+        footer {
+            color: black;
+            background: white;
         }
 
         footer #copyright {
             padding: 30px;
-            background: #fff;
             text-align: center;
             color: #444;
         }
@@ -129,6 +69,11 @@
         footer #copyright span a {
             color: white;
         }
+
+        /* Overide bootsstrap default style */
+        table, .table {
+            font-size: inherit;
+        }
     </style>
 
 </head>
@@ -136,19 +81,22 @@
 
 <header>
     <div class="container">
-        <div class="row">
-            <div class="prev col-md-3">
-                                    <p>Prev</p>
-                    <a href="http://sandrokeil.github.io/interop-config/">interop-config: Create instances depending on configuration</a>                            </div>
-            <div class="current col-md-6">
-                <h3 class="title">
-                    1. Interop Configuration                </h3>
-                <small class="parent">My Book</small>
+        <h3 class="title text-center">
+            1. Interop Configuration        </h3>
+    </div>
+    <div class="links">
+        <div class="container">
+            <div class="row">
+                <div class="prev col-xs-3">
+                                            <p>Prev</p>
+                        <a href="http://sandrokeil.github.io/interop-config/">interop-config: Create instances depending on configuration</a>                                    </div>
+                <div class="parent col-xs-6">
+                                            <p>Up</p>
+                        <a href="http://sandrokeil.github.io/interop-config/">interop-config: Create instances depending on configuration</a>                                    </div>
+                <div class="next col-xs-3">
+                                            <p>Next</p>
+                        <a href="http://sandrokeil.github.io/interop-config/overview.html">2. interop-config: Overview</a>                                    </div>
             </div>
-            <div class="next col-md-3">
-                                    <p>Next</p>
-                    <a href="http://sandrokeil.github.io/interop-config/overview.html">interop-config: Overview</a>                            </div>
-            <div class="clearfix"></div>
         </div>
     </div>
 </header>
@@ -157,8 +105,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                
-            
+
 <h1 id="1">1. Interop Configuration</h1>
 <blockquote>
 <p>You want to configure your factories?</p>
@@ -333,19 +280,18 @@ $ php -S 0.0.0.0:8080 -t doc/html/
 </section>
 
 <footer>
-    <div id="links">
+    <div class="links">
         <div class="container">
             <div class="row">
-                <div class="prev col-md-3">
+                <div class="prev col-xs-3">
                                             <p>Prev</p>
                         <a href="http://sandrokeil.github.io/interop-config/">interop-config: Create instances depending on configuration</a>                                    </div>
-                <div class="parent col-md-6">
+                <div class="parent col-xs-6">
                                             <p>Up</p>
                         <a href="http://sandrokeil.github.io/interop-config/">interop-config: Create instances depending on configuration</a>                                    </div>
-                <div class="next col-md-3">
+                <div class="next col-xs-3">
                                             <p>Next</p>
                         <a href="http://sandrokeil.github.io/interop-config/overview.html">2. interop-config: Overview</a>                                    </div>
-                <div class="clearfix"></div>
             </div>
         </div>
     </div>
@@ -364,7 +310,7 @@ $ php -S 0.0.0.0:8080 -t doc/html/
 
                     <p>
                         Contributed by <a href="https://github.com/tobiju">tobiju</a> and <a
-                            href="https://github.com/sandrokeil">skeil</a>.
+                            href="https://github.com/sandrokeil">sandrokeil</a>.
                     </p>
                 </div>
             </div>
