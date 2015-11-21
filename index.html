@@ -2,6 +2,9 @@
 <html>
     <head>
     <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+    <meta name="HandheldFriendly" content="True"/>
     <title>interop-config: Create instances depending on configuration</title>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
@@ -10,13 +13,18 @@
     <link rel="stylesheet"
           href="http://tobiju.github.io/share/prismjs/prism-linenumbers.css"/>
 
-    <script src="http://tobiju.github.io/share/prismjs/main.js"></script>
-    <script src="http://tobiju.github.io/share/prismjs/prism.js"></script>
-
     <style>
+        body, html {
+            height: 100%;
+        }
+
+        .page-wrapper {
+            min-height: 100%;
+            padding-bottom: 204px;
+            position: relative;
+        }
 
         /* Header Section */
-
         header {
             background: white;
             color: black;
@@ -26,8 +34,9 @@
 
         /* Content Section */
         #content {
-            margin-bottom: 16px;
+            margin-bottom: 17px;
             font-size: 17px;
+            min-height: 200px;
         }
 
         .links {
@@ -54,6 +63,9 @@
         footer {
             color: black;
             background: white;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
         }
 
         footer #copyright {
@@ -78,7 +90,8 @@
 
 </head>
     <body>
-
+    <div class="page-wrapper">
+        
 <header>
     <div class="container">
         <h3 class="title text-center">
@@ -87,14 +100,22 @@
     <div class="links">
         <div class="container">
             <div class="row">
-                <div class="prev col-xs-3">
-                                    </div>
-                <div class="parent col-xs-6">
-                                    </div>
-                <div class="next col-xs-3">
-                                            <p>Next</p>
-                        <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>                                    </div>
+    <div class="parent col-xs-12 visible-xs-block">
             </div>
+    <div class="parent col-xs-12 visible-xs-block">
+            </div>
+    <div class="parent col-xs-12 visible-xs-block">
+                    <p>Next</p>
+            <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>            </div>
+    <div class="prev col-sm-3 hidden-xs">
+            </div>
+    <div class="parent col-sm-6 hidden-xs">
+            </div>
+    <div class="next col-sm-3 hidden-xs">
+                    <p>Next</p>
+            <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>            </div>
+</div>
+
         </div>
     </div>
 </header>
@@ -118,14 +139,22 @@
     <div class="links">
         <div class="container">
             <div class="row">
-                <div class="prev col-xs-3">
-                                    </div>
-                <div class="parent col-xs-6">
-                                    </div>
-                <div class="next col-xs-3">
-                                            <p>Next</p>
-                        <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>                                    </div>
+    <div class="parent col-xs-12 visible-xs-block">
             </div>
+    <div class="parent col-xs-12 visible-xs-block">
+            </div>
+    <div class="parent col-xs-12 visible-xs-block">
+                    <p>Next</p>
+            <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>            </div>
+    <div class="prev col-sm-3 hidden-xs">
+            </div>
+    <div class="parent col-sm-6 hidden-xs">
+            </div>
+    <div class="next col-sm-3 hidden-xs">
+                    <p>Next</p>
+            <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>            </div>
+</div>
+
         </div>
     </div>
     <div id="copyright">
@@ -133,22 +162,16 @@
             <div class="row">
                 <div class="col-md-12">
                     <p>
-                        Powered by <a href="www.bookdown.io">Bookdown.io</a> and <a
-                            href="bootswatch.com">bootswatch.com</a>.
-                    </p>
-
-                    <p>
-                        Designed by <a href="https://github.com/yuripertamax">yuripertamax</a>.
-                    </p>
-
-                    <p>
-                        Contributed by <a href="https://github.com/tobiju">tobiju</a> and <a
-                            href="https://github.com/sandrokeil">sandrokeil</a>.
+                        Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a>.
                     </p>
                 </div>
             </div>
         </div>
     </div>
 </footer>
+    </div>
+
+    <script src="http://tobiju.github.io/share/prismjs/main.js"></script>
+    <script src="http://tobiju.github.io/share/prismjs/prism.js"></script>
 </body>
 </html>
