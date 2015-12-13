@@ -28,7 +28,6 @@
         header {
             background: white;
             color: black;
-            font-size: 16px;
             font-weight: 300;
         }
 
@@ -99,23 +98,23 @@
     </div>
     <div class="links">
         <div class="container">
-            <div class="row">
-    <div class="parent col-xs-12 visible-xs-block">
+            <div class="row hidden-sm hidden-md hidden-lg">
+    <div class="prev col-xs-6">
                     <p>Prev</p>
             <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>            </div>
-    <div class="parent col-xs-12 visible-xs-block">
-                    <p>Up</p>
-            <a href="http://sandrokeil.github.io/interop-config/">interop-config: Create instances depending on configuration</a>            </div>
-    <div class="parent col-xs-12 visible-xs-block">
+    <div class="next col-xs-6">
                     <p>Next</p>
             <a href="http://sandrokeil.github.io/interop-config/quick-Start.html">3. Quick Start</a>            </div>
-    <div class="prev col-sm-3 hidden-xs">
+</div>
+
+<div class="row hidden-xs">
+    <div class="prev col-sm-4">
                     <p>Prev</p>
             <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>            </div>
-    <div class="parent col-sm-6 hidden-xs">
+    <div class="parent col-sm-4">
                     <p>Up</p>
             <a href="http://sandrokeil.github.io/interop-config/">interop-config: Create instances depending on configuration</a>            </div>
-    <div class="next col-sm-3 hidden-xs">
+    <div class="next col-sm-4">
                     <p>Next</p>
             <a href="http://sandrokeil.github.io/interop-config/quick-Start.html">3. Quick Start</a>            </div>
 </div>
@@ -140,6 +139,103 @@ configuration files.</p>
 <li>Check if options can be retrieved from configuration</li>
 <li>Merging of default options</li>
 </ul>
+<h2 id="2.1">2.1. Config Structure</h2>
+<p>The config keys should have the following structure <code>vendor.package.container_id</code>. The <code>container_id</code> is optional and is
+only neccessary if you have different instances of the same class e.g. database connection.</p>
+<p>A common configuration looks like that:</p>
+<pre><code class="language-php">// interop config example
+return [
+    // vendor name
+    'doctrine' =&gt; [
+        // package name
+        'connection' =&gt; [
+            // container id
+            'orm_default' =&gt; [
+                // mandatory options
+                'driverClass' =&gt; 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+                'params' =&gt; [
+                    'host'     =&gt; 'localhost',
+                    'port'     =&gt; '3306',
+                    'user'     =&gt; 'username',
+                    'password' =&gt; 'password',
+                    'dbname'   =&gt; 'database',
+                ],
+            ],
+        ],
+    ],
+];
+</code></pre>
+<p>So <code>doctrine</code> is the vendor, <code>connection</code> is the package and <code>orm_default</code> is the container id. After that the specified
+instance options follow. The following example uses <a href="src/ConfigurationTrait.php">ConfigurationTrait</a> which implements
+the logic to retrieve the options from a configuration. See documentation for more details.</p>
+<blockquote>
+<p>Note that the configuration above is injected as <code>$config</code> in <code>options()</code></p>
+</blockquote>
+<pre><code class="language-php">use Interop\Config\ConfigurationTrait;
+use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresMandatoryOptions;
+use Interop\Container\ContainerInterface;
+
+class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryOptions
+{
+    use ConfigurationTrait;
+    
+    public function __invoke(ContainerInterface $container)
+    {
+        // get options for doctrine.connection.orm_default
+        $options = $this-&gt;options($container-&gt;get('config'));
+
+        // mandatory options check is automatically done by RequiresMandatoryOptions
+
+        $driverClass = $options['driverClass'];
+        $params = $options['params'];
+
+        // create your instance and set options
+
+        return $instance;
+    }
+
+    /**
+     * Returns the vendor name
+     *
+     * @return string
+     */
+    public function vendorName()
+    {
+        return 'doctrine';
+    }
+
+    /**
+     * Returns the package name
+     *
+     * @return string
+     */
+    public function packageName()
+    {
+        return 'connection';
+    }
+
+    /**
+     * Returns the container identifier
+     *
+     * @return string
+     */
+    public function containerId()
+    {
+        return 'orm_default';
+    }
+
+    /**
+     * Returns a list of mandatory options which must be available
+     *
+     * @return string[] List with mandatory options
+     */
+    public function mandatoryOptions()
+    {
+        return ['params' =&gt; ['user', 'password', 'dbname']];
+    }
+}
+</code></pre>
 
 </div>
 </div>
@@ -149,23 +245,23 @@ configuration files.</p>
 <footer>
     <div class="links">
         <div class="container">
-            <div class="row">
-    <div class="parent col-xs-12 visible-xs-block">
+            <div class="row hidden-sm hidden-md hidden-lg">
+    <div class="prev col-xs-6">
                     <p>Prev</p>
             <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>            </div>
-    <div class="parent col-xs-12 visible-xs-block">
-                    <p>Up</p>
-            <a href="http://sandrokeil.github.io/interop-config/">interop-config: Create instances depending on configuration</a>            </div>
-    <div class="parent col-xs-12 visible-xs-block">
+    <div class="next col-xs-6">
                     <p>Next</p>
             <a href="http://sandrokeil.github.io/interop-config/quick-Start.html">3. Quick Start</a>            </div>
-    <div class="prev col-sm-3 hidden-xs">
+</div>
+
+<div class="row hidden-xs">
+    <div class="prev col-sm-4">
                     <p>Prev</p>
             <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>            </div>
-    <div class="parent col-sm-6 hidden-xs">
+    <div class="parent col-sm-4">
                     <p>Up</p>
             <a href="http://sandrokeil.github.io/interop-config/">interop-config: Create instances depending on configuration</a>            </div>
-    <div class="next col-sm-3 hidden-xs">
+    <div class="next col-sm-4">
                     <p>Next</p>
             <a href="http://sandrokeil.github.io/interop-config/quick-Start.html">3. Quick Start</a>            </div>
 </div>
