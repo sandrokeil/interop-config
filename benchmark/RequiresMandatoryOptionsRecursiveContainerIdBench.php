@@ -11,43 +11,10 @@ namespace InteropBench\Config;
 
 use InteropTest\Config\TestAsset\ConnectionMandatoryRecursiveContainerIdConfiguration;
 
-class RequiresMandatoryOptionsRecursiveContainerId extends BaseCase
+class RequiresMandatoryOptionsRecursiveContainerIdBench extends BaseCase
 {
-    private $config;
-
-    /**
-     * @var ConnectionMandatoryRecursiveContainerIdConfiguration
-     */
-    private $factory;
-
-    public function classSetUp()
+    protected function getFactoryClass()
     {
-        $this->config = $this->getTestConfig();
-        $this->factory = new ConnectionMandatoryRecursiveContainerIdConfiguration();
-    }
-
-    /**
-     * Retrieve options
-     */
-    public function options()
-    {
-        $this->factory->options($this->config);
-    }
-
-    /**
-     * Returns test config
-     *
-     * @return array
-     */
-    private function getTestConfig()
-    {
-        // Load the user-defined test configuration file, if it exists; otherwise, load default
-        if (is_readable('test/TestConfig.php')) {
-            $testConfig = require 'test/testing.config.php';
-        } else {
-            $testConfig = require 'test/testing.config.php.dist';
-        }
-
-        return $testConfig;
+        return new ConnectionMandatoryRecursiveContainerIdConfiguration();
     }
 }

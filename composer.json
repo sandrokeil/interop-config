@@ -45,7 +45,7 @@
     "phpunit/phpunit": "~4.8",
     "phpunit/php-invoker": "~1.1",
     "squizlabs/php_codesniffer": "~2.3",
-    "phpbench/phpbench": "^0.7",
+    "phpbench/phpbench": "^1.0@dev",
     "humbug/humbug": "1.0.x-dev",
     "tobiju/bookdown-bootswatch-templates": "^0.2.0"
   },
@@ -64,6 +64,7 @@
       ".travis.yml",
       "benchmark",
       "build",
+      "humbug.json.dist",
       "phpbench.json.dist",
       "phpunit.xml*",
       "test"

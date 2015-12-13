@@ -11,43 +11,10 @@ namespace InteropBench\Config;
 
 use InteropTest\Config\TestAsset\ConnectionMandatoryContainerIdConfiguration;
 
-class RequiresMandatoryOptionsContainerId extends BaseCase
+class RequiresMandatoryOptionsContainerIdBench extends BaseCase
 {
-    private $config;
-
-    /**
-     * @var ConnectionMandatoryContainerIdConfiguration
-     */
-    private $factory;
-
-    public function classSetUp()
+    protected function getFactoryClass()
     {
-        $this->config = $this->getTestConfig();
-        $this->factory = new ConnectionMandatoryContainerIdConfiguration();
-    }
-
-    /**
-     * Retrieve options
-     */
-    public function benchOptions()
-    {
-        $this->factory->options($this->config);
-    }
-
-    /**
-     * Returns test config
-     *
-     * @return array
-     */
-    private function getTestConfig()
-    {
-        // Load the user-defined test configuration file, if it exists; otherwise, load default
-        if (is_readable('test/TestConfig.php')) {
-            $testConfig = require 'test/testing.config.php';
-        } else {
-            $testConfig = require 'test/testing.config.php.dist';
-        }
-
-        return $testConfig;
+        return new ConnectionMandatoryContainerIdConfiguration();
     }
 }
