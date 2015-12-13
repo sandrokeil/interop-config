@@ -284,7 +284,7 @@ class MyAwesomeFactory implements RequiresContainerId
 <p>The <code>ConfigurationTrait</code> does the job to check and retrieve options depending on implemented interfaces. <em>Nice, but what is
 if I have mandatory options?</em> See <code>RequiresMandatoryOptions</code> interface.</p>
 <h2 id="3.5">3.5. <code>RequiresMandatoryOptions</code> interface</h2>
-<p>The <code>RequiresMandatoryOptions</code> interface specification says that it MUST support mandatory options check. Let's say that we need
+<p>The <code>RequiresConfig::options()</code> interface specification says that it MUST support mandatory options check. Let's say that we need
 params for a db connection. Our config <em>should</em> looks like that:</p>
 <pre><code class="language-php">// interop config example
 return [
@@ -356,11 +356,11 @@ options.</p>
 <p>Remember: <em>My factory requires configuration, requires a container id along with mandatory options and it provides default options.</em></p>
 <pre><code class="language-php">use Interop\Config\RequiresContainerId;
 use Interop\Config\RequiresMandatoryOptions;
-use Interop\Config\RequiresDefaultOptions;
+use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, RequiresDefaultOptions
+class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
     
@@ -414,7 +414,7 @@ implemented interfaces and checks that the retrieved options are an array or hav
 <p>You can call this function and if it returns false, you can use the default options.</p>
 <pre><code class="language-php">use Interop\Config\RequiresContainerId;
 use Interop\Config\RequiresMandatoryOptions;
-use Interop\Config\RequiresDefaultOptions;
+use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
@@ -435,7 +435,7 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions,
             // method options() is implemented in ConfigurationTrait
             // if host/port is missing, default options will be used
             $options = $this-&gt;options($config);
-        } elseif ($this instanceof RequiresDefaultOptions) {
+        } elseif ($this instanceof ProvidesDefaultOptions) {
             $options = $this-&gt;defaultOptions();
         }
         
@@ -447,7 +447,7 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions,
 of the specification but is implemented in <code>ConfigurationTrait</code> to reduce some boilerplate code.</p>
 <pre><code class="language-php">use Interop\Config\RequiresContainerId;
 use Interop\Config\RequiresMandatoryOptions;
-use Interop\Config\RequiresDefaultOptions;
+use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
