@@ -11,49 +11,10 @@ namespace InteropBench\Config;
 
 use InteropTest\Config\TestAsset\ConnectionDefaultOptionsConfiguration;
 
-/**
- * @BeforeMethods({"classSetUp"})
- */
-class ProvidesDefaultOptions
+class ProvidesDefaultOptionsBench extends BaseCase
 {
-    private $config;
-
-    /**
-     * @var ConnectionDefaultOptionsConfiguration
-     */
-    private $factory;
-
-    public function classSetUp()
+    protected function getFactoryClass()
     {
-        $this->config = $this->getTestConfig();
-        $this->factory = new ConnectionDefaultOptionsConfiguration();
-    }
-
-    /**
-     * Retrieve options
-     *
-     * @Revs(10000)
-     * @Iterations(10)
-     */
-    public function benchOptions()
-    {
-        $this->factory->options($this->config);
-    }
-
-    /**
-     * Returns test config
-     *
-     * @return array
-     */
-    private function getTestConfig()
-    {
-        // Load the user-defined test configuration file, if it exists; otherwise, load default
-        if (is_readable('test/TestConfig.php')) {
-            $testConfig = require 'test/testing.config.php';
-        } else {
-            $testConfig = require 'test/testing.config.php.dist';
-        }
-
-        return $testConfig;
+        return new ConnectionDefaultOptionsConfiguration();
     }
 }

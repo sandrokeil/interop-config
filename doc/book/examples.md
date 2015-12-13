@@ -40,7 +40,7 @@ use Interop\Config\RequiresContainerId;
 
 class MyDBALConnectionFactory implements RequiresContainerId
 {
-    use ConfigurableFactoryTrait;
+    use ConfigurationTrait;
     
     public function __invoke(ContainerInterface $container)
     {
@@ -155,7 +155,7 @@ class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryO
 ```
 
 ## Default options
-Use the `RequiresDefaultOptions` interface if you have default options. These options are merged with the provided options in
+Use the `ProvidesDefaultOptions` interface if you have default options. These options are merged with the provided options in
 `\Interop\Config\RequiresConfig::options()`. Let's look at this example from 
 [DoctrineORMModule](https://github.com/doctrine/DoctrineORMModule/blob/master/docs/configuration.md#how-to-use-two-connections). 
 All the options under the key *orm_crawler* are optional, but it's not visible in the factory.
@@ -176,7 +176,11 @@ return [
 ```
 
 ```php
-class ConfigurationFactory implements RequiresContainerId, RequiresDefaultOptions
+use Interop\Config\ConfigurationTrait;
+use Interop\Config\ProvidesDefaultOptions;
+use Interop\Config\RequiresContainerId;
+
+class ConfigurationFactory implements RequiresContainerId, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
     

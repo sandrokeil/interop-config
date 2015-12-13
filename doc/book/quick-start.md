@@ -173,7 +173,7 @@ The `ConfigurationTrait` does the job to check and retrieve options depending on
 if I have mandatory options?* See `RequiresMandatoryOptions` interface.
 
 ## `RequiresMandatoryOptions` interface
-The `RequiresMandatoryOptions` interface specification says that it MUST support mandatory options check. Let's say that we need
+The `RequiresConfig::options()` interface specification says that it MUST support mandatory options check. Let's say that we need
 params for a db connection. Our config *should* looks like that:
 
 ```php
@@ -255,11 +255,11 @@ Remember: *My factory requires configuration, requires a container id along with
 ```php
 use Interop\Config\RequiresContainerId;
 use Interop\Config\RequiresMandatoryOptions;
-use Interop\Config\RequiresDefaultOptions;
+use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, RequiresDefaultOptions
+class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
     
@@ -319,7 +319,7 @@ You can call this function and if it returns false, you can use the default opti
 ```php
 use Interop\Config\RequiresContainerId;
 use Interop\Config\RequiresMandatoryOptions;
-use Interop\Config\RequiresDefaultOptions;
+use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
@@ -340,7 +340,7 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions,
             // method options() is implemented in ConfigurationTrait
             // if host/port is missing, default options will be used
             $options = $this->options($config);
-        } elseif ($this instanceof RequiresDefaultOptions) {
+        } elseif ($this instanceof ProvidesDefaultOptions) {
             $options = $this->defaultOptions();
         }
         
@@ -355,7 +355,7 @@ of the specification but is implemented in `ConfigurationTrait` to reduce some b
 ```php
 use Interop\Config\RequiresContainerId;
 use Interop\Config\RequiresMandatoryOptions;
-use Interop\Config\RequiresDefaultOptions;
+use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
@@ -369,7 +369,7 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions,
     {
         // get options for myvendor.mypackage.mycontainerid
         // method options() is implemented in ConfigurationTrait
-        // if host/port is missing, default options will be used
+        // if configuration is not available, default options will be used
         $options = $this->optionsWithFallback($container->get('config'));
         
         return new Awesome($options);

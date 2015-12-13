@@ -1,0 +1,12 @@
+{
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "timeout": 10,
+    "logs": {
+        "text": "build/logs/humbuglog.txt",
+        "json": "build/logs/humbuglog.json"
+    }
+}
