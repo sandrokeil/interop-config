@@ -11,10 +11,7 @@ namespace InteropBench\Config;
 
 use InteropTest\Config\TestAsset\ConnectionMandatoryConfiguration;
 
-/**
- * @BeforeMethods({"classSetUp"})
- */
-class RequiresMandatoryOptions
+class RequiresMandatoryOptions extends BaseCase
 {
     private $config;
 
@@ -31,9 +28,6 @@ class RequiresMandatoryOptions
 
     /**
      * Retrieve options
-     *
-     * @Revs(10000)
-     * @Iterations(10)
      */
     public function benchOptions()
     {
