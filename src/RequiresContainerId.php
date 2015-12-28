@@ -10,11 +10,12 @@
 namespace Interop\Config;
 
 /**
- * RequiresContainerId Interface
+ * RequiresContainerId interface is for a array config structure like [vendor][package][id]
  *
- * Use this interface if a configuration is for a specific container id.
+ * Use this interface if a configuration is for a specific container id and if you want to retrieve options from a
+ * configuration with the structure "vendor.package.id".
  */
-interface RequiresContainerId extends RequiresConfig
+interface RequiresContainerId extends RequiresPackageConfig
 {
     /**
      * Returns the container identifier

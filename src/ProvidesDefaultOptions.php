@@ -13,12 +13,12 @@ namespace Interop\Config;
  * ProvidesDefaultOptions Interface
  *
  * Use this interface if you have default options. These options are merged with the provided options in
- * \Interop\Config\RequiresConfig::options
+ * \Interop\Config\RequiresConfig::options()
  */
 interface ProvidesDefaultOptions
 {
     /**
-     * Returns a list of default options, which are merged in \Interop\Config\RequiresConfig::options
+     * Returns a list of default options, which are merged in \Interop\Config\RequiresConfig::options()
      *
      * @return string[] List with default options and values
      */

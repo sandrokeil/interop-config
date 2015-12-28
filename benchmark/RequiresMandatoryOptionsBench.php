@@ -13,6 +13,9 @@ use InteropTest\Config\TestAsset\ConnectionMandatoryConfiguration;
 
 class RequiresMandatoryOptionsBench extends BaseCase
 {
+    /**
+     * @inheritdoc \InteropBench\Config\BaseCase::getFactoryClass
+     */
     protected function getFactoryClass()
     {
         return new ConnectionMandatoryConfiguration();

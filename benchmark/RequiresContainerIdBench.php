@@ -13,6 +13,9 @@ use InteropTest\Config\TestAsset\ConnectionContainerIdConfiguration;
 
 class RequiresContainerIdBench extends BaseCase
 {
+    /**
+     * @inheritdoc \InteropBench\Config\BaseCase::getFactoryClass
+     */
     protected function getFactoryClass()
     {
         return new ConnectionContainerIdConfiguration();

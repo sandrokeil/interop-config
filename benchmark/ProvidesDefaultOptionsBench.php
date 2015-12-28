@@ -13,6 +13,9 @@ use InteropTest\Config\TestAsset\ConnectionDefaultOptionsConfiguration;
 
 class ProvidesDefaultOptionsBench extends BaseCase
 {
+    /**
+     * @inheritdoc \InteropBench\Config\BaseCase::getFactoryClass
+     */
     protected function getFactoryClass()
     {
         return new ConnectionDefaultOptionsConfiguration();

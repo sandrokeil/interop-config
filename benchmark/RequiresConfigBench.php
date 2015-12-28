@@ -13,6 +13,9 @@ use InteropTest\Config\TestAsset\ConnectionConfiguration;
 
 class RequiresConfigBench extends BaseCase
 {
+    /**
+     * @inheritdoc \InteropBench\Config\BaseCase::getFactoryClass
+     */
     protected function getFactoryClass()
     {
         return new ConnectionConfiguration();

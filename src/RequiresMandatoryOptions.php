@@ -10,9 +10,9 @@
 namespace Interop\Config;
 
 /**
- * HasMandatoryOptions Interface
+ * RequiresMandatoryOptions interface
  *
- * Use this interface if you have mandatory options
+ * Use this interface if you have mandatory options which should be checked on retrieving options
  */
 interface RequiresMandatoryOptions
 {

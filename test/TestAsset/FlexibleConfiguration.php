@@ -11,25 +11,13 @@ namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresConfig;
-use Interop\Config\RequiresMandatoryOptions;
-use Interop\Config\RequiresPackageConfig;
 
-class ConnectionMandatoryConfiguration implements RequiresConfig, RequiresPackageConfig, RequiresMandatoryOptions
+class FlexibleConfiguration implements RequiresConfig
 {
     use ConfigurationTrait;
 
-    public function vendorName()
+    public function dimensions()
     {
-        return 'doctrine';
-    }
-
-    public function packageName()
-    {
-        return 'connection';
-    }
-
-    public function mandatoryOptions()
-    {
-        return ['orm_default'];
+        return ['one', 'two', 'three', 'four'];
     }
 }

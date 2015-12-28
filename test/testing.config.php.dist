@@ -27,4 +27,14 @@ return [
             ],
         ],
     ],
+    'one' => [
+        'two' => [
+            'three' => [
+                'four' => [
+                    'name' => 'test',
+                    'class' => 'stdClass',
+                ],
+            ],
+        ],
+    ],
 ];

@@ -9,15 +9,15 @@
 
 namespace InteropBench\Config;
 
-use InteropTest\Config\TestAsset\ConnectionMandatoryRecursiveContainerIdConfiguration;
+use InteropTest\Config\TestAsset\FlexibleConfiguration;
 
-class RequiresMandatoryOptionsRecursiveContainerIdBench extends BaseCase
+class FlexibleConfigurationBench extends BaseCase
 {
     /**
      * @inheritdoc \InteropBench\Config\BaseCase::getFactoryClass
      */
     protected function getFactoryClass()
     {
-        return new ConnectionMandatoryRecursiveContainerIdConfiguration();
+        return new FlexibleConfiguration();
     }
 }

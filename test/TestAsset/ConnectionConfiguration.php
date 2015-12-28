@@ -11,8 +11,9 @@ namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresConfig;
+use Interop\Config\RequiresPackageConfig;
 
-class ConnectionConfiguration implements RequiresConfig
+class ConnectionConfiguration implements RequiresConfig, RequiresPackageConfig
 {
     use ConfigurationTrait;
 

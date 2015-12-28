@@ -15,6 +15,7 @@ use InteropTest\Config\TestAsset\ConnectionDefaultOptionsConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryContainerIdConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryRecursiveContainerIdConfiguration;
+use InteropTest\Config\TestAsset\FlexibleConfiguration;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
@@ -35,6 +36,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() should throw exception if config parameter is not an array
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsThrowsInvalidArgumentExceptionIfConfigIsNotAnArray()
     {
@@ -49,6 +52,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests canRetrieveOptions()
      *
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testCanRetrieveOptions()
     {
@@ -75,6 +80,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests canRetrieveOptions()
      *
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testCanRetrieveOptionsWithContainerId()
     {
@@ -99,12 +106,14 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() should throw exception if no vendor config is available
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
-    public function testOptionsThrowsOutOfBoundsExceptionIfNoVendorConfigIsAvailable()
+    public function testOptionsThrowsOptionNotFoundExceptionIfNoVendorConfigIsAvailable()
     {
         $stub = new ConnectionConfiguration();
 
-        $this->setExpectedException('Interop\Config\Exception\OutOfBoundsException', 'No vendor');
+        $this->setExpectedException('Interop\Config\Exception\OptionNotFoundException', 'doctrine');
 
         $stub->options(['doctrine' => []]);
     }
@@ -113,6 +122,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() should throw exception if no package option is available
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsThrowsOptionNotFoundExceptionIfNoPackageOptionIsAvailable()
     {
@@ -127,6 +138,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() should throw exception if no container id option is available
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsThrowsOptionNotFoundExceptionIfNoContainerIdOptionIsAvailable()
     {
@@ -138,9 +151,27 @@ class ConfigurationTraitTest extends TestCase
     }
 
     /**
+     * Tests options() should throw exception if a dimension is not available
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
+     */
+    public function testOptionsThrowsOptionNotFoundExceptionIfDimensionIsNotAvailable()
+    {
+        $stub = new FlexibleConfiguration();
+
+        $this->setExpectedException('Interop\Config\Exception\OptionNotFoundException', 'No options');
+
+        $stub->options(['one' => ['two' => ['three' => ['invalid' => ['dimension']]]]]);
+    }
+
+    /**
      * Tests options() should throw exception if retrieved options not an array or \ArrayAccess
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsThrowsUnexpectedValueExceptionIfRetrievedOptionsNotAnArrayOrArrayAccess()
     {
@@ -155,8 +186,10 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with container id
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
-    public function testOptionsReturnsDataByContainerId()
+    public function testOptionsReturnsDataWithContainerId()
     {
         $stub = new ConnectionContainerIdConfiguration();
 
@@ -172,6 +205,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works without container id
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsReturnsData()
     {
@@ -185,9 +220,30 @@ class ConfigurationTraitTest extends TestCase
     }
 
     /**
+     * Tests if options() works with flexible dimensions
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
+     */
+    public function testOptionsReturnsDataWithFlexibleDimensions()
+    {
+        $stub = new FlexibleConfiguration();
+
+        $testConfig = $this->getTestConfig();
+
+        $options = $stub->options($testConfig);
+
+        self::assertArrayHasKey('name', $options);
+        self::assertArrayHasKey('class', $options);
+    }
+
+    /**
      * Tests if options() works with container id
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsReturnsDataWithDefaultOptions()
     {
@@ -221,9 +277,11 @@ class ConfigurationTraitTest extends TestCase
     }
 
     /**
-     * Tests if options() works default options and default options not override provied options
+     * Tests if options() works default options and default options not override provided options
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsThatDefaultOptionsNotOverrideProvidedOptions()
     {
@@ -252,6 +310,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with mandatory options interface
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
     public function testOptionsChecksMandatoryOptions()
@@ -266,9 +326,11 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with mandatory options interface
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
-    public function testOptionsChecksMandatoryOptionsByContainerId()
+    public function testOptionsChecksMandatoryOptionsWithContainerId()
     {
         $stub = new ConnectionMandatoryContainerIdConfiguration();
         $options = $stub->options($this->getTestConfig());
@@ -281,6 +343,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() throws a runtime exception if mandatory option is missing
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
     public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfMandatoryOptionIsMissing()
@@ -302,6 +366,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() throws a runtime exception if a recursive mandatory option is missing
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
     public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfMandatoryOptionRecursiveIsMissing()
@@ -324,6 +390,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() with recursive mandatory options check
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
     public function testOptionsWithRecursiveMandatoryOptionCheck()
@@ -340,7 +408,7 @@ class ConfigurationTraitTest extends TestCase
      *
      * @covers \Interop\Config\ConfigurationTrait::optionsWithFallback
      */
-    public function testoptionsWithFallback()
+    public function testOptionsWithFallback()
     {
         $stub = new ConnectionDefaultOptionsConfiguration();
 

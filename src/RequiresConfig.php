@@ -12,7 +12,7 @@ namespace Interop\Config;
 use ArrayAccess;
 
 /**
- * RequiresConfig Interface
+ * RequiresConfig interface is the main interface to configure your instances via factories
  *
  * Use this interface if you want to retrieve options from a configuration and optional to perform a mandatory option
  * check. Default options are merged and overridden of the provided options.
@@ -20,23 +20,23 @@ use ArrayAccess;
 interface RequiresConfig
 {
     /**
-     * Returns the vendor name
+     * Returns the depth of the configuration array as a list. The example structure of the options() method would be an
+     * array like
      *
-     * @return string
+     * <code>
+     *   return ['doctrine', 'connection', 'orm_default'];
+     * </code>
+     *
+     * @return array|ArrayAccess
      */
-    public function vendorName();
+    public function dimensions();
 
     /**
-     * Returns the package name
+     * Returns options based on dimensions() like [vendor][package][id] and can perform mandatory option checks if
+     * class implements RequiresMandatoryOptions. If the ProvidesDefaultOptions interface is implemented, these options
+     * must be overridden by the provided config. RequiresPackageConfig and RequiresContainerId interfaces are optional.
      *
-     * @return string
-     */
-    public function packageName();
-
-    /**
-     * Returns options based on [vendor][package][id] and can perform mandatory option checks if class implements
-     * MandatoryOptionsInterface. If the ProvidesDefaultOptions interface is implemented, these options must be
-     * overridden by the provided config. The RequiresContainerId interface is optional.
+     * This example uses RequiresContainerId interface
      *
      * <code>
      * return [
@@ -63,7 +63,6 @@ interface RequiresConfig
      * @return array|ArrayAccess options
      *
      * @throws Exception\UnexpectedValueException If the $config parameter has the wrong type
-     * @throws Exception\OutOfBoundsException If vendor name was not found
      * @throws Exception\OptionNotFoundException If no options are available
      * @throws Exception\MandatoryOptionNotFoundException If a mandatory option is missing
      */
