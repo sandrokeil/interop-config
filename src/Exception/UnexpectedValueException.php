@@ -14,8 +14,21 @@ use UnexpectedValueException as PhpUnexpectedValueException;
 /**
  * UnexpectedValueException exception
  *
- * Use this exception if the code attempts to access an associative array, but performs a check for the key.
+ * Use this exception if a value is outside a set of values.
  */
 class UnexpectedValueException extends PhpUnexpectedValueException implements ExceptionInterface
 {
+    /**
+     * @param array|\ArrayAccess $dimensions
+     * @return UnexpectedValueException
+     */
+    public static function invalidOptions($dimensions)
+    {
+        return new static(
+            sprintf(
+                'Options of configuration "%s" must either be of type "array" or implement "\ArrayAccess".',
+                implode('.', $dimensions)
+            )
+        );
+    }
 }

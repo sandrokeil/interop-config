@@ -16,6 +16,7 @@ use InteropTest\Config\TestAsset\ConnectionMandatoryConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryContainerIdConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryRecursiveContainerIdConfiguration;
 use InteropTest\Config\TestAsset\FlexibleConfiguration;
+use InteropTest\Config\TestAsset\PlainConfiguration;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
@@ -43,7 +44,7 @@ class ConfigurationTraitTest extends TestCase
     {
         $stub = new ConnectionConfiguration();
 
-        $this->setExpectedException('Interop\Config\Exception\InvalidArgumentException', 'Provided parameter');
+        $this->setExpectedException('Interop\Config\Exception\InvalidArgumentException', 'Configuration must either');
 
         $stub->options('');
     }
@@ -236,6 +237,25 @@ class ConfigurationTraitTest extends TestCase
 
         self::assertArrayHasKey('name', $options);
         self::assertArrayHasKey('class', $options);
+    }
+
+    /**
+     * Tests if options() works with no dimensions
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::determineOptions
+     * @covers \Interop\Config\ConfigurationTrait::dimensions
+     */
+    public function testOptionsReturnsDataWithNoDimensions()
+    {
+        $stub = new PlainConfiguration();
+
+        $testConfig = $this->getTestConfig();
+
+        $options = $stub->options($testConfig);
+
+        self::assertArrayHasKey('doctrine', $options);
+        self::assertArrayHasKey('one', $options);
     }
 
     /**

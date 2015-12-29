@@ -11,7 +11,7 @@ namespace InteropBench\Config;
 
 use InteropTest\Config\TestAsset\ConnectionConfiguration;
 
-class RequiresConfigBench extends BaseCase
+class RequiresPackageConfigBench extends BaseCase
 {
     /**
      * @inheritdoc \InteropBench\Config\BaseCase::getFactoryClass

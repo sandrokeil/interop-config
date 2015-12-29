@@ -18,4 +18,28 @@ use InvalidArgumentException as PhpInvalidArgumentException;
  */
 class InvalidArgumentException extends PhpInvalidArgumentException implements ExceptionInterface
 {
+    /**
+     * @param array|\ArrayAccess $dimensions
+     * @param mixed $currentDimension Current configuration key
+     * @return InvalidArgumentException
+     */
+    public static function invalidConfiguration($dimensions, $currentDimension)
+    {
+        $position = [];
+
+        foreach ($dimensions as $dimension) {
+            if ($dimension === $currentDimension) {
+                break;
+            }
+            $position[] = $dimension;
+        }
+
+        return new static(
+            sprintf(
+                'Configuration must either be of type "array" or implement "\ArrayAccess". ' .
+                'Configuration position is "%s"',
+                implode('.', $position)
+            )
+        );
+    }
 }

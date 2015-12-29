@@ -24,14 +24,13 @@ trait ConfigurationTrait
      */
     public function canRetrieveOptions($config)
     {
-        try {
-            $options = $this->determineOptions($config, $this->dimensions());
-        } catch (Exception\InvalidArgumentException $exception) {
-            return false;
-        } catch (Exception\OutOfBoundsException $exception) {
-            return false;
+        foreach ($this->dimensions() as $dimension) {
+            if ((!is_array($config) && !$config instanceof ArrayAccess) || !isset($config[$dimension])) {
+                return false;
+            }
+            $config = $config[$dimension];
         }
-        return is_array($options) || $options instanceof ArrayAccess;
+        return is_array($config) || $config instanceof ArrayAccess;
     }
 
     /**
@@ -39,24 +38,29 @@ trait ConfigurationTrait
      */
     public function options($config)
     {
-        $options = $this->determineOptions($config, $this->dimensions());
+        foreach ($this->dimensions() as $dimension) {
+            if (!is_array($config) && !$config instanceof ArrayAccess) {
+                throw Exception\InvalidArgumentException::invalidConfiguration($this->dimensions(), $dimension);
+            }
 
-        if (!is_array($options) && !$options instanceof ArrayAccess) {
-            throw new Exception\UnexpectedValueException(
-                sprintf(
-                    'Options of configuration ' . "%s"
-                    . ' must either be of type "array" or implement "\ArrayAccess".',
-                    implode('.', $this->dimensions())
-                )
-            );
+            if (!isset($config[$dimension])) {
+                throw Exception\OptionNotFoundException::missingOptions($this->dimensions(), $dimension);
+            }
+            $config = $config[$dimension];
         }
+
+        if (!is_array($config) && !$config instanceof ArrayAccess) {
+            throw Exception\UnexpectedValueException::invalidOptions($this->dimensions());
+        }
+
         if ($this instanceof RequiresMandatoryOptions) {
-            $this->checkMandatoryOptions($this->mandatoryOptions(), $options);
+            $this->checkMandatoryOptions($this->mandatoryOptions(), $config);
         }
+
         if ($this instanceof ProvidesDefaultOptions) {
-            $options = array_replace_recursive($this->defaultOptions(), $options);
+            $config = array_replace_recursive($this->defaultOptions(), $config);
         }
-        return $options;
+        return $config;
     }
 
     /**
@@ -100,37 +104,6 @@ trait ConfigurationTrait
     }
 
     /**
-     * Determine recursively options depending on given dimensions
-     *
-     * @param array|ArrayAccess $config
-     * @param array|ArrayAccess $dimensions
-     * @return array|ArrayAccess
-     * @throws Exception\InvalidArgumentException
-     * @throws Exception\OptionNotFoundException
-     */
-    private function determineOptions($config, $dimensions)
-    {
-        if (!is_array($config) && !$config instanceof ArrayAccess) {
-            throw new Exception\InvalidArgumentException(
-                sprintf('Provided parameter $config  must either be of type "array" or implement "\ArrayAccess".')
-            );
-        }
-        $dimension = array_shift($dimensions);
-
-        if (!isset($config[$dimension])) {
-            $depth = array_diff($this->dimensions(), array($dimension));
-
-            throw new Exception\OptionNotFoundException(
-                sprintf('No options set for configuration "%s"', implode('.', $depth))
-            );
-        }
-
-        return empty($dimensions)
-            ? $config[$dimension]
-            : $this->determineOptions($config[$dimension], $dimensions);
-    }
-
-    /**
      * Checks if a mandatory param is missing, supports recursion
      *
      * @param array|ArrayAccess $mandatoryOptions
@@ -146,14 +119,15 @@ trait ConfigurationTrait
                 $this->checkMandatoryOptions($mandatoryOption, $options[$key]);
                 return;
             }
+
             if (!$useRecursion && isset($options[$mandatoryOption])) {
                 continue;
             }
-            throw new Exception\MandatoryOptionNotFoundException(sprintf(
-                'Mandatory option "%s" was not set for configuration "' . "%s",
-                $useRecursion ? $key : $mandatoryOption,
-                implode('.', $this->dimensions())
-            ));
+
+            throw Exception\MandatoryOptionNotFoundException::missingOption(
+                $this->dimensions(),
+                $useRecursion ? $key : $mandatoryOption
+            );
         }
     }
 }

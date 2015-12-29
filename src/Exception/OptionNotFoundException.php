@@ -16,4 +16,22 @@ namespace Interop\Config\Exception;
  */
 class OptionNotFoundException extends OutOfBoundsException
 {
+    /**
+     * @param array|\ArrayAccess $dimensions
+     * @param mixed $currentDimension Current configuration key
+     * @return InvalidArgumentException
+     */
+    public static function missingOptions($dimensions, $currentDimension)
+    {
+        $position = [];
+
+        foreach ($dimensions as $dimension) {
+            if ($dimension === $currentDimension) {
+                break;
+            }
+            $position[] = $dimension;
+        }
+
+        return new static(sprintf('No options set for configuration "%s"', implode('.', $position)));
+    }
 }
