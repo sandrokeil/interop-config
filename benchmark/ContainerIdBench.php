@@ -9,15 +9,15 @@
 
 namespace InteropBench\Config;
 
-use InteropTest\Config\TestAsset\ConnectionConfiguration;
+use InteropTest\Config\TestAsset\ConnectionContainerIdConfiguration;
 
-class RequiresPackageConfigBench extends BaseCase
+class ContainerIdBench extends BaseCase
 {
     /**
      * @inheritdoc \InteropBench\Config\BaseCase::getFactoryClass
      */
     protected function getFactoryClass()
     {
-        return new ConnectionConfiguration();
+        return new ConnectionContainerIdConfiguration();
     }
 }

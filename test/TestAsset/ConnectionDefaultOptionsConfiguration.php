@@ -10,30 +10,19 @@
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\RequiresContainerId;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\RequiresMandatoryOptions;
 
-class ConnectionDefaultOptionsConfiguration implements
-    RequiresContainerId,
-    RequiresMandatoryOptions,
-    ProvidesDefaultOptions
+class ConnectionDefaultOptionsConfiguration implements RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
 
-    public function vendorName()
+    /**
+     * @interitdoc
+     */
+    public function dimensions()
     {
-        return 'doctrine';
-    }
-
-    public function packageName()
-    {
-        return 'connection';
-    }
-
-    public function containerId()
-    {
-        return 'orm_default';
+        return ['doctrine', 'connection', 'orm_default'];
     }
 
     public function mandatoryOptions()

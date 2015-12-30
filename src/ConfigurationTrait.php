@@ -10,15 +10,21 @@
 namespace Interop\Config;
 
 use ArrayAccess;
+use Interop\Config\Exception;
 
 /**
- * ConfigurationTrait which retrieves options from configuration
+ * ConfigurationTrait which retrieves options from configuration, see interface \Interop\Config\RequiresConfig
  *
- * Use this trait if you want to retrieve options from a configuration and optional to perform a mandatory option check.
- * Default options are merged and overridden of the provided options.
+ * This trait is a implementation of \Interop\Config\RequiresConfig. Retrieves options from a configuration and optional
+ * to perform a mandatory option check. Default options are merged and overridden of the provided options.
  */
 trait ConfigurationTrait
 {
+    /**
+     * @inheritdoc \Interop\Config\RequiresConfig::dimensions
+     */
+    abstract public function dimensions();
+
     /**
      * @inheritdoc \Interop\Config\RequiresConfig::canRetrieveOptions
      */
@@ -38,6 +44,7 @@ trait ConfigurationTrait
      */
     public function options($config)
     {
+        // get configuration for provided dimensions
         foreach ($this->dimensions() as $dimension) {
             if (!is_array($config) && !$config instanceof ArrayAccess) {
                 throw Exception\InvalidArgumentException::invalidConfiguration($this->dimensions(), $dimension);
@@ -81,26 +88,6 @@ trait ConfigurationTrait
             $options = $this->defaultOptions();
         }
         return $options;
-    }
-
-    /**
-     * Override this function to implement your own dimension option level. Checks for RequiresConfig and
-     * RequiresContainerId implementation at default.
-     *
-     * @return array|ArrayAccess
-     */
-    public function dimensions()
-    {
-        $dimensions = [];
-
-        if ($this instanceof RequiresPackageConfig) {
-            $dimensions = [$this->vendorName(), $this->packageName()];
-
-            if ($this instanceof RequiresContainerId) {
-                $dimensions[] = $this->containerId();
-            }
-        }
-        return $dimensions;
     }
 
     /**

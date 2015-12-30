@@ -10,6 +10,7 @@
 namespace Interop\Config;
 
 use ArrayAccess;
+use Interop\Config\Exception;
 
 /**
  * RequiresConfig interface is the main interface to configure your instances via factories
@@ -20,8 +21,8 @@ use ArrayAccess;
 interface RequiresConfig
 {
     /**
-     * Returns the depth of the configuration array as a list. The example structure of the options() method would be an
-     * array like
+     * Returns the depth of the configuration array as a list. Can also be an empty array. The example structure of the
+     * options() method would be an array like
      *
      * <code>
      *   return ['doctrine', 'connection', 'orm_default'];

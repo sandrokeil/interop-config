@@ -11,19 +11,16 @@ namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresConfig;
-use Interop\Config\RequiresPackageConfig;
 
-class ConnectionConfiguration implements RequiresConfig, RequiresPackageConfig
+class ConnectionConfiguration implements RequiresConfig
 {
     use ConfigurationTrait;
 
-    public function vendorName()
+    /**
+     * @interitdoc
+     */
+    public function dimensions()
     {
-        return 'doctrine';
-    }
-
-    public function packageName()
-    {
-        return 'connection';
+        return ['doctrine', 'connection'];
     }
 }

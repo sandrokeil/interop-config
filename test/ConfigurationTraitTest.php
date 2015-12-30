@@ -37,7 +37,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() should throw exception if config parameter is not an array
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsThrowsInvalidArgumentExceptionIfConfigIsNotAnArray()
@@ -53,7 +52,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests canRetrieveOptions()
      *
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testCanRetrieveOptions()
@@ -81,7 +79,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests canRetrieveOptions()
      *
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testCanRetrieveOptionsWithContainerId()
@@ -107,7 +104,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() should throw exception if no vendor config is available
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsThrowsOptionNotFoundExceptionIfNoVendorConfigIsAvailable()
@@ -123,7 +119,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() should throw exception if no package option is available
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsThrowsOptionNotFoundExceptionIfNoPackageOptionIsAvailable()
@@ -139,7 +134,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() should throw exception if no container id option is available
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsThrowsOptionNotFoundExceptionIfNoContainerIdOptionIsAvailable()
@@ -155,7 +149,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() should throw exception if a dimension is not available
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsThrowsOptionNotFoundExceptionIfDimensionIsNotAvailable()
@@ -171,7 +164,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() should throw exception if retrieved options not an array or \ArrayAccess
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsThrowsUnexpectedValueExceptionIfRetrievedOptionsNotAnArrayOrArrayAccess()
@@ -187,7 +179,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with container id
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsReturnsDataWithContainerId()
@@ -206,7 +197,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works without container id
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsReturnsData()
@@ -224,7 +214,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with flexible dimensions
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsReturnsDataWithFlexibleDimensions()
@@ -243,7 +232,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with no dimensions
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsReturnsDataWithNoDimensions()
@@ -262,7 +250,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with container id
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsReturnsDataWithDefaultOptions()
@@ -300,7 +287,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works default options and default options not override provided options
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      */
     public function testOptionsThatDefaultOptionsNotOverrideProvidedOptions()
@@ -330,7 +316,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with mandatory options interface
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
@@ -346,7 +331,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with mandatory options interface
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
@@ -363,7 +347,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() throws a runtime exception if mandatory option is missing
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
@@ -386,7 +369,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() throws a runtime exception if a recursive mandatory option is missing
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */
@@ -410,7 +392,6 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() with recursive mandatory options check
      *
      * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::determineOptions
      * @covers \Interop\Config\ConfigurationTrait::dimensions
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      */

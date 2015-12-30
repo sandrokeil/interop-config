@@ -15,4 +15,12 @@ use Interop\Config\RequiresConfig;
 class PlainConfiguration implements RequiresConfig
 {
     use ConfigurationTrait;
+
+    /**
+     * @interitdoc
+     */
+    public function dimensions()
+    {
+        return [];
+    }
 }

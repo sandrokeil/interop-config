@@ -10,24 +10,17 @@
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfig;
 
-class ConnectionContainerIdConfiguration implements RequiresContainerId
+class ConnectionContainerIdConfiguration implements RequiresConfig
 {
     use ConfigurationTrait;
 
-    public function vendorName()
+    /**
+     * @interitdoc
+     */
+    public function dimensions()
     {
-        return 'doctrine';
-    }
-
-    public function packageName()
-    {
-        return 'connection';
-    }
-
-    public function containerId()
-    {
-        return 'orm_default';
+        return ['doctrine', 'connection', 'orm_default'];
     }
 }
