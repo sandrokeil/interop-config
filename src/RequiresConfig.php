@@ -35,7 +35,7 @@ interface RequiresConfig
     /**
      * Returns options based on dimensions() like [vendor][package][id] and can perform mandatory option checks if
      * class implements RequiresMandatoryOptions. If the ProvidesDefaultOptions interface is implemented, these options
-     * must be overridden by the provided config. RequiresPackageConfig and RequiresContainerId interfaces are optional.
+     * must be overridden by the provided config.
      *
      * This example uses RequiresContainerId interface
      *
