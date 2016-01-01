@@ -1,87 +1,57 @@
 # interop-config API
 
-This file describes the classes of this package. All the interfaces can be combined. Don't panic, the interfaces are quite easy and the `ConfigurationTrait`, which is a concrete implementation, has full support of those interfaces. You need only one interface called `RequiresConfig` to start and then you can implement the others if they are needed.
+This file describes the classes of this package. All the interfaces can be combined. Don't panic, the interfaces are 
+quite easy and the `ConfigurationTrait`, which is a concrete implementation, has full support of those interfaces. You
+need only one interface called `RequiresConfig` to start and then you can implement the others if they are needed.
 
 * RequiresConfig Interface
-* RequiresContainerId Interface
 * RequiresMandatoryOptions Interface
 * ProvidesDefaultOptions Interface
-* ConfigurationTrait
 
 ## RequiresConfig Interface
 
-The `RequiresConfig` interface exposes four methods: `vendorName`, `packageName`, `canRetrieveOptions` and `options`.
+The `RequiresConfig` interface exposes three methods: `dimensions`, `canRetrieveOptions` and `options`.
 
-### vendorName()
+### dimensions()
 ```php
-    public function vendorName() : string
+    public function dimensions() : []
 ```
 
-The `vendorName` method has no parameters and MUST return a string.
-
-### packageName()
-```php
-    public function packageName() : string
-```
-
-The `packageName` method has no parameters and MUST return a string.
-
-`canRetrieveOptions` and `options`
+The `dimensions` method has no parameters and MUST return an array. The values (used as key names) of the array are used
+as the depth of the configuration to retrieve options. Two values means a configuration depth of two. An empty array is 
+valid.
 
 ### canRetrieveOptions()
 ```php
     public function canRetrieveOptions($config) : bool
 ```
-Checks if options are available depending on implemented interfaces and checks that the retrieved options are an array or have implemented \ArrayAccess.
-
-The `RequiresContainerId` interface is optional but MUST be supported.
+Checks if options are available depending on provided dimensions and checks that the retrieved options are an array or 
+have implemented \ArrayAccess.
 
 ### options()
 ```php
     public function options($config) : []
 ```
 The `options` method takes one mandatory parameter: a configuration array. It MUST be an array or an object which implements the 
-`ArrayAccess` interface. A call to `options` returns the configuration depending on the implemented interfaces of the 
+`ArrayAccess` interface. A call to `options` returns the configuration depending on provided dimensions of the 
 class or throws an exception if the parameter is invalid or if the configuration is missing or if a mandatory option is missing.
 
-If the `ProvidesDefaultOptions` interface is implemented, these options MUST be overriden by the provided config.
-
-The `RequiresContainerId` interface is optional but MUST be supported.
+If the `ProvidesDefaultOptions` interface is implemented, these options MUST be overridden by the provided config.
 
 #### Exceptions
 Exceptions directly thrown by the `options` method MUST implement the `Interop\Config\ExceptionExceptionInterface`.
 
-If the configuration parameter is not an array or not an object which implementes the `ArrayAccess` interface the method 
+If the configuration parameter is not an array or not an object which implements the `ArrayAccess` interface the method 
 SHOULD throw a `Interop\Config\ExceptionInvalidArgumentException`.
 
-If the key which is returned from `vendorName` is not set in the configuration parameter the method SHOULD throw a 
-`Interop\Config\Exception\OutOfBoundsException`.
-
-If the key which is returned from `packageName` is not set under the key of `vendorName` in the configuration parameter 
+If a key which is returned from `dimensions` is not set under the previous dimensions key in the configuration parameter, 
 the method SHOULD throw a `Interop\Config\Exception\OptionNotFoundException`.
-
-If the class implements the `RequiresContainerId` interface and if the key which is returned from `containerId` is not set
-under the key of `packageName` in the configuration parameter the method SHOULD throw a 
-`Interop\Config\Exception\OptionNotFoundException`.
 
 If the class implements the `RequiresMandatoryOptions` interface and if a mandatory option from `mandatoryOptions` is not set 
 in the options array which was retrieved from the configuration parameter before, the method SHOULD throw a 
 `Interop\Config\Exception\MandatoryOptionNotFoundException`.
 
 If the retrieved options are not of type array or \ArrayAccess the method SHOULD throw a `Interop\Config\Exception\UnexpectedValueException`.
-
-## RequiresContainerId Interface
-
-> This interface extends from `RequiresConfig` interface to ensure config integrity
-
-The `RequiresContainerId` interface exposes one method: `containerId`
-
-### containerId()
-```php
-    public function containerId() : string
-```
-
-The `containerId` method has no parameters and MUST return a string.
 
 ## RequiresMandatoryOptions Interface
 The `RequiresMandatoryOptions` interface exposes one method: `mandatoryOptions`
@@ -106,7 +76,7 @@ The return value MUST be compatible with the PHP function `array_replace_recursi
 
 ## ConfigurationTrait
 The `ConfigurationTrait` implements the functions of `RequiresConfig` interface and has support for 
-`ProvidesDefaultOptions`, `RequiresMandatoryOptions`, `RequiresContainerId` interface if the the class has they implemented.
+`ProvidesDefaultOptions` and `RequiresMandatoryOptions` interfaces if the the class has they implemented.
 
 Additional it has one more method `optionsWithFallback` to reduce boilerplate code.
 

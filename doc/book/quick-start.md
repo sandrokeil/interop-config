@@ -9,16 +9,11 @@ use Interop\Config\RequiresConfig;
 
 class MyAwesomeFactory implements RequiresConfig
 {
-    public function vendorName()
+    public function dimensions()
     {
-        return 'myvendor';
+        return ['vendor-package'];
     }
     
-    public function packageName()
-    {
-        return 'mypackage';
-    }
-        
     public function canRetrieveOptions($config)
     {
         // custom implementation depending on specifications
@@ -31,29 +26,18 @@ class MyAwesomeFactory implements RequiresConfig
 }
 ```
 
-## `RequiresContainerId` interface
-If you support more than one instance with different configuration then you can say 
-*My factory requires a configuration and requires a container id.* Then you use the `RequiresContainerId` interface which also 
-implements the `RequiresConfig` interface.
+### Need configuration per container id
+If you support more than one instance with different configuration then you simply add one more value to the `dimensions` 
+method.
 
 ```php
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfig;
 
-class MyAwesomeFactory implements RequiresContainerId
+class MyAwesomeFactory implements RequiresConfig
 {
-    public function vendorName()
+    public function dimensions()
     {
-        return 'myvendor';
-    }
-    
-    public function packageName()
-    {
-        return 'mypackage';
-    }
-    
-    public function containerId()
-    {
-        return 'mycontainerid';
+        return ['vendor-package', 'container-id'];
     }
     
     public function canRetrieveOptions($config)
@@ -76,14 +60,11 @@ Depending on the implemented interfaces above our configuration PHP file looks l
 ```php
 // interop config example
 return [
-    // vendor name
-    'myvendor' => [
-        // package name
-        'mypackage' => [
-            // container id
-            'mycontainerid' => [
-                // some options ...
-            ],
+    // vendor/package name
+    'vendor-package' => [
+        // container id
+        'container-id' => [
+            // some options ...
         ],
     ],
 ];
@@ -93,33 +74,24 @@ As you can see that you have to implement the functionality of `canRetrieveOptio
 this is not necessary. See `ConfigurationTrait`. 
 
 ## `ConfigurationTrait`
-The `ConfigurationTrait` is a concreate implementation of the `RequiresConfig` interface and has full support of 
-`ProvidesDefaultOptions`, `RequiresMandatoryOptions` and `RequiresContainerId` interface. It's a [PHP Trait](http://php.net/manual/en/language.oop5.traits.php "PHP Trait Documentation") so you can extend your factory
+The `ConfigurationTrait` is a concrete implementation of the `RequiresConfig` interface and has full support of 
+`ProvidesDefaultOptions` and `RequiresMandatoryOptions` interfaces. It's a 
+[PHP Trait](http://php.net/manual/en/language.oop5.traits.php "PHP Trait Documentation") so you can extend your factory
 from a class.
 
 Your factory looks now like that:
 
 ```php
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfig;
 use Interop\Config\ConfigurationTrait;
 
-class MyAwesomeFactory implements RequiresContainerId
+class MyAwesomeFactory implements RequiresConfig
 {
     use ConfigurationTrait;
     
-    public function vendorName()
+    public function dimensions()
     {
-        return 'myvendor';
-    }
-    
-    public function packageName()
-    {
-        return 'mypackage';
-    }
-    
-    public function containerId()
-    {
-        return 'mycontainerid';
+        return ['vendor-package', 'container-id'];
     }
 }
 ```
@@ -136,32 +108,22 @@ provided to retrieve the configuration.
 > Note that the configuration above is injected as `$config` in `options()`
 
 ```php
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfig;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements RequiresContainerId
+class MyAwesomeFactory implements RequiresConfig
 {
     use ConfigurationTrait;
     
-    public function vendorName()
+    public function dimensions()
     {
-        return 'myvendor';
-    }
-    
-    public function packageName()
-    {
-        return 'mypackage';
-    }
-    
-    public function containerId()
-    {
-        return 'mycontainerid';
+        return ['vendor-package', 'container-id'];
     }
     
     public function __invoke(ContainerInterface $container)
     {
-        // get options for myvendor.mypackage.mycontainerid
+        // get options for vendor-package.container-id
         // method options() is implemented in ConfigurationTrait
         $options = $this->options($container->get('config'));
         
@@ -179,17 +141,14 @@ params for a db connection. Our config *should* looks like that:
 ```php
 // interop config example
 return [
-    // vendor name
-    'myvendor' => [
-        // package name
-        'mypackage' => [
-            // container id
-            'mycontainerid' => [
-                'params' => [
-                    'user'     => 'username',
-                    'password' => 'password',
-                    'dbname'   => 'database',
-                ],
+    // vendor/package name
+    'vendor-package' => [
+        // container id
+        'container-id' => [
+            'params' => [
+                'user'     => 'username',
+                'password' => 'password',
+                'dbname'   => 'database',
             ],
         ],
     ],
@@ -201,28 +160,18 @@ The `ConfigurationTrait` ensures that these options are available, otherwise an 
 the developer gets an exact exception message with what is wrong. This is useful for developers who use your factory the first time.
 
 ```php
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfig;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions
+class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
     
-    public function vendorName()
+    public function dimensions()
     {
-        return 'myvendor';
-    }
-    
-    public function packageName()
-    {
-        return 'mypackage';
-    }
-    
-    public function containerId()
-    {
-        return 'mycontainerid';
+        return ['vendor-package', 'container-id'];
     }
     
     public function mandatoryOptions()
@@ -253,29 +202,19 @@ options.
 Remember: *My factory requires configuration, requires a container id along with mandatory options and it provides default options.*
 
 ```php
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfig;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, ProvidesDefaultOptions
+class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
     
-    public function vendorName()
+    public function dimensions()
     {
-        return 'myvendor';
-    }
-    
-    public function packageName()
-    {
-        return 'mypackage';
-    }
-    
-    public function containerId()
-    {
-        return 'mycontainerid';
+        return ['vendor-package', 'container-id'];
     }
     
     public function mandatoryOptions()
@@ -295,7 +234,7 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions,
     
     public function __invoke(ContainerInterface $container)
     {
-        // get options for myvendor.mypackage.mycontainerid
+        // get options for vendor-package.container-id
         // method options() is implemented in ConfigurationTrait
         // an exception is raised when a mandatory option is missing
         // if host/port is missing, default options will be used
@@ -317,13 +256,13 @@ You can call this function and if it returns false, you can use the default opti
 
 
 ```php
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfig;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, ProvidesDefaultOptions
+class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
     
@@ -336,7 +275,7 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions,
         $options = [];
         
         if ($this->canRetrieveOptions($config)) {
-            // get options for myvendor.mypackage.mycontainerid
+            // get options for vendor-package.container-id
             // method options() is implemented in ConfigurationTrait
             // if host/port is missing, default options will be used
             $options = $this->options($config);
@@ -353,13 +292,13 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions,
 of the specification but is implemented in `ConfigurationTrait` to reduce some boilerplate code.
 
 ```php
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfig;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions, ProvidesDefaultOptions
+class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
     
@@ -367,7 +306,7 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions,
     
     public function __invoke(ContainerInterface $container)
     {
-        // get options for myvendor.mypackage.mycontainerid
+        // get options for vendor-package.container-id
         // method options() is implemented in ConfigurationTrait
         // if configuration is not available, default options will be used
         $options = $this->optionsWithFallback($container->get('config'));
@@ -379,3 +318,5 @@ class MyAwesomeFactory implements RequiresContainerId, RequiresMandatoryOptions,
 
 *Using `optionsWithFallback()` method and the `RequiresMandatoryOptions` is ambiguous or?* Yes, so it's up to you to implement
 the interfaces in a sense order.
+
+Take a look at the examples section for more use cases. `interop-config` is universally applicable.

@@ -1,4 +1,4 @@
-# Interop Configuration
+# Interoperability Configuration
 
 > You want to configure your factories?
 
@@ -6,7 +6,9 @@
 
 > You want to check automatically for mandatory options or merge default options?
 
-> You want to have an uniform config structure?
+> You want to have a valid config structure?
+
+> You want to generate your configuration files from factory classes?
 
 > This library comes to the rescue!
 
@@ -21,8 +23,8 @@
 [![Reference Status](https://www.versioneye.com/php/sandrokeil:interop-config/reference_badge.svg?style=flat)](https://www.versioneye.com/php/sandrokeil:interop-config/references)
 [![License](https://poser.pugx.org/sandrokeil/interop-config/license.png)](https://packagist.org/packages/sandrokeil/interop-config)
 
-*interop-config* provides interfaces and a concrete implementation to create instances depending on configuration via 
-factory classes and ensures a uniform config structure. It can also be used to auto discover factories 
+`interop-config` provides interfaces and a concrete implementation to create instances depending on configuration via 
+factory classes and ensures a valid config structure. It can also be used to auto discover factories 
 and to create configuration files.
 
 > Please join the discussion about the [PSR config proposal](https://github.com/php-fig/fig-standards/pull/620).
@@ -32,7 +34,8 @@ and to create configuration files.
  * **Every change is tracked**. Want to know whats new? Take a look at [CHANGELOG.md](https://github.com/sandrokeil/interop-config/blob/master/CHANGELOG.md)
  * **Listen to your ideas.** Have a great idea? Bring your tested pull request or open a new issue. See [CONTRIBUTING.md](CONTRIBUTING.md)
 
-You should have coding conventions and you should have config conventions. If not, you should think about that.
+You should have coding conventions and you should have config conventions. If not, you should think about that. 
+`interop-config` is universally applicable! See further documentation for more details.
 
 ## Installation
 
@@ -43,12 +46,12 @@ Put the following into your composer.json or run `composer require sandrokeil/in
 
     {
         "require": {
-            "sandrokeil/interop-config": "^0.3.1"
+            "sandrokeil/interop-config": "^0.4.0"
         }
     }
 
 ## Documentation
-For the latest online documentation you can visit [http://sandrokeil.github.io/interop-config/](http://sandrokeil.github.io/interop-config/ "Latest interop-config documentation").
+For the latest online documentation visit [http://sandrokeil.github.io/interop-config/](http://sandrokeil.github.io/interop-config/ "Latest interop-config documentation").
 Refer the *Quick Start* section for a detailed explanation. 
 
 Documentation is [in the doc tree](doc/), and can be compiled using [bookdown](http://bookdown.io) and [Docker](https://www.docker.com/)
@@ -79,7 +82,7 @@ This is a list of projects who are using `interop-config` interfaces (incomplete
 * [prooph/snapshot-doctrine-adapter](https://github.com/prooph/snapshot-doctrine-adapter) - Snapshot Doctrine Adapter for ProophEventStore 
 
 ## Benchmarks
-The benchmarks uses [PHPBench](https://github.com/phpbench/phpbench) and can be started by the following command:
+The benchmarks uses [PHPBench](http://phpbench.readthedocs.org/en/latest/) and can be started by the following command:
  
 ```console
 $ ./vendor/bin/phpbench run --report=aggregate
@@ -88,5 +91,5 @@ $ ./vendor/bin/phpbench run --report=aggregate
 or with Docker
  
 ```console
-$ docker run --rm -it --volume $(pwd):/app sandrokeil/php:7.0-cli php ./vendor/bin/phpbench run --report=aggregate
+$ docker run --rm -it --volume $(pwd):/app prooph/php:7.0-cli-opcache php ./vendor/bin/phpbench run --report=aggregate
 ```

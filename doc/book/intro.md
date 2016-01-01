@@ -1,18 +1,20 @@
 # interop-config: Overview
 
-intop-config provides interfaces and a concrete implementation to create instances depending on configuration via 
-factory classes and ensures a uniform config structure. It can also be used to auto discover factories and to create
+`intop-config` provides interfaces and a concrete implementation to create instances depending on configuration via 
+factory classes and ensures a valid config structure. It can also be used to auto discover factories and to create
 configuration files.
 
-* Configure a vendor package
-* Configure a specific container id
-* Check for mandatory options
+* Configure a vendor/package or container id
+* Check for mandatory options, recursion supported
 * Check if options can be retrieved from configuration
-* Merging of default options
+* Merging of default options, recursion supported
+* Generate configuration files from factory classes
 
 ## Config Structure
+> The following example is a common practice for libraries. You are free to use another config structure. See examples.
+
 The config keys should have the following structure `vendor.package.container_id`. The `container_id` is optional and is
-only neccessary if you have different instances of the same class e.g. database connection.
+only necessary if you have different instances of the same class e.g. database connection.
 
 A common configuration looks like that:
 
@@ -41,18 +43,18 @@ return [
 ```
 
 So `doctrine` is the vendor, `connection` is the package and `orm_default` is the container id. After that the specified 
-instance options follow. The following example uses [ConfigurationTrait](src/ConfigurationTrait.php) which implements 
-the logic to retrieve the options from a configuration. See documentation for more details.
+instance options follow. The following example uses `ConfigurationTrait` which implements the logic to retrieve the 
+options from a configuration. See documentation for more details.
 
 > Note that the configuration above is injected as `$config` in `options()`
 
 ```php
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfig;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Container\ContainerInterface;
 
-class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryOptions
+class MyDBALConnectionFactory implements RequiresConfig, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
     
@@ -72,33 +74,13 @@ class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryO
     }
 
     /**
-     * Returns the vendor name
+     * Is used to retrieve options from the configuration array ['doctrine' => ['connection' => ['orm_default' => []]]].
      *
-     * @return string
+     * @return []
      */
-    public function vendorName()
+    public function dimensions()
     {
-        return 'doctrine';
-    }
-
-    /**
-     * Returns the package name
-     *
-     * @return string
-     */
-    public function packageName()
-    {
-        return 'connection';
-    }
-
-    /**
-     * Returns the container identifier
-     *
-     * @return string
-     */
-    public function containerId()
-    {
-        return 'orm_default';
+        return ['doctrine', 'connection', 'orm_default'];
     }
 
     /**
