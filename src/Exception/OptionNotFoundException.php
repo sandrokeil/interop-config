@@ -27,6 +27,7 @@ class OptionNotFoundException extends OutOfBoundsException
 
         foreach ($dimensions as $dimension) {
             if ($dimension === $currentDimension) {
+                $position[] = $dimension;
                 break;
             }
             $position[] = $dimension;
