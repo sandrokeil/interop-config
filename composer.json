@@ -25,7 +25,7 @@
   "support": {
     "issues": "https://github.com/sandrokeil/interop-config/issues",
     "source": "https://github.com/sandrokeil/interop-config",
-    "docs": "http://sandrokeil.github.io/interop-config/",
+    "docs": "http://sandrokeil.github.io/interop-config/"
   },
   "autoload": {
     "psr-4": {
