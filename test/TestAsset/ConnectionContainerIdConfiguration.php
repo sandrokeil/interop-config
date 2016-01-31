@@ -10,9 +10,9 @@
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\RequiresConfig;
+use Interop\Config\RequiresConfigId;
 
-class ConnectionContainerIdConfiguration implements RequiresConfig
+class ConnectionContainerIdConfiguration implements RequiresConfigId
 {
     use ConfigurationTrait;
 
@@ -21,6 +21,6 @@ class ConnectionContainerIdConfiguration implements RequiresConfig
      */
     public function dimensions()
     {
-        return ['doctrine', 'connection', 'orm_default'];
+        return ['doctrine', 'connection'];
     }
 }

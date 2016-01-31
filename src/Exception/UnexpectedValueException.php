@@ -20,14 +20,25 @@ class UnexpectedValueException extends PhpUnexpectedValueException implements Ex
 {
     /**
      * @param array|\ArrayAccess $dimensions
+     * @param mixed $currentDimension Current configuration key
      * @return UnexpectedValueException
      */
-    public static function invalidOptions($dimensions)
+    public static function invalidOptions($dimensions, $currentDimension = null)
     {
+        $position = [];
+
+        foreach ($dimensions as $dimension) {
+            if ($dimension === $currentDimension) {
+                break;
+            }
+            $position[] = $dimension;
+        }
+
         return new static(
             sprintf(
-                'Options of configuration "%s" must either be of type "array" or implement "\ArrayAccess".',
-                implode('.', $dimensions)
+                'Configuration must either be of type "array" or implement "\ArrayAccess". ' .
+                'Configuration position is "%s"',
+                rtrim(implode('.', $position), '.')
             )
         );
     }

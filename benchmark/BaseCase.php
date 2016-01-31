@@ -3,11 +3,13 @@
 namespace InteropBench\Config;
 
 use Interop\Config\RequiresConfig;
+use Interop\Config\RequiresConfigId;
 
 /**
  * @BeforeMethods({"classSetUp"})
  * @Revs(10000)
  * @Iterations(10)
+ * @Warmup(2)
  */
 abstract class BaseCase
 {
@@ -20,6 +22,11 @@ abstract class BaseCase
      * @var RequiresConfig
      */
     private $factory;
+
+    /**
+     * @var string
+     */
+    private $configId;
 
     /**
      * Returns benchmark factory class
@@ -35,6 +42,7 @@ abstract class BaseCase
     {
         $this->config = $this->getTestConfig();
         $this->factory = $this->getFactoryClass();
+        $this->configId = $this->factory instanceof RequiresConfigId ? 'orm_default' : null;
     }
 
     /**
@@ -42,7 +50,7 @@ abstract class BaseCase
      */
     public function benchOptions()
     {
-        $this->factory->options($this->config);
+        $this->factory->options($this->config, $this->configId);
     }
 
     /**

@@ -25,7 +25,7 @@ interface RequiresConfig
      * options() method would be an array like
      *
      * <code>
-     *   return ['doctrine', 'connection', 'orm_default'];
+     *   return ['prooph', 'service_bus', 'command_bus'];
      * </code>
      *
      * @return array|ArrayAccess
@@ -33,26 +33,22 @@ interface RequiresConfig
     public function dimensions();
 
     /**
-     * Returns options based on dimensions() like [vendor][package][id] and can perform mandatory option checks if
+     * Returns options based on dimensions() like [vendor][package] and can perform mandatory option checks if
      * class implements RequiresMandatoryOptions. If the ProvidesDefaultOptions interface is implemented, these options
-     * must be overridden by the provided config.
-     *
-     * This example uses RequiresContainerId interface
+     * must be overridden by the provided config. If you want to allow configurations for more then one instance use
+     * RequiresConfigId interface.
      *
      * <code>
      * return [
      *      // vendor name
-     *     'doctrine' => [
+     *     'prooph' => [
      *          // package name
-     *          'connection' => [
-     *             // container id, is optional
-     *             'orm_default' => [
-     *                 // mandatory options, is optional
-     *                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
-     *                 'params' => [
-     *                     // default options, is optional
-     *                     'host' => 'localhost',
-     *                     'port' => '3306',
+     *          'service_bus' => [
+     *             // only one instance possible
+     *             'command_bus' => [
+     *                  // command bus factory options
+     *                 'router' => [
+     *                     'routes' => [],
      *                 ],
      *             ],
      *         ],
@@ -63,9 +59,6 @@ interface RequiresConfig
      * @param array|ArrayAccess $config Configuration
      * @return array|ArrayAccess options
      *
-     * @throws Exception\UnexpectedValueException If the $config parameter has the wrong type
-     * @throws Exception\OptionNotFoundException If no options are available
-     * @throws Exception\MandatoryOptionNotFoundException If a mandatory option is missing
      */
     public function options($config);
 

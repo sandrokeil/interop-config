@@ -26,12 +26,27 @@ trait ConfigurationTrait
     abstract public function dimensions();
 
     /**
-     * @inheritdoc \Interop\Config\RequiresConfig::canRetrieveOptions
+     * Checks if options are available depending on implemented interfaces and checks that the retrieved options are an
+     * array or have implemented \ArrayAccess.
+     *
+     * The RequiresConfigId interface is supported.
+     *
+     * @param array|ArrayAccess $config Configuration
+     * @param string|null $configId Config name, must be provided if factory uses RequiresConfigId interface
+     * @return bool True if options are available, otherwise false
      */
-    public function canRetrieveOptions($config)
+    public function canRetrieveOptions($config, $configId = null)
     {
-        foreach ($this->dimensions() as $dimension) {
-            if ((!is_array($config) && !$config instanceof ArrayAccess) || !isset($config[$dimension])) {
+        $dimensions = $this->dimensions();
+
+        if ($this instanceof RequiresConfigId) {
+            $dimensions[] = $configId;
+        }
+
+        foreach ($dimensions as $dimension) {
+            if ((!is_array($config) && !$config instanceof ArrayAccess)
+                || !isset($config[$dimension])
+            ) {
                 return false;
             }
             $config = $config[$dimension];
@@ -40,18 +55,49 @@ trait ConfigurationTrait
     }
 
     /**
-     * @inheritdoc \Interop\Config\RequiresConfig::options
+     * doctrine.connection.default
+     *
+     * [doctrine, connection] options($config, 'default')
+     *
+     * Prooph\ServiceBus\CommandBus
+     *
+     * [prooph, service_bus, command_bus] options($config)
      */
-    public function options($config)
+
+    /**
+     * Returns options based on dimensions() like [vendor][package] and can perform mandatory option checks if
+     * class implements RequiresMandatoryOptions. If the ProvidesDefaultOptions interface is implemented, these options
+     * must be overridden by the provided config. If you want to allow configurations for more then one instance use
+     * RequiresConfigId interface.
+     *
+     * The RequiresConfigId interface is supported.
+     *
+     * @param array|ArrayAccess $config Configuration
+     * @param string $configId Config name, must be provided if factory uses RequiresConfigId interface
+     * @return array|ArrayAccess
+     *
+     * The RequiresConfigId interface is supported.
+     */
+    public function options($config, $configId = null)
     {
+        $dimensions = $this->dimensions();
+
+        if ($this instanceof RequiresConfigId) {
+            $dimensions[] = $configId;
+        } elseif ($configId !== null) {
+            throw new Exception\InvalidArgumentException(
+                sprintf('The factory "%s" does not support multiple instances.', __CLASS__)
+            );
+        }
+
         // get configuration for provided dimensions
-        foreach ($this->dimensions() as $dimension) {
+        foreach ($dimensions as $dimension) {
             if (!is_array($config) && !$config instanceof ArrayAccess) {
-                throw Exception\InvalidArgumentException::invalidConfiguration($this->dimensions(), $dimension);
+                throw Exception\UnexpectedValueException::invalidOptions($dimensions, $dimension);
             }
 
             if (!isset($config[$dimension])) {
-                throw Exception\OptionNotFoundException::missingOptions($this->dimensions(), $dimension);
+                throw Exception\OptionNotFoundException::missingOptions($this, $dimension, $configId);
             }
             $config = $config[$dimension];
         }

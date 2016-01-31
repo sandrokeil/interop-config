@@ -42,9 +42,9 @@
     "php": "^5.5 || ^7.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^4.8 || ^5.0",
+    "phpunit/phpunit": "^4.8 || ^5.2",
     "phpunit/php-invoker": "^1.1",
-    "squizlabs/php_codesniffer": "^2.3",
+    "squizlabs/php_codesniffer": "^2.5",
     "phpbench/phpbench": "^1.0@dev",
     "humbug/humbug": "^1.0@dev",
     "tobiju/bookdown-bootswatch-templates": "^0.3"
@@ -56,6 +56,19 @@
       "dev-master": "1.0-dev",
       "dev-develop": "1.1-dev"
     }
+  },
+  "scripts": {
+    "check": [
+      "@cs",
+      "@test"
+    ],
+    "cs": "phpcs",
+    "cs-fix": "phpcbf",
+    "test": "phpunit --no-coverage",
+    "test-coverage": "phpunit",
+    "humbug": "humbug",
+    "docs": "bookdown doc/bookdown.json",
+    "benchmark": "phpbench run -v --report=aggregate"
   },
   "archive": {
     "exclude": [

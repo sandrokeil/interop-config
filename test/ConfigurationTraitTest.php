@@ -45,7 +45,7 @@ class ConfigurationTraitTest extends TestCase
         $stub = new ConnectionConfiguration();
 
         $this->setExpectedException(
-            'Interop\Config\Exception\InvalidArgumentException',
+            'Interop\Config\Exception\UnexpectedValueException',
             'position is "doctrine"'
         );
 
@@ -89,19 +89,28 @@ class ConfigurationTraitTest extends TestCase
     {
         $stub = new ConnectionContainerIdConfiguration();
 
-        self::assertSame(false, $stub->canRetrieveOptions(['doctrine' => ['connection' => null]]));
+        self::assertSame(false, $stub->canRetrieveOptions(['doctrine' => ['connection' => null]]), 'orm_default');
 
         self::assertSame(
             false,
-            $stub->canRetrieveOptions(['doctrine' => ['connection' => ['invalid' => ['test' => 1]]]])
+            $stub->canRetrieveOptions(['doctrine' => ['connection' => ['invalid' => ['test' => 1]]]], 'orm_default')
         );
 
         self::assertSame(
             false,
-            $stub->canRetrieveOptions(['doctrine' => ['connection' => ['orm_default' => new \stdClass()]]])
+            $stub->canRetrieveOptions(
+                [
+                    'doctrine' => [
+                        'connection' => [
+                            'orm_default' => new \stdClass()
+                        ]
+                    ]
+                ],
+                'orm_default'
+            )
         );
 
-        self::assertSame(true, $stub->canRetrieveOptions($this->getTestConfig()));
+        self::assertSame(true, $stub->canRetrieveOptions($this->getTestConfig(), 'orm_default'));
     }
 
     /**
@@ -155,7 +164,7 @@ class ConfigurationTraitTest extends TestCase
             '"doctrine.connection.orm_default"'
         );
 
-        $stub->options(['doctrine' => ['connection' => ['orm_default' => null]]]);
+        $stub->options(['doctrine' => ['connection' => ['orm_default' => null]]], 'orm_default');
     }
 
     /**
@@ -190,10 +199,10 @@ class ConfigurationTraitTest extends TestCase
 
         $this->setExpectedException(
             'Interop\Config\Exception\UnexpectedValueException',
-            'Options of configuration "doctrine.connection.orm_default"'
+            'Configuration must either be of'
         );
 
-        $stub->options(['doctrine' => ['connection' => ['orm_default' => new \stdClass()]]]);
+        $stub->options(['doctrine' => ['connection' => ['orm_default' => new \stdClass()]]], 'orm_default');
     }
 
     /**
@@ -208,7 +217,7 @@ class ConfigurationTraitTest extends TestCase
 
         $testConfig = $this->getTestConfig();
 
-        $options = $stub->options($testConfig);
+        $options = $stub->options($testConfig, 'orm_default');
 
         self::assertArrayHasKey('driverClass', $options);
         self::assertArrayHasKey('params', $options);
@@ -282,7 +291,7 @@ class ConfigurationTraitTest extends TestCase
         unset($testConfig['doctrine']['connection']['orm_default']['params']['host']);
         unset($testConfig['doctrine']['connection']['orm_default']['params']['port']);
 
-        $options = $stub->options($testConfig);
+        $options = $stub->options($testConfig, 'orm_default');
 
         self::assertArrayHasKey('params', $options);
         self::assertSame($options['params']['host'], $stub->defaultOptions()['params']['host']);
@@ -297,7 +306,7 @@ class ConfigurationTraitTest extends TestCase
         # remove main index key
         unset($testConfig['doctrine']['connection']['orm_default']['params']);
 
-        $options = $stub->options($testConfig);
+        $options = $stub->options($testConfig, 'orm_default');
 
         self::assertArrayHasKey('params', $options);
         self::assertSame($options['params']['host'], $stub->defaultOptions()['params']['host']);
@@ -316,7 +325,7 @@ class ConfigurationTraitTest extends TestCase
 
         $testConfig = $this->getTestConfig();
 
-        $options = $stub->options($testConfig);
+        $options = $stub->options($testConfig, 'orm_default');
 
         self::assertArrayHasKey('params', $options);
         self::assertSame(
@@ -358,7 +367,7 @@ class ConfigurationTraitTest extends TestCase
     public function testOptionsChecksMandatoryOptionsWithContainerId()
     {
         $stub = new ConnectionMandatoryContainerIdConfiguration();
-        $options = $stub->options($this->getTestConfig());
+        $options = $stub->options($this->getTestConfig(), 'orm_default');
 
         self::assertArrayHasKey('driverClass', $options);
         self::assertArrayHasKey('params', $options);
@@ -384,7 +393,7 @@ class ConfigurationTraitTest extends TestCase
         $config = $this->getTestConfig();
         unset($config['doctrine']['connection']['orm_default']['params']);
 
-        $stub->options($config);
+        $stub->options($config, 'orm_default');
     }
 
     /**
@@ -408,7 +417,7 @@ class ConfigurationTraitTest extends TestCase
 
         unset($config['doctrine']['connection']['orm_default']['params']['dbname']);
 
-        $stub->options($config);
+        $stub->options($config, 'orm_default');
     }
 
     /**
@@ -424,7 +433,7 @@ class ConfigurationTraitTest extends TestCase
 
         $config = $this->getTestConfig();
 
-        self::assertArrayHasKey('params', $stub->options($config));
+        self::assertArrayHasKey('params', $stub->options($config, 'orm_default'));
     }
 
     /**
@@ -463,7 +472,7 @@ class ConfigurationTraitTest extends TestCase
             'Mandatory option "params"'
         );
 
-        $stub->options($config);
+        $stub->options($config, 'orm_default');
     }
 
     /**

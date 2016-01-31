@@ -9,6 +9,9 @@
 
 namespace Interop\Config\Exception;
 
+use Interop\Config\RequiresConfig;
+use Interop\Config\RequiresConfigId;
+
 /**
  * Option not found exception
  *
@@ -17,20 +20,36 @@ namespace Interop\Config\Exception;
 class OptionNotFoundException extends OutOfBoundsException
 {
     /**
-     * @param array|\ArrayAccess $dimensions
+     * @param RequiresConfig $factory
      * @param mixed $currentDimension Current configuration key
+     * @param string $configId
      * @return InvalidArgumentException
      */
-    public static function missingOptions($dimensions, $currentDimension)
+    public static function missingOptions(RequiresConfig $factory, $currentDimension, $configId)
     {
         $position = [];
 
+        $dimensions = $factory->dimensions();
+
+        if ($factory instanceof RequiresConfigId) {
+            $dimensions[] = $configId;
+        }
+
         foreach ($dimensions as $dimension) {
+            $position[] = $dimension;
+
             if ($dimension === $currentDimension) {
-                $position[] = $dimension;
                 break;
             }
-            $position[] = $dimension;
+        }
+
+        if ($factory instanceof RequiresConfigId && $configId === null && count($dimensions) === count($position)) {
+            return new static(
+                rtrim(
+                    sprintf('The configuration "%s" needs a config id.', implode('.', $position)),
+                    '.'
+                )
+            );
         }
 
         return new static(sprintf('No options set for configuration "%s"', implode('.', $position)));

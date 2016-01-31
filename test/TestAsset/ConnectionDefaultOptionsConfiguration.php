@@ -11,9 +11,10 @@ namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\ProvidesDefaultOptions;
+use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
 
-class ConnectionDefaultOptionsConfiguration implements RequiresMandatoryOptions, ProvidesDefaultOptions
+class ConnectionDefaultOptionsConfiguration implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
 
@@ -22,7 +23,7 @@ class ConnectionDefaultOptionsConfiguration implements RequiresMandatoryOptions,
      */
     public function dimensions()
     {
-        return ['doctrine', 'connection', 'orm_default'];
+        return ['doctrine', 'connection'];
     }
 
     public function mandatoryOptions()

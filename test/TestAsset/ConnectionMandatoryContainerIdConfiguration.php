@@ -10,9 +10,10 @@
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
+use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
 
-class ConnectionMandatoryContainerIdConfiguration implements RequiresMandatoryOptions
+class ConnectionMandatoryContainerIdConfiguration implements RequiresConfigId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
 
@@ -21,9 +22,12 @@ class ConnectionMandatoryContainerIdConfiguration implements RequiresMandatoryOp
      */
     public function dimensions()
     {
-        return ['doctrine', 'connection', 'orm_default'];
+        return ['doctrine', 'connection'];
     }
 
+    /**
+     * @interitdoc
+     */
     public function mandatoryOptions()
     {
         return ['driverClass', 'params'];
