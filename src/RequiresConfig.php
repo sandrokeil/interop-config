@@ -21,8 +21,8 @@ use Interop\Config\Exception;
 interface RequiresConfig
 {
     /**
-     * Returns the depth of the configuration array as a list. Can also be an empty array. The example structure of the
-     * options() method would be an array like
+     * Returns the depth of the configuration array as a list. Can also be an empty array. For instance, the structure
+     * of the dimensions() method would be an array like
      *
      * <code>
      *   return ['prooph', 'service_bus', 'command_bus'];
@@ -36,6 +36,7 @@ interface RequiresConfig
      * Returns options based on dimensions() like [vendor][package] and can perform mandatory option checks if
      * class implements RequiresMandatoryOptions. If the ProvidesDefaultOptions interface is implemented, these options
      * must be overridden by the provided config. If you want to allow configurations for more then one instance use
+     * RequiresConfigId interface and add an optional second parameter named $configId. The ConfigurationTrait supports
      * RequiresConfigId interface.
      *
      * <code>
@@ -64,7 +65,7 @@ interface RequiresConfig
 
     /**
      * Checks if options are available depending on implemented interfaces and checks that the retrieved options are an
-     * array or have implemented \ArrayAccess.
+     * array or have implemented \ArrayAccess. The ConfigurationTrait supports RequiresConfigId interface.
      *
      * @param array|ArrayAccess $config Configuration
      * @return bool True if options are available, otherwise false

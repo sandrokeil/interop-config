@@ -55,16 +55,6 @@ trait ConfigurationTrait
     }
 
     /**
-     * doctrine.connection.default
-     *
-     * [doctrine, connection] options($config, 'default')
-     *
-     * Prooph\ServiceBus\CommandBus
-     *
-     * [prooph, service_bus, command_bus] options($config)
-     */
-
-    /**
      * Returns options based on dimensions() like [vendor][package] and can perform mandatory option checks if
      * class implements RequiresMandatoryOptions. If the ProvidesDefaultOptions interface is implemented, these options
      * must be overridden by the provided config. If you want to allow configurations for more then one instance use
@@ -75,8 +65,6 @@ trait ConfigurationTrait
      * @param array|ArrayAccess $config Configuration
      * @param string $configId Config name, must be provided if factory uses RequiresConfigId interface
      * @return array|ArrayAccess
-     *
-     * The RequiresConfigId interface is supported.
      */
     public function options($config, $configId = null)
     {
@@ -121,14 +109,15 @@ trait ConfigurationTrait
      * an empty array will be returned.
      *
      * @param array|ArrayAccess $config Configuration
+     * @param string $configId Config name, must be provided if factory uses RequiresConfigId interface
      * @return array|ArrayAccess options Default options or an empty array
      */
-    public function optionsWithFallback($config)
+    public function optionsWithFallback($config, $configId = null)
     {
         $options = [];
 
-        if ($this->canRetrieveOptions($config)) {
-            $options = $this->options($config);
+        if ($this->canRetrieveOptions($config, $configId)) {
+            $options = $this->options($config, $configId);
         }
         if (empty($options) && $this instanceof ProvidesDefaultOptions) {
             $options = $this->defaultOptions();
