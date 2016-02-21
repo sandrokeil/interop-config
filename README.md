@@ -27,8 +27,6 @@
 factory classes and ensures a valid config structure. It can also be used to auto discover factories 
 and to create configuration files.
 
-> Please join the discussion about the [PSR config proposal](https://github.com/php-fig/fig-standards/pull/620).
-
  * **Well tested.** Besides unit test and continuous integration/inspection this solution is also ready for production use.
  * **Framework agnostic** This PHP library does not depends on any framework but you can use it with your favourite framework.
  * **Every change is tracked**. Want to know whats new? Take a look at [CHANGELOG.md](https://github.com/sandrokeil/interop-config/blob/master/CHANGELOG.md)
@@ -46,7 +44,7 @@ Put the following into your composer.json or run `composer require sandrokeil/in
 
     {
         "require": {
-            "sandrokeil/interop-config": "^0.4.0"
+            "sandrokeil/interop-config": "^1.0"
         }
     }
 
@@ -54,7 +52,7 @@ Put the following into your composer.json or run `composer require sandrokeil/in
 For the latest online documentation visit [http://sandrokeil.github.io/interop-config/](http://sandrokeil.github.io/interop-config/ "Latest interop-config documentation").
 Refer the *Quick Start* section for a detailed explanation. 
 
-Documentation is [in the doc tree](doc/), and can be compiled using [bookdown](http://bookdown.io) and [Docker](https://www.docker.com/)
+Documentation is [in the doc tree](doc/), and can be compiled using [bookdown](http://bookdown.io) or [Docker](https://www.docker.com/)
 
 ```console
 $ docker run -it --rm -v $(pwd):/app sandrokeil/bookdown doc/bookdown.json
@@ -88,7 +86,7 @@ The benchmarks uses [PHPBench](http://phpbench.readthedocs.org/en/latest/) and c
 $ ./vendor/bin/phpbench run --report=aggregate
 ```
  
-or with Docker
+or with [Docker](https://www.docker.com/)
  
 ```console
 $ docker run --rm -it --volume $(pwd):/app prooph/php:7.0-cli-opcache php ./vendor/bin/phpbench run --report=aggregate
