@@ -4,7 +4,7 @@ This files contains examples for each interface. The factory class uses the `Con
 from a configuration and optional to perform a mandatory option check or merge default options. There is also an 
 example for a independent config structure of the Zend Expressive TwigRendererFactory. 
 
-## Use a `vendor.package.id` config structure
+## Use a vendor.package.id config structure
 
 Let's assume we have the following module configuration:
 
@@ -26,7 +26,7 @@ return [
                     'password' => 'password',
                     'dbname'   => 'database',
                 ],
-            ],
+            ], 
         ],
     ],
 ];
@@ -35,20 +35,20 @@ return [
 > Note that the configuration above is injected as `$config` in `options()`
 
 ### Retrieving options
-Then you have easily access to the `orm_default` options in your method with this trait.
+Then you have easily access to the `orm_default` options in your method with `ConfigurationTrait`.
 
 ```php
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfigId;
 
-class MyDBALConnectionFactory implements RequiresContainerId
+class MyDBALConnectionFactory implements RequiresConfigId
 {
     use ConfigurationTrait;
     
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
-        $options = $this->options($container->get('config'));
+        $options = $this->options($container->get('config'), 'orm_default');
         
         // check if mandatory options are available or use \Interop\Config\RequiresMandatoryOptions, see below 
         if (empty($options['driverClass'])) {
@@ -88,7 +88,7 @@ class MyDBALConnectionFactory implements RequiresContainerId
      */
     public function dimensions()
     {
-        return ['doctrine', 'connection', 'orm_default'];
+        return ['doctrine', 'connection'];
     }
 }
 ```
@@ -101,16 +101,16 @@ option `driverClass` and `params` are available. So we also implement in the exa
 ```php
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresMandatoryOptions;
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfigId;
 
-class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryOptions
+class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
     
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
-        $options = $this->options($container->get('config'));
+        $options = $this->options($container->get('config'), 'orm_default');
 
         // mandatory options check is automatically done by RequiresMandatoryOptions
 
@@ -142,7 +142,7 @@ class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryO
      */
     public function dimensions()
     {
-        return ['doctrine', 'connection', 'orm_default'];
+        return ['doctrine', 'connection'];
     }
 }
 ```
@@ -171,16 +171,16 @@ return [
 ```php
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\ProvidesDefaultOptions;
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfigId;
 
-class ConfigurationFactory implements RequiresContainerId, ProvidesDefaultOptions
+class ConfigurationFactory implements RequiresConfigId, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
     
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.configuration.orm_crawler
-        $options = $this->options($container->get('config'));
+        $options = $this->options($container->get('config'), 'orm_crawler');
 
         # these keys are always available now 
         $options['metadata_cache'];
@@ -216,7 +216,7 @@ class ConfigurationFactory implements RequiresContainerId, ProvidesDefaultOption
      */
     public function dimensions()
     {
-        return ['doctrine', 'configuration', 'orm_crawler'];
+        return ['doctrine', 'configuration'];
     }
 }
 ```

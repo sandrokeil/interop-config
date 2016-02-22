@@ -1,13 +1,12 @@
 {
-  "title": "interop-config: Create instances depending on configuration",
+  "title": "interop-config",
   "content": [
-    {"intro": "../README.md"},
-    {"overview": "book/intro.md"},
-    {"quick-Start": "book/quick-start.md"},
-    {"examples": "book/examples.md"},
-    {"tutorial": "book/tutorial.md"},
-    {"api": "book/api.md"}
+    {"getting-started": "book/getting-started/bookdown.json"},
+    {"reference": "book/reference/bookdown.json"},
+    {"contribute": "book/contribute/bookdown.json"}
   ],
   "target": "./html",
-  "template": "../vendor/tobiju/bookdown-bootswatch-templates/templates/main.php"
+  "tocDepth": 2,
+  "template": "../vendor/tobiju/bookdown-bootswatch-templates/templates/main.php",
+  "copyright": "Copyright (c) 2015-2016 <a href=\"https://sandro-keil.de/\">Sandro Keil</a>"
 }

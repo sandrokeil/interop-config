@@ -1,6 +1,8 @@
-# CONTRIBUTING
+# Contributing
 
-## RESOURCES
+Visit [github.com/sandrokeil/interop-config/](https://github.com/sandrokeil/interop-config/ "Project Website") for the project website.
+
+## Resources
 
 If you wish to contribute to interop-config, please be sure to read to the following resources:
 
@@ -9,13 +11,13 @@ If you wish to contribute to interop-config, please be sure to read to the follo
 
 If you are working on new features, or refactoring an existing
 component, please create a proposal. You can do this in on the RFC's
-page, https://github.com/sandrokeil/interop-config/wiki/RFCs.
+page, [https://github.com/sandrokeil/interop-config/wiki/RFCs](https://github.com/sandrokeil/interop-config/wiki/RFCs).
 
-## RUNNING TESTS
+## Running tests
 
 To run tests:
 
-- Make sure you have a execute `composer install`
+- Make sure you have execute `composer install`
 - Be sure you are in the root directory
 - Execute PHPUnit
 
@@ -31,9 +33,9 @@ To do so:
  -  Edit `TestConfig.php` to enable any specific functionality you want to test, as well as to provide test values to
     utilize.
 
-## RUNNING BENCHMARKS
+## Running benchmarks
 
-To run benchmarks execute phpbench
+To run benchmarks execute *phpbench*
 
   ```sh
   $ ./vendor/bin/phpbench run --report=aggregate

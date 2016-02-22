@@ -1,0 +1,14 @@
+{
+  "title": "Reference",
+  "content": [
+    {
+      "api": "../api.md"
+    },
+    {
+      "examples": "../examples.md"
+    }
+  ],
+  "target": "./html",
+  "tocDepth": 2,
+  "copyright": "Copyright (c) 2015-2016 <a href=\"https://sandro-keil.de/\">Sandro Keil</a>"
+}

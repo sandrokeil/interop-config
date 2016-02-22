@@ -2,6 +2,10 @@ sudo: false
 
 language: php
 
+branches:
+  except:
+    - /^release-.*$/
+
 cache:
   directories:
     - $HOME/.composer/cache
@@ -11,12 +15,12 @@ matrix:
   fast_finish: true
   include:
     - php: 5.5
-      env:
-        - EXECUTE_CS_CHECK=true
     - php: 5.6
       env:
-        - EXECUTE_TEST_COVERALLS=true
+        - EXECUTE_CS_CHECK=true
     - php: 7
+      env:
+        - EXECUTE_TEST_COVERALLS=true
     - php: hhvm
 
 before_install:
@@ -25,7 +29,7 @@ before_install:
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then composer require --no-update satooshi/php-coveralls:dev-master ; fi
 
 install:
-  - travis_retry composer install --no-interaction --ignore-platform-reqs --prefer-source
+  - travis_retry composer install --no-interaction --prefer-source
   - composer info -i
 
 script:
