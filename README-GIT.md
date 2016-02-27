@@ -4,17 +4,16 @@
 
 Your first step is to establish a public repository from which you can pull your work into the master repository.
 
- 1. Setup a GitHub account (https://github.com/), if you haven't yet
- 2. Fork the `interop-config` repository (https://github.com/sandrokeil/interop-config)
+ 1. Setup a [GitHub account](https://github.com/), if you haven't yet
+ 2. Fork the [interop-config repository](https://github.com/sandrokeil/interop-config)
  3. Clone your fork locally and enter it (use your own GitHub username in the statement below)
 
     ```sh
-    $ git clone git@github.com:sandrokeil/interop-config.git
+    $ git clone git@github.com:[your username]/interop-config.git
     $ cd interop-config
     ```
 
- 4. Add a remote to the canonical `interop-config` repository, so you can keep your fork
-    up-to-date:
+ 4. Add a remote to the canonical `interop-config` repository, so you can keep your fork up-to-date:
 
     ```sh
     $ git remote add upstream https://github.com/sandrokeil/interop-config.git
@@ -38,7 +37,7 @@ you'll want to do the same operations for that branch; simply substitute  "devel
 
 ## Working on interop-config
 
-When working on interop-config, we recommend you do each new feature or bugfix in a new branch. This simplifies the
+When working on `interop-config`, we recommend you do each new feature or bugfix in a new branch. This simplifies the
 task of code review as well as of merging your changes into the canonical repository.
 
 A typical work flow will then consist of the following:

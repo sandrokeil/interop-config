@@ -82,7 +82,7 @@ class MyDBALConnectionFactory implements RequiresConfigId
     }
     
     /**
-     * Is used to retrieve options from the configuration array ['doctrine' => ['connection' => ['orm_default' => []]]].
+     * Is used to retrieve options from the configuration array ['doctrine' => ['connection' => [...]]].
      *
      * @return []
      */
@@ -136,7 +136,7 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
     }
     
     /**
-     * Is used to retrieve options from the configuration array ['doctrine' => ['connection' => ['orm_default' => []]]].
+     * Is used to retrieve options from the configuration array ['doctrine' => ['connection' => [...]]].
      *
      * @return []
      */
@@ -223,7 +223,7 @@ class ConfigurationFactory implements RequiresConfigId, ProvidesDefaultOptions
 
 ## Use arbitrary configuration structure
 Whatever configuration structure you use, `interop-config` can handle it. You can use a three-dimensional array with
-`vendor.package.id` like the examples above or you don't care of it and organize your configuration by behavior or 
+`vendor.package.id` like the examples above or you don't care of it and organize your configuration by behavior or
 nature (db, cache, ... or sale, admin).
   
 The following example demonstrates how to replace the [Zend Expressive TwigRendererFactory](https://github.com/zendframework/zend-expressive-twigrenderer/blob/e1dd1744bf9ba5ec364fc1320566699d04f407c4/src/TwigRendererFactory.php).

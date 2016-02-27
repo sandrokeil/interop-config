@@ -23,8 +23,8 @@
 [![Reference Status](https://www.versioneye.com/php/sandrokeil:interop-config/reference_badge.svg?style=flat)](https://www.versioneye.com/php/sandrokeil:interop-config/references)
 [![License](https://poser.pugx.org/sandrokeil/interop-config/license.png)](https://packagist.org/packages/sandrokeil/interop-config)
 
-`interop-config` provides interfaces and a concrete implementation to create instances depending on configuration via 
-factory classes and ensures a valid config structure. It can also be used to auto discover factories 
+`interop-config` provides interfaces and a concrete implementation to create instances depending on configuration via
+factory classes and ensures a valid config structure. It can also be used to auto discover factories
 and to create configuration files.
 
  * **Well tested.** Besides unit test and continuous integration/inspection this solution is also ready for production use.
@@ -32,7 +32,7 @@ and to create configuration files.
  * **Every change is tracked**. Want to know whats new? Take a look at [CHANGELOG.md](https://github.com/sandrokeil/interop-config/blob/master/CHANGELOG.md)
  * **Listen to your ideas.** Have a great idea? Bring your tested pull request or open a new issue. See [CONTRIBUTING.md](CONTRIBUTING.md)
 
-You should have coding conventions and you should have config conventions. If not, you should think about that. 
+You should have coding conventions and you should have config conventions. If not, you should think about that.
 `interop-config` is universally applicable! See further documentation for more details.
 
 ## Installation

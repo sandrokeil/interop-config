@@ -2,7 +2,7 @@
   "title": "Contribute",
   "content": [
     {
-      "contribute": "../../../CONTRIBUTING.md"
+      "contributing": "../../../CONTRIBUTING.md"
     },
     {
       "readme-git": "../../../README-GIT.md"

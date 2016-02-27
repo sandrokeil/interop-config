@@ -8,5 +8,5 @@
   "target": "./html",
   "tocDepth": 2,
   "template": "../vendor/tobiju/bookdown-bootswatch-templates/templates/main.php",
-  "copyright": "Copyright (c) 2015-2016 <a href=\"https://sandro-keil.de/\">Sandro Keil</a>"
+  "copyright": "Copyright (c) 2015-2016 <a href=\"https://sandro-keil.de/\" title=\"I write about topics, advices and trends of web development\">Sandro Keil</a> <br/> Powered by <a href=\"https://github.com/tobiju/bookdown-bootswatch-templates\" title=\"Visit project to generate your own docs\">Bookdown Bootswatch Templates</a>"
 }

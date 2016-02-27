@@ -2,24 +2,22 @@
 
 Visit [github.com/sandrokeil/interop-config/](https://github.com/sandrokeil/interop-config/ "Project Website") for the project website.
 
+- Make sure you have execute `composer install`
+- Be sure you are in the root directory
+
 ## Resources
 
-If you wish to contribute to interop-config, please be sure to read to the following resources:
+If you wish to contribute to `interop-config`, please be sure to read to the following resources:
 
  -  Coding Standards: [PSR-0/1/2/4](https://github.com/php-fig/fig-standards/tree/master/accepted)
- -  Git Guide: [README-GIT.md](README-GIT.md)
+ -  Git Guide: [README-GIT.md](https://github.com/sandrokeil/interop-config/blob/master/README-GIT.md)
 
-If you are working on new features, or refactoring an existing
-component, please create a proposal. You can do this in on the RFC's
-page, [https://github.com/sandrokeil/interop-config/wiki/RFCs](https://github.com/sandrokeil/interop-config/wiki/RFCs).
+If you are working on new features, or refactoring an existing component, please create an issue first, so we can discuss
+it.
 
 ## Running tests
 
-To run tests:
-
-- Make sure you have execute `composer install`
-- Be sure you are in the root directory
-- Execute PHPUnit
+To run tests execute *phpunit*:
 
   ```sh
   $ ./vendor/bin/phpunit
@@ -33,10 +31,44 @@ To do so:
  -  Edit `TestConfig.php` to enable any specific functionality you want to test, as well as to provide test values to
     utilize.
 
+## Running PHPCodeSniffer
+
+To check coding standards execute *phpcs*:
+
+  ```sh
+  $ ./vendor/bin/phpcs
+  ```
+  
+To auto fix coding standard issues execute:
+
+  ```sh
+  $ ./vendor/bin/phpcbf
+  ```
+
 ## Running benchmarks
 
-To run benchmarks execute *phpbench*
+To run benchmarks execute *phpbench*:
 
   ```sh
   $ ./vendor/bin/phpbench run --report=aggregate
   ```
+  
+## Generate documentation
+
+To generate the documentation execute *bookdown*:
+
+```sh
+$ ./vendor/bin/bookdown doc/bookdown.json
+```
+
+## Composer shortcuts
+
+For every program above there are shortcuts defined in the `composer.json` file.
+
+* `check`: Executes PHPCodeSniffer and PHPUnit
+* `cs`: Executes PHPCodeSniffer
+* `cs-fix`: Executes PHPCodeSniffer and auto fixes issues
+* `test`: Executes PHPUnit
+* `test-coverage`: Executes PHPUnit with code coverage
+* `docs`: Generates awesome Bookdown.io docs
+* `benchmark`: Executes PHPBench

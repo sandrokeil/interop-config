@@ -47,7 +47,10 @@
     "squizlabs/php_codesniffer": "^2.5",
     "phpbench/phpbench": "^1.0@dev",
     "humbug/humbug": "^1.0@dev",
-    "tobiju/bookdown-bootswatch-templates": "^0.3"
+    "tobiju/bookdown-bootswatch-templates": "^1.0@dev"
+  },
+  "suggest": {
+    "container-interop/container-interop": "To retrieve config in your factories"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,

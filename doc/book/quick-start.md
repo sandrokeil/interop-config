@@ -100,13 +100,14 @@ class MyAwesomeFactory implements RequiresConfigId
 Now you have all the ingredients to create multiple different instances depending on configuration.
  
 ## Create an instance
-Factories are often implemented as a [callable](http://php.net/manual/en/language.oop5.magic.php#object.invoke "PHP __invoke() Documentation"). 
+Factories are often implemented as a [callable](http://php.net/manual/en/language.oop5.magic.php#object.invoke "PHP __invoke() Documentation").
 This means that your factory instance can be called like a function. You can also use a `create` method or something else.
 
-The factory gets a `ContainerInterface` ([Container PSR](https://github.com/php-fig/fig-standards/blob/master/proposed/container-meta.md)) 
+The factory gets a `ContainerInterface` ([Container PSR](https://github.com/php-fig/fig-standards/blob/master/proposed/container-meta.md))
 provided to retrieve the configuration. 
 
-> Note that the configuration above is injected as `$config` in `options()`
+> Note that the configuration above is injected as `$config` in `options()` and
+[container-interop](https://github.com/container-interop/container-interop) is used to retrieve the application configuration.
 
 ```php
 use Interop\Config\RequiresConfigId;
@@ -317,7 +318,7 @@ class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, Pr
 }
 ```
 
-**Using `optionsWithFallback()` method and the `RequiresMandatoryOptions` is ambiguous or?* Yes, so it's up to you to implement
+*Using `optionsWithFallback()` method and the `RequiresMandatoryOptions` is ambiguous or?* Yes, so it's up to you to implement
 the interfaces in a sense order.
 
 Take a look at the examples section for more use cases. `interop-config` is universally applicable.
