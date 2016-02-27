@@ -1,6 +1,6 @@
 {
   "name": "sandrokeil/interop-config",
-  "description": "Provides interfaces and a concrete implementation to create instances depending on configuration via factory classes and ensures a uniform config structure. It can also be used to auto discover factories and to create configuration files.",
+  "description": "Provides interfaces and a concrete implementation to create instances depending on configuration via factory classes and ensures a valid config structure. It can also be used to auto discover factories and to create configuration files.",
   "homepage": "https://github.com/sandrokeil/interop-config",
   "license": "BSD-3-Clause",
   "type": "library",
@@ -25,7 +25,7 @@
   "support": {
     "issues": "https://github.com/sandrokeil/interop-config/issues",
     "source": "https://github.com/sandrokeil/interop-config",
-    "docs": "https://github.com/sandrokeil/interop-config/doc/book"
+    "docs": "http://sandrokeil.github.io/interop-config/"
   },
   "autoload": {
     "psr-4": {
@@ -39,15 +39,18 @@
     }
   },
   "require": {
-    "php": ">=5.5"
+    "php": "^5.5 || ^7.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.8",
-    "phpunit/php-invoker": "~1.1",
-    "squizlabs/php_codesniffer": "~2.3",
+    "phpunit/phpunit": "^4.8 || ^5.2",
+    "phpunit/php-invoker": "^1.1",
+    "squizlabs/php_codesniffer": "^2.5",
     "phpbench/phpbench": "^1.0@dev",
-    "humbug/humbug": "1.0.x-dev",
-    "tobiju/bookdown-bootswatch-templates": "^0.2.0"
+    "humbug/humbug": "^1.0@dev",
+    "tobiju/bookdown-bootswatch-templates": "^1.0@dev"
+  },
+  "suggest": {
+    "container-interop/container-interop": "To retrieve config in your factories"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -56,6 +59,19 @@
       "dev-master": "1.0-dev",
       "dev-develop": "1.1-dev"
     }
+  },
+  "scripts": {
+    "check": [
+      "@cs",
+      "@test"
+    ],
+    "cs": "phpcs",
+    "cs-fix": "phpcbf",
+    "test": "phpunit --no-coverage",
+    "test-coverage": "phpunit",
+    "humbug": "humbug",
+    "docs": "bookdown doc/bookdown.json",
+    "benchmark": "phpbench run -v --report=aggregate"
   },
   "archive": {
     "exclude": [

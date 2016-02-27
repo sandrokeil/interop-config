@@ -1,13 +1,22 @@
 <?php
+/**
+ * Sandro Keil (https://sandro-keil.de)
+ *
+ * @link      http://github.com/sandrokeil/interop-config for the canonical source repository
+ * @copyright Copyright (c) 2015-2016 Sandro Keil
+ * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
+ */
 
 namespace InteropBench\Config;
 
 use Interop\Config\RequiresConfig;
+use Interop\Config\RequiresConfigId;
 
 /**
  * @BeforeMethods({"classSetUp"})
  * @Revs(10000)
  * @Iterations(10)
+ * @Warmup(2)
  */
 abstract class BaseCase
 {
@@ -20,6 +29,11 @@ abstract class BaseCase
      * @var RequiresConfig
      */
     private $factory;
+
+    /**
+     * @var string
+     */
+    private $configId;
 
     /**
      * Returns benchmark factory class
@@ -35,6 +49,7 @@ abstract class BaseCase
     {
         $this->config = $this->getTestConfig();
         $this->factory = $this->getFactoryClass();
+        $this->configId = $this->factory instanceof RequiresConfigId ? 'orm_default' : null;
     }
 
     /**
@@ -42,7 +57,7 @@ abstract class BaseCase
      */
     public function benchOptions()
     {
-        $this->factory->options($this->config);
+        $this->factory->options($this->config, $this->configId);
     }
 
     /**
