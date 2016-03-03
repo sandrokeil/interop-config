@@ -36,10 +36,9 @@ All notable changes to this project will be documented in this file, in reverse 
     }
     ```
 
-
 ### Fixed
 
-* Nothing
+* Throws exception if dimensions are set but default options are available and no mandatory options configured
 
 ## 0.3.1 (2015-10-21)
 

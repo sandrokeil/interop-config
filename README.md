@@ -59,7 +59,7 @@ $ docker run -it --rm -v $(pwd):/app sandrokeil/bookdown doc/bookdown.json
 $ docker run -it --rm -p 8080:8080 -v $(pwd):/app php:7.0-cli php -S 0.0.0.0:8080 -t /app/doc/html
 ```
 
-or make sure bookdown is installed globally via composer and `$HOME/.composer/vendor/bin` is on your `$PATH`.
+or run *bookdown* via Composer and `$HOME/.composer/vendor/bin` is on your `$PATH`.
 
 ```console
 $ bookdown doc/bookdown.json
