@@ -1,20 +1,28 @@
 <?php
 /**
- * Sake
+ * Sandro Keil (https://sandro-keil.de)
  *
  * @link      http://github.com/sandrokeil/interop-config for the canonical source repository
- * @copyright Copyright (c) 2015 Sandro Keil
- * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.txt New BSD License
+ * @copyright Copyright (c) 2015-2016 Sandro Keil
+ * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
 namespace InteropTest\Config;
 
+use Interop\Config\Exception\InvalidArgumentException;
+use Interop\Config\Exception\MandatoryOptionNotFoundException;
+use Interop\Config\Exception\OptionNotFoundException;
+use Interop\Config\Exception\UnexpectedValueException;
 use InteropTest\Config\TestAsset\ConnectionConfiguration;
 use InteropTest\Config\TestAsset\ConnectionContainerIdConfiguration;
 use InteropTest\Config\TestAsset\ConnectionDefaultOptionsConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryContainerIdConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryRecursiveContainerIdConfiguration;
+use InteropTest\Config\TestAsset\FlexibleConfiguration;
+use InteropTest\Config\TestAsset\PackageDefaultAndMandatoryOptionsConfiguration;
+use InteropTest\Config\TestAsset\PackageDefaultOptionsConfiguration;
+use InteropTest\Config\TestAsset\PlainConfiguration;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
@@ -40,9 +48,9 @@ class ConfigurationTraitTest extends TestCase
     {
         $stub = new ConnectionConfiguration();
 
-        $this->setExpectedException('Interop\Config\Exception\InvalidArgumentException', 'Provided parameter');
+        $this->assertException(UnexpectedValueException::class, 'position is "doctrine"');
 
-        $stub->options('');
+        $stub->options(['doctrine' => new \stdClass()]);
     }
 
     /**
@@ -80,89 +88,202 @@ class ConfigurationTraitTest extends TestCase
     {
         $stub = new ConnectionContainerIdConfiguration();
 
-        self::assertSame(false, $stub->canRetrieveOptions(['doctrine' => ['connection' => null]]));
+        self::assertSame(false, $stub->canRetrieveOptions(['doctrine' => ['connection' => null]]), 'orm_default');
 
         self::assertSame(
             false,
-            $stub->canRetrieveOptions(['doctrine' => ['connection' => ['invalid' => ['test' => 1]]]])
+            $stub->canRetrieveOptions(['doctrine' => ['connection' => ['invalid' => ['test' => 1]]]], 'orm_default')
         );
 
         self::assertSame(
             false,
-            $stub->canRetrieveOptions(['doctrine' => ['connection' => ['orm_default' => new \stdClass()]]])
+            $stub->canRetrieveOptions(
+                [
+                    'doctrine' => [
+                        'connection' => [
+                            'orm_default' => new \stdClass()
+                        ]
+                    ]
+                ],
+                'orm_default'
+            )
         );
 
-        self::assertSame(true, $stub->canRetrieveOptions($this->getTestConfig()));
+        self::assertSame(true, $stub->canRetrieveOptions($this->getTestConfig(), 'orm_default'));
+    }
+
+    /**
+     * Tests options() should throw exception if config id is provided but RequiresConfigId interface is not implemented
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     */
+    public function testOptionsThrowsInvalidArgumentExceptionIfConfigIdIsProvidedButRequiresConfigIdIsNotImplemented()
+    {
+        $stub = new ConnectionConfiguration();
+
+        self::assertFalse($stub->canRetrieveOptions(['doctrine' => []], 'configId'));
+
+        $this->assertException(InvalidArgumentException::class, 'The factory');
+
+        $stub->options(['doctrine' => []], 'configId');
+    }
+
+    /**
+     * Tests options() should throw exception if config id is missing but RequiresConfigId interface is implemented
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\Exception\OptionNotFoundException::missingOptions
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     */
+    public function testOptionsThrowsOptionNotFoundExceptionIfConfigIdIsMissingButRequiresConfigIdIsImplemented()
+    {
+        $stub = new ConnectionContainerIdConfiguration();
+
+        $config = $this->getTestConfig();
+
+        $this->assertException(OptionNotFoundException::class, 'The configuration');
+
+        self::assertFalse($stub->canRetrieveOptions($config, null));
+
+        $stub->options($config, null);
     }
 
     /**
      * Tests options() should throw exception if no vendor config is available
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\Exception\OptionNotFoundException::missingOptions
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsThrowsOutOfBoundsExceptionIfNoVendorConfigIsAvailable()
+    public function testOptionsThrowsOptionNotFoundExceptionIfNoVendorConfigIsAvailable()
     {
         $stub = new ConnectionConfiguration();
 
-        $this->setExpectedException('Interop\Config\Exception\OutOfBoundsException', 'No vendor');
+        $config = ['doctrine' => []];
 
-        $stub->options(['doctrine' => []]);
+        self::assertFalse($stub->canRetrieveOptions($config));
+
+        $this->assertException(OptionNotFoundException::class, 'doctrine');
+
+        $stub->options($config);
     }
 
     /**
      * Tests options() should throw exception if no package option is available
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\Exception\OptionNotFoundException::missingOptions
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsThrowsOptionNotFoundExceptionIfNoPackageOptionIsAvailable()
     {
         $stub = new ConnectionConfiguration();
 
-        $this->setExpectedException('Interop\Config\Exception\OptionNotFoundException', 'No options');
+        $config = ['doctrine' => ['connection' => null]];
 
-        $stub->options(['doctrine' => ['connection' => null]]);
+        self::assertFalse($stub->canRetrieveOptions($config));
+
+        $this->assertException(
+            OptionNotFoundException::class,
+            'No options set for configuration "doctrine.connection"'
+        );
+
+        $stub->options($config);
     }
 
     /**
      * Tests options() should throw exception if no container id option is available
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\Exception\OptionNotFoundException::missingOptions
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsThrowsOptionNotFoundExceptionIfNoContainerIdOptionIsAvailable()
     {
         $stub = new ConnectionContainerIdConfiguration();
 
-        $this->setExpectedException('Interop\Config\Exception\OptionNotFoundException', 'No options');
+        $config = ['doctrine' => ['connection' => ['orm_default' => null]]];
 
-        $stub->options(['doctrine' => ['connection' => ['orm_default' => null]]]);
+        self::assertFalse($stub->canRetrieveOptions($config, 'orm_default'));
+
+        $this->assertException(OptionNotFoundException::class, '"doctrine.connection.orm_default"');
+
+        $stub->options($config, 'orm_default');
+    }
+
+    /**
+     * Tests options() should throw exception if a dimension is not available
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\Exception\OptionNotFoundException::missingOptions
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     */
+    public function testOptionsThrowsOptionNotFoundExceptionIfDimensionIsNotAvailable()
+    {
+        $stub = new FlexibleConfiguration();
+
+        $config = ['one' => ['two' => ['three' => ['invalid' => ['dimension']]]]];
+
+        self::assertFalse($stub->canRetrieveOptions($config));
+
+        $this->assertException(OptionNotFoundException::class, '"one.two.three.four"');
+
+        $stub->options(['one' => ['two' => ['three' => ['invalid' => ['dimension']]]]]);
+    }
+
+    /**
+     * Tests if options() works with dimensions, default options and mandatory options if no config is available
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     */
+    public function testOptionsThrowsExceptionIfMandatoryOptionsWithDefaultOptionsSetAndNoConfigurationIsSet()
+    {
+        $stub = new PackageDefaultAndMandatoryOptionsConfiguration();
+
+        self::assertFalse($stub->canRetrieveOptions([]));
+
+        $this->assertException(OptionNotFoundException::class, '"vendor"');
+
+        $stub->options([]);
     }
 
     /**
      * Tests options() should throw exception if retrieved options not an array or \ArrayAccess
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\Exception\UnexpectedValueException::invalidOptions
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsThrowsUnexpectedValueExceptionIfRetrievedOptionsNotAnArrayOrArrayAccess()
     {
         $stub = new ConnectionContainerIdConfiguration();
 
-        $this->setExpectedException('Interop\Config\Exception\UnexpectedValueException', 'Options of configuration');
+        $config = ['doctrine' => ['connection' => ['orm_default' => new \stdClass()]]];
 
-        $stub->options(['doctrine' => ['connection' => ['orm_default' => new \stdClass()]]]);
+        self::assertFalse($stub->canRetrieveOptions($config, 'orm_default'));
+
+        $this->assertException(UnexpectedValueException::class, 'Configuration must either be of');
+
+        $stub->options($config, 'orm_default');
     }
 
     /**
      * Tests if options() works with container id
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsReturnsDataByContainerId()
+    public function testOptionsReturnsDataWithContainerId()
     {
         $stub = new ConnectionContainerIdConfiguration();
 
         $testConfig = $this->getTestConfig();
 
-        $options = $stub->options($testConfig);
+        self::assertTrue($stub->canRetrieveOptions($testConfig, 'orm_default'));
+
+        $options = $stub->options($testConfig, 'orm_default');
 
         self::assertArrayHasKey('driverClass', $options);
         self::assertArrayHasKey('params', $options);
@@ -172,6 +293,7 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works without container id
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsReturnsData()
     {
@@ -179,15 +301,58 @@ class ConfigurationTraitTest extends TestCase
 
         $testConfig = $this->getTestConfig();
 
+        self::assertTrue($stub->canRetrieveOptions($testConfig));
+
         $options = $stub->options($testConfig);
 
         self::assertArrayHasKey('orm_default', $options);
     }
 
     /**
-     * Tests if options() works with container id
+     * Tests if options() works with flexible dimensions
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     */
+    public function testOptionsReturnsDataWithFlexibleDimensions()
+    {
+        $stub = new FlexibleConfiguration();
+
+        $testConfig = $this->getTestConfig();
+
+        self::assertTrue($stub->canRetrieveOptions($testConfig));
+
+        $options = $stub->options($testConfig);
+
+        self::assertArrayHasKey('name', $options);
+        self::assertArrayHasKey('class', $options);
+    }
+
+    /**
+     * Tests if options() works with no dimensions
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     */
+    public function testOptionsReturnsDataWithNoDimensions()
+    {
+        $stub = new PlainConfiguration();
+
+        $testConfig = $this->getTestConfig();
+
+        self::assertTrue($stub->canRetrieveOptions($testConfig));
+
+        $options = $stub->options($testConfig);
+
+        self::assertArrayHasKey('doctrine', $options);
+        self::assertArrayHasKey('one', $options);
+    }
+
+    /**
+     * Tests if options() works with default options
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsReturnsDataWithDefaultOptions()
     {
@@ -198,7 +363,8 @@ class ConfigurationTraitTest extends TestCase
         unset($testConfig['doctrine']['connection']['orm_default']['params']['host']);
         unset($testConfig['doctrine']['connection']['orm_default']['params']['port']);
 
-        $options = $stub->options($testConfig);
+        self::assertTrue($stub->canRetrieveOptions($testConfig, 'orm_default'));
+        $options = $stub->options($testConfig, 'orm_default');
 
         self::assertArrayHasKey('params', $options);
         self::assertSame($options['params']['host'], $stub->defaultOptions()['params']['host']);
@@ -213,7 +379,8 @@ class ConfigurationTraitTest extends TestCase
         # remove main index key
         unset($testConfig['doctrine']['connection']['orm_default']['params']);
 
-        $options = $stub->options($testConfig);
+        self::assertTrue($stub->canRetrieveOptions($testConfig, 'orm_default'));
+        $options = $stub->options($testConfig, 'orm_default');
 
         self::assertArrayHasKey('params', $options);
         self::assertSame($options['params']['host'], $stub->defaultOptions()['params']['host']);
@@ -221,9 +388,32 @@ class ConfigurationTraitTest extends TestCase
     }
 
     /**
-     * Tests if options() works default options and default options not override provied options
+     * Tests if options() works with dimensions and default options if no config is available
      *
      * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     */
+    public function testOptionsReturnsPackageDataWithDefaultOptionsIfNoConfigurationIsSet()
+    {
+        $stub = new PackageDefaultOptionsConfiguration();
+
+        self::assertTrue($stub->canRetrieveOptions([]));
+
+        $expected = [
+            'minLength' => 2,
+            'maxLength' => 10
+        ];
+
+        $options = $stub->options([]);
+
+        self::assertSame($expected, $options);
+    }
+
+    /**
+     * Tests if options() works default options and default options not override provided options
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsThatDefaultOptionsNotOverrideProvidedOptions()
     {
@@ -231,7 +421,8 @@ class ConfigurationTraitTest extends TestCase
 
         $testConfig = $this->getTestConfig();
 
-        $options = $stub->options($testConfig);
+        self::assertTrue($stub->canRetrieveOptions($testConfig, 'orm_default'));
+        $options = $stub->options($testConfig, 'orm_default');
 
         self::assertArrayHasKey('params', $options);
         self::assertSame(
@@ -253,11 +444,16 @@ class ConfigurationTraitTest extends TestCase
      *
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsChecksMandatoryOptions()
     {
         $stub = new ConnectionMandatoryConfiguration();
-        $options = $stub->options($this->getTestConfig());
+
+        $testConfig = $this->getTestConfig();
+
+        self::assertTrue($stub->canRetrieveOptions($testConfig));
+        $options = $stub->options($testConfig);
 
         self::assertArrayHasKey('orm_default', $options);
     }
@@ -267,11 +463,16 @@ class ConfigurationTraitTest extends TestCase
      *
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsChecksMandatoryOptionsByContainerId()
+    public function testOptionsChecksMandatoryOptionsWithContainerId()
     {
         $stub = new ConnectionMandatoryContainerIdConfiguration();
-        $options = $stub->options($this->getTestConfig());
+
+        $testConfig = $this->getTestConfig();
+
+        self::assertTrue($stub->canRetrieveOptions($testConfig, 'orm_default'));
+        $options = $stub->options($testConfig, 'orm_default');
 
         self::assertArrayHasKey('driverClass', $options);
         self::assertArrayHasKey('params', $options);
@@ -282,20 +483,20 @@ class ConfigurationTraitTest extends TestCase
      *
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     * @covers \Interop\Config\Exception\MandatoryOptionNotFoundException::missingOption
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfMandatoryOptionIsMissing()
     {
         $stub = new ConnectionMandatoryContainerIdConfiguration();
 
-        $this->setExpectedException(
-            'Interop\Config\Exception\MandatoryOptionNotFoundException',
-            'Mandatory option "params"'
-        );
-
         $config = $this->getTestConfig();
         unset($config['doctrine']['connection']['orm_default']['params']);
 
-        $stub->options($config);
+        self::assertTrue($stub->canRetrieveOptions($config, 'orm_default'));
+
+        $this->assertException(MandatoryOptionNotFoundException::class, 'Mandatory option "params"');
+        $stub->options($config, 'orm_default');
     }
 
     /**
@@ -303,21 +504,21 @@ class ConfigurationTraitTest extends TestCase
      *
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     * @covers \Interop\Config\Exception\MandatoryOptionNotFoundException::missingOption
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfMandatoryOptionRecursiveIsMissing()
     {
         $stub = new ConnectionMandatoryRecursiveContainerIdConfiguration();
 
-        $this->setExpectedException(
-            'Interop\Config\Exception\MandatoryOptionNotFoundException',
-            'Mandatory option "dbname"'
-        );
-
         $config = $this->getTestConfig();
 
         unset($config['doctrine']['connection']['orm_default']['params']['dbname']);
 
-        $stub->options($config);
+        self::assertTrue($stub->canRetrieveOptions($config, 'orm_default'));
+
+        $this->assertException(MandatoryOptionNotFoundException::class, 'Mandatory option "dbname"');
+        $stub->options($config, 'orm_default');
     }
 
     /**
@@ -325,6 +526,7 @@ class ConfigurationTraitTest extends TestCase
      *
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsWithRecursiveMandatoryOptionCheck()
     {
@@ -332,25 +534,29 @@ class ConfigurationTraitTest extends TestCase
 
         $config = $this->getTestConfig();
 
-        self::assertArrayHasKey('params', $stub->options($config));
+        self::assertTrue($stub->canRetrieveOptions($config, 'orm_default'));
+        self::assertArrayHasKey('params', $stub->options($config, 'orm_default'));
     }
 
     /**
      * Tests if options() throws a runtime exception if a recursive mandatory option is missing
      *
      * @covers \Interop\Config\ConfigurationTrait::optionsWithFallback
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testoptionsWithFallback()
+    public function testOptionsWithFallback()
     {
         $stub = new ConnectionDefaultOptionsConfiguration();
 
         $config = $this->getTestConfig();
+        self::assertTrue($stub->canRetrieveOptions($config, 'orm_default'));
 
         self::assertArrayHasKey('params', $stub->optionsWithFallback([]));
-        self::assertArrayHasKey('params', $stub->optionsWithFallback($config));
+        self::assertArrayHasKey('params', $stub->optionsWithFallback($config, 'orm_default'));
 
         unset($config['doctrine']['connection']['orm_default']['params']);
 
+        self::assertTrue($stub->canRetrieveOptions($config, 'orm_default'));
         self::assertArrayHasKey('params', $stub->optionsWithFallback($config));
     }
 
@@ -358,6 +564,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() throws a runtime exception if a recursive mandatory option is missing
      *
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     * @covers \Interop\Config\Exception\MandatoryOptionNotFoundException::missingOption
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfOptionsAreEmpty()
     {
@@ -365,12 +573,11 @@ class ConfigurationTraitTest extends TestCase
 
         $config = ['doctrine' => ['connection' => ['orm_default' => []]]];
 
-        $this->setExpectedException(
-            'Interop\Config\Exception\MandatoryOptionNotFoundException',
-            'Mandatory option "params"'
-        );
+        self::assertTrue($stub->canRetrieveOptions($config, 'orm_default'));
 
-        $stub->options($config);
+        $this->assertException(MandatoryOptionNotFoundException::class, 'Mandatory option "params"');
+
+        $stub->options($config, 'orm_default');
     }
 
     /**
@@ -388,5 +595,19 @@ class ConfigurationTraitTest extends TestCase
         }
 
         return $testConfig;
+    }
+
+    /**
+     * @param $exception
+     * @param $message
+     */
+    private function assertException($exception, $message)
+    {
+        if (method_exists($this, 'expectException')) {
+            $this->expectException($exception);
+            $this->expectExceptionMessage($message);
+        } else {
+            $this->setExpectedException($exception, $message);
+        }
     }
 }

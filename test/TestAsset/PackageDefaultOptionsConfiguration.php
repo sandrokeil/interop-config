@@ -10,10 +10,10 @@
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\RequiresConfigId;
-use Interop\Config\RequiresMandatoryOptions;
+use Interop\Config\ProvidesDefaultOptions;
+use Interop\Config\RequiresConfig;
 
-class ConnectionMandatoryRecursiveContainerIdConfiguration implements RequiresConfigId, RequiresMandatoryOptions
+class PackageDefaultOptionsConfiguration implements RequiresConfig, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
 
@@ -22,14 +22,17 @@ class ConnectionMandatoryRecursiveContainerIdConfiguration implements RequiresCo
      */
     public function dimensions()
     {
-        return ['doctrine', 'connection'];
+        return ['vendor', 'package'];
     }
 
     /**
      * @interitdoc
      */
-    public function mandatoryOptions()
+    public function defaultOptions()
     {
-        return ['params' => ['user', 'dbname'], 'driverClass'];
+        return [
+            'minLength' => 2,
+            'maxLength' => 10
+        ];
     }
 }

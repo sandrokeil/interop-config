@@ -1,0 +1,17 @@
+{
+  "title": "Contribute",
+  "content": [
+    {
+      "contributing": "../../../CONTRIBUTING.md"
+    },
+    {
+      "readme-git": "../../../README-GIT.md"
+    },
+    {
+      "changelog": "../../../CHANGELOG.md"
+    }
+  ],
+  "target": "./html",
+  "tocDepth": 2,
+  "copyright": "Copyright (c) 2015-2016 <a href=\"https://sandro-keil.de/\">Sandro Keil</a>"
+}

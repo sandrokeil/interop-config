@@ -9,15 +9,15 @@
 
 namespace InteropBench\Config;
 
-use InteropTest\Config\TestAsset\ConnectionMandatoryConfiguration;
+use InteropTest\Config\TestAsset\FlexibleConfiguration;
 
-class RequiresMandatoryOptionsBench extends BaseCase
+class FlexibleConfigurationBench extends BaseCase
 {
     /**
      * @inheritdoc \InteropBench\Config\BaseCase::getFactoryClass
      */
     protected function getFactoryClass()
     {
-        return new ConnectionMandatoryConfiguration();
+        return new FlexibleConfiguration();
     }
 }

@@ -1,6 +1,37 @@
-# Interop Config CHANGELOG
+# Changelog
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
+
+## 1.0.0 (2015-03-05)
+
+> This release contains BC breaks, but upgrade path is simple.
+
+### Added
+
+* [#26](https://github.com/sandrokeil/interop-config/pull/26): `dimensions()` method to `RequiresConfig` to make configuration depth flexible
+
+### Deprecated
+
+* Nothing
+
+### Removed
+
+* [#26](https://github.com/sandrokeil/interop-config/pull/26): `vendorName()` and `packageName()` method from `RequiresConfig`, replaced by `dimensions()` method
+    * It's recommended to remove the methods and use the values directly in `dimensions()` to increase performance
+
+    ```php
+    public function dimensions()
+    {
+        return [$this->vendorName(), $this->packageName()];
+    }
+    ```
+
+* [#26](https://github.com/sandrokeil/interop-config/pull/26): `RequiresContainerId` interface is renamed to `RequiresConfigId` 
+    * use the container id as a second argument by `options()` method.
+
+### Fixed
+
+* [#28](https://github.com/sandrokeil/interop-config/pull/28): Throws exception if dimensions are set but default options are available and no mandatory options configured
 
 ## 0.3.1 (2015-10-21)
 
