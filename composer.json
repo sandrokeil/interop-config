@@ -46,8 +46,7 @@
     "phpunit/php-invoker": "^1.1",
     "squizlabs/php_codesniffer": "^2.5",
     "phpbench/phpbench": "^1.0@dev",
-    "humbug/humbug": "^1.0@dev",
-    "tobiju/bookdown-bootswatch-templates": "^1.0@dev"
+    "tobiju/bookdown-bootswatch-templates": "^1.0"
   },
   "suggest": {
     "container-interop/container-interop": "To retrieve config in your factories"
@@ -69,7 +68,6 @@
     "cs-fix": "phpcbf",
     "test": "phpunit --no-coverage",
     "test-coverage": "phpunit",
-    "humbug": "humbug",
     "docs": "bookdown doc/bookdown.json",
     "benchmark": "phpbench run -v --report=aggregate"
   },

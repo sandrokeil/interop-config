@@ -210,7 +210,7 @@ class ConfigurationFactory implements RequiresConfigId, ProvidesDefaultOptions
     
     /**
      * Is used to retrieve options from the configuration array 
-     * ['doctrine' => ['configuration' => ['orm_crawler' => []]]].
+     * ['doctrine' => ['configuration' => []]].
      *
      * @return []
      */

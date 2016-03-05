@@ -115,7 +115,7 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
     }
 
     /**
-     * Is used to retrieve options from the configuration array ['doctrine' => ['connection' => ['orm_default' => []]]].
+     * Is used to retrieve options from the configuration array ['doctrine' => ['connection' => []]].
      *
      * @return []
      */

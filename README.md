@@ -78,6 +78,7 @@ This is a list of projects who are using `interop-config` interfaces (incomplete
 * [prooph/snapshotter](https://github.com/prooph/snapshotter) - snapshot tool for prooph event-store 
 * [prooph/snapshot-memcached-adapter](https://github.com/prooph/snapshot-memcached-adapter) - Snapshot Memcached Adapter for ProophEventStore 
 * [prooph/snapshot-doctrine-adapter](https://github.com/prooph/snapshot-doctrine-adapter) - Snapshot Doctrine Adapter for ProophEventStore 
+* [prooph/laravel-package](https://github.com/prooph/laravel-package) - Laravel package for prooph components
 
 ## Benchmarks
 The benchmarks uses [PHPBench](http://phpbench.readthedocs.org/en/latest/) and can be started by the following command:

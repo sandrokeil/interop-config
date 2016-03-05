@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.0.0 TBA
+## 1.0.0 (2015-03-05)
 
 > This release contains BC breaks, but upgrade path is simple.
 
@@ -26,19 +26,12 @@ All notable changes to this project will be documented in this file, in reverse 
     }
     ```
 
-* [#26](https://github.com/sandrokeil/interop-config/pull/26): `RequiresContainerId` interface, replaced by `RequiresConfigId` method
-    * It's recommended to remove the methods and use the values directly in `dimensions()` to increase performance and use the container id as a second argument by `options()` meethod.
-
-    ```php
-    public function dimensions()
-    {
-        return [$this->vendorName(), $this->packageName()];
-    }
-    ```
+* [#26](https://github.com/sandrokeil/interop-config/pull/26): `RequiresContainerId` interface is renamed to `RequiresConfigId` 
+    * use the container id as a second argument by `options()` method.
 
 ### Fixed
 
-* Throws exception if dimensions are set but default options are available and no mandatory options configured
+* [#28](https://github.com/sandrokeil/interop-config/pull/28): Throws exception if dimensions are set but default options are available and no mandatory options configured
 
 ## 0.3.1 (2015-10-21)
 

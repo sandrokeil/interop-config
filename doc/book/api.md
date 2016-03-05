@@ -5,6 +5,7 @@ quite easy and the `ConfigurationTrait`, which is a concrete implementation, has
 need only one interface called `RequiresConfig` to start and then you can implement the others if they are needed.
 
 * `RequiresConfig` Interface
+* `RequiresConfigId` Interface
 * `RequiresMandatoryOptions` Interface
 * `ProvidesDefaultOptions` Interface
 

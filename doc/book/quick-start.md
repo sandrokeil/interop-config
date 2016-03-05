@@ -157,7 +157,7 @@ return [
 ];
 ```
 
-Remember our factory sentence. *My factory requires a configuration and requires a container id along with mandatory options.*.
+Remember our factory sentence. *My factory requires a configuration and requires a container id along with mandatory options*.
 The `ConfigurationTrait` ensures that these options are available, otherwise an exception is thrown. This is great, because
 the developer gets an exact exception message with what is wrong. This is useful for developers who use your factory the first time.
 
@@ -183,10 +183,10 @@ class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions
     
     public function __invoke(ContainerInterface $container)
     {
-        // get options for myvendor.mypackage.mycontainerid
+        // get options for vendor-package.container-id
         // method options() is implemented in ConfigurationTrait
         // an exception is raised when a mandatory option is missing
-        $options = $this->options($container->get('config'), 'orm_default');
+        $options = $this->options($container->get('config'), 'container-id');
         
         return new Awesome($options);
     }
@@ -240,7 +240,7 @@ class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, Pr
         // method options() is implemented in ConfigurationTrait
         // an exception is raised when a mandatory option is missing
         // if host/port is missing, default options will be used
-        $options = $this->options($container->get('config'), 'orm_default');
+        $options = $this->options($container->get('config'), 'container-id');
         
         return new Awesome($options);
     }
@@ -276,11 +276,11 @@ class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, Pr
         
         $options = [];
         
-        if ($this->canRetrieveOptions($config, 'orm_default')) {
+        if ($this->canRetrieveOptions($config, 'container-id')) {
             // get options for vendor-package.container-id
             // method options() is implemented in ConfigurationTrait
             // if host/port is missing, default options will be used
-            $options = $this->options($config, 'orm_default');
+            $options = $this->options($config, 'container-id');
         } elseif ($this instanceof ProvidesDefaultOptions) {
             $options = $this->defaultOptions();
         }
@@ -311,7 +311,7 @@ class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, Pr
         // get options for vendor-package.container-id
         // method options() is implemented in ConfigurationTrait
         // if configuration is not available, default options will be used
-        $options = $this->optionsWithFallback($container->get('config'), 'orm_default');
+        $options = $this->optionsWithFallback($container->get('config'), 'container-id');
         
         return new Awesome($options);
     }
