@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
     <meta name="HandheldFriendly" content="True"/>
-    <title>interop-config: Overview</title>
+    <title>Contributing</title>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
     <link rel="stylesheet"
@@ -17,6 +17,10 @@
             height: 100%;
             padding-top: 36px;
             position: relative;
+        }
+
+        img {
+            max-width: 100%;
         }
 
         .page-wrapper {
@@ -117,10 +121,19 @@
         }
 
         .list-toc .list-group-item .bbt-toc-toggle {
+            display: block;
             position: absolute;
             top: 5px;
             right: 10px;
             font-weight: normal;
+        }
+        .list-toc .list-group-item .bbt-toc-toggle:before {
+            content: "";
+            display: block;
+        }
+        .list-toc .list-group-item .bbt-toc-toggle.collapsed:before {
+            content: "";
+            display: block;
         }
 
         .list-toc > li:nth-child(2n+1) {
@@ -170,7 +183,7 @@
 
         .badge {
             border-radius: 4px;
-            padding: 5px 8px;
+            padding: 5px;
         }
 
         /* Footer Section */
@@ -272,218 +285,166 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                            <a class="navbar-brand" href="/">
-                    <img alt="logo" src="http://prooph-software.de/img/favicon-blue-white_256x256.png" title="Home">
-                </a>
                     </div>
 
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
             
-
     
     <ul class="nav navbar-nav">
-                    
-    <li>
-    <a href="/intro.html">Interoperability Configuration</a>
+                        <li>
+    <a href="/getting-started/">Getting Started</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/getting-started/overview.html">Overview</a>
 
     </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/overview.html">interop-config: Overview</a>
+                        <li>
+    <a href="/getting-started/quick-Start.html">Quick Start</a>
 
     </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/quick-Start.html">Quick Start</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/examples.html">Examples</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/tutorial.html">Tutorial (TBD)</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/api.html">interop-config API</a>
-
-    </li>
-
-
-
-
-
-
-
             </ul>
 
+    </li>
+                        <li>
+    <a href="/reference/">Reference</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/reference/api.html">API</a>
 
+    </li>
+                        <li>
+    <a href="/reference/examples.html">Examples</a>
 
+    </li>
+            </ul>
 
+    </li>
+                        <li>
+    <a href="/contribute/">Contribute</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/contribute/contributing.html">Contributing</a>
 
+    </li>
+                        <li>
+    <a href="/contribute/readme-git.html">Using GIT</a>
 
+    </li>
+                        <li>
+    <a href="/contribute/changelog.html">Changelog</a>
 
+    </li>
+            </ul>
+
+    </li>
+            </ul>
 
         </div>
     </div>
 </nav>
 </header>
-
-
 <div class="container">
     <ol class="breadcrumb">
-                        <li><a href="/">interop-config: Create instances depending on configuration</a></li>
-                                <li class="active">interop-config: Overview</li>
+                        <li><a href="/">interop-config</a></li>
+                                <li><a href="/contribute/">Contribute</a></li>
+                                <li class="active">Contributing</li>
             </ol>
     <div class="row">
 
                 <div class="col-md-3">
             <nav class="nav-left hidden-xs hidden-sm" id="sideNav">
     <ul class="nav nav-stacked" data-spy="affix" data-offset-top="59" role="tablist">
-        
-            
-            <li>
-                <a href="#2">interop-config: Overview</a>
+                                <li>
+                <a href="#3-1" title="Contributing">Contributing</a>
             </li>
-        
-            
-            <li>
-                <a href="#2-1">Config Structure</a>
+                                <li>
+                <a href="#3-1-1" title="Resources">Resources</a>
+            </li>
+                                <li>
+                <a href="#3-1-2" title="Running&#x20;tests">Running tests</a>
+            </li>
+                                <li>
+                <a href="#3-1-3" title="Running&#x20;PHPCodeSniffer">Running PHPCodeSniffer</a>
+            </li>
+                                <li>
+                <a href="#3-1-4" title="Running&#x20;benchmarks">Running benchmarks</a>
+            </li>
+                                <li>
+                <a href="#3-1-5" title="Generate&#x20;documentation">Generate documentation</a>
+            </li>
+                                <li>
+                <a href="#3-1-6" title="Composer&#x20;shortcuts">Composer shortcuts</a>
             </li>
             </ul>
 </nav>
         </div>
                 <div class="col-md-9">
-<h1 id="2">2. interop-config: Overview</h1>
-<p><code>intop-config</code> provides interfaces and a concrete implementation to create instances depending on configuration via
-factory classes and ensures a valid config structure. It can also be used to auto discover factories and to create
-configuration files.</p>
+<h1 id="3-1">3.1. Contributing</h1>
+<p>Visit <a href="https://github.com/sandrokeil/interop-config/" title="Project Website">github.com/sandrokeil/interop-config/</a> for the project website.</p>
 <ul>
-<li>Configure a vendor/package or container id</li>
-<li>Check for mandatory options, recursion supported</li>
-<li>Check if options can be retrieved from configuration</li>
-<li>Merging of default options, recursion supported</li>
-<li>Generate configuration files from factory classes</li>
+<li>Make sure you have execute <code>composer install</code>
+</li>
+<li>Be sure you are in the root directory</li>
 </ul>
-<h2 id="2-1">2.1. Config Structure</h2>
-<blockquote>
-<p>The following example is a common practice for libraries. You are free to use another config structure. See examples.</p>
-</blockquote>
-<p>The config keys should have the following structure <code>vendor.package.container_id</code>. The <code>container_id</code> is optional and is
-only necessary if you have different instances of the same class e.g. database connection.</p>
-<p>A common configuration looks like that:</p>
-<pre><code class="language-php">// interop config example
-return [
-    // vendor name
-    'doctrine' =&gt; [
-        // package name
-        'connection' =&gt; [
-            // container id
-            'orm_default' =&gt; [
-                // mandatory options
-                'driverClass' =&gt; 'Doctrine\DBAL\Driver\PDOMySql\Driver',
-                'params' =&gt; [
-                    'host'     =&gt; 'localhost',
-                    'port'     =&gt; '3306',
-                    'user'     =&gt; 'username',
-                    'password' =&gt; 'password',
-                    'dbname'   =&gt; 'database',
-                ],
-            ],
-        ],
-    ],
-];
+<h2 id="3-1-1">3.1.1. Resources</h2>
+<p>If you wish to contribute to <code>interop-config</code>, please be sure to read to the following resources:</p>
+<ul>
+<li>Coding Standards: <a href="https://github.com/php-fig/fig-standards/tree/master/accepted">PSR-0/1/2/4</a>
+</li>
+<li>Git Guide: <a href="https://github.com/sandrokeil/interop-config/blob/master/README-GIT.md">README-GIT.md</a>
+</li>
+</ul>
+<p>If you are working on new features, or refactoring an existing component, please create an issue first, so we can discuss
+it.</p>
+<h2 id="3-1-2">3.1.2. Running tests</h2>
+<p>To run tests execute <em>phpunit</em>:</p>
+<pre><code class="language-sh">$ ./vendor/bin/phpunit
 </code></pre>
-<p>So <code>doctrine</code> is the vendor, <code>connection</code> is the package and <code>orm_default</code> is the container id. After that the specified
-instance options follow. The following example uses <code>ConfigurationTrait</code> which implements the logic to retrieve the
-options from a configuration. See documentation for more details.</p>
-<blockquote>
-<p>Note that the configuration above is injected as <code>$config</code> in <code>options()</code></p>
-</blockquote>
-<pre><code class="language-php">use Interop\Config\ConfigurationTrait;
-use Interop\Config\RequiresConfig;
-use Interop\Config\RequiresMandatoryOptions;
-use Interop\Container\ContainerInterface;
-
-class MyDBALConnectionFactory implements RequiresConfig, RequiresMandatoryOptions
-{
-    use ConfigurationTrait;
-    
-    public function __invoke(ContainerInterface $container)
-    {
-        // get options for doctrine.connection.orm_default
-        $options = $this-&gt;options($container-&gt;get('config'));
-
-        // mandatory options check is automatically done by RequiresMandatoryOptions
-
-        $driverClass = $options['driverClass'];
-        $params = $options['params'];
-
-        // create your instance and set options
-
-        return $instance;
-    }
-
-    /**
-     * Is used to retrieve options from the configuration array ['doctrine' =&gt; ['connection' =&gt; ['orm_default' =&gt; []]]].
-     *
-     * @return []
-     */
-    public function dimensions()
-    {
-        return ['doctrine', 'connection', 'orm_default'];
-    }
-
-    /**
-     * Returns a list of mandatory options which must be available
-     *
-     * @return string[] List with mandatory options
-     */
-    public function mandatoryOptions()
-    {
-        return ['params' =&gt; ['user', 'password', 'dbname']];
-    }
-}
+<p>You can turn on conditional tests with the TestConfig.php file.
+To do so:</p>
+<ul>
+<li>Enter the <code>test/</code> subdirectory.</li>
+<li>Copy <code>TestConfig.php.dist</code> file to <code>TestConfig.php</code>
+</li>
+<li>Edit <code>TestConfig.php</code> to enable any specific functionality you want to test, as well as to provide test values to
+utilize.</li>
+</ul>
+<h2 id="3-1-3">3.1.3. Running PHPCodeSniffer</h2>
+<p>To check coding standards execute <em>phpcs</em>:</p>
+<pre><code class="language-sh">$ ./vendor/bin/phpcs
 </code></pre>
+<p>To auto fix coding standard issues execute:</p>
+<pre><code class="language-sh">$ ./vendor/bin/phpcbf
+</code></pre>
+<h2 id="3-1-4">3.1.4. Running benchmarks</h2>
+<p>To run benchmarks execute <em>phpbench</em>:</p>
+<pre><code class="language-sh">$ ./vendor/bin/phpbench run --report=aggregate
+</code></pre>
+<h2 id="3-1-5">3.1.5. Generate documentation</h2>
+<p>To generate the documentation execute <em>bookdown</em>:</p>
+<pre><code class="language-sh">$ ./vendor/bin/bookdown doc/bookdown.json
+</code></pre>
+<h2 id="3-1-6">3.1.6. Composer shortcuts</h2>
+<p>For every program above there are shortcuts defined in the <code>composer.json</code> file.</p>
+<ul>
+<li>
+<code>check</code>: Executes PHPCodeSniffer and PHPUnit</li>
+<li>
+<code>cs</code>: Executes PHPCodeSniffer</li>
+<li>
+<code>cs-fix</code>: Executes PHPCodeSniffer and auto fixes issues</li>
+<li>
+<code>test</code>: Executes PHPUnit</li>
+<li>
+<code>test-coverage</code>: Executes PHPUnit with code coverage</li>
+<li>
+<code>docs</code>: Generates awesome Bookdown.io docs</li>
+<li>
+<code>benchmark</code>: Executes PHPBench</li>
+</ul>
         </div>
     </div>
 </div>
@@ -493,9 +454,9 @@ class MyDBALConnectionFactory implements RequiresConfig, RequiresMandatoryOption
         <div class="container">
             <div class="row">
                 <div class="prev col-xs-6">
-                                            <a href="/intro.html">Previous</a>                                    </div>
+                                            <a href="/contribute/">Previous</a>                                    </div>
                 <div class="next col-xs-6">
-                                            <a href="/quick-Start.html">Next</a>                                    </div>
+                                            <a href="/contribute/readme-git.html">Next</a>                                    </div>
             </div>
         </div>
     </div>
@@ -503,7 +464,7 @@ class MyDBALConnectionFactory implements RequiresConfig, RequiresMandatoryOption
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a>.</p>
+                    <p>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>

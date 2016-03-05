@@ -5,22 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
     <meta name="HandheldFriendly" content="True"/>
-    <title>interop-config: Create instances depending on configuration</title>
+    <title>interop-config</title>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
     <link rel="stylesheet"
-          href="http://tobiju.github.io/share/prismjs/prism-ghcolors.css"/>
+          href="https://tobiju.github.io/share/prismjs/prism-ghcolors.css"/>
     <link rel="stylesheet"
-          href="http://tobiju.github.io/share/prismjs/prism-linenumbers.css"/>
-
+          href="https://tobiju.github.io/share/prismjs/prism-linenumbers.css"/>
     <style>
         body, html {
             height: 100%;
+            padding-top: 36px;
+            position: relative;
+        }
+
+        img {
+            max-width: 100%;
         }
 
         .page-wrapper {
             min-height: 100%;
-            padding-bottom: 204px;
+            padding-bottom: 170px;
             position: relative;
         }
 
@@ -28,7 +33,34 @@
         header {
             background: white;
             color: black;
+            font-size: 16px;
             font-weight: 300;
+        }
+
+        h1:first-child {
+            margin-top: 0;
+        }
+
+        /* anchor link will be displayed after the static top nav */
+        h1:before,
+        h2:before,
+        h3:before,
+        h4:before,
+        h5:before,
+        h6:before {
+            display: block;
+            content: " ";
+            margin-top: -64px;
+            height: 64px;
+            visibility: hidden;
+        }
+
+        .navbar-brand {
+            padding: 0;
+        }
+
+        .navbar-brand img {
+            max-height: 100%;
         }
 
         /* Content Section */
@@ -36,6 +68,11 @@
             margin-bottom: 17px;
             font-size: 17px;
             min-height: 200px;
+        }
+
+        .breadcrumb {
+            position: relative;
+            z-index: 999;
         }
 
         .links {
@@ -57,6 +94,97 @@
             text-align: right;
         }
 
+        /* TOC */
+        .list-toc .list-group-item {
+            background: 0 none;
+            position: relative;
+            font-weight: bold;
+            padding: 0;
+        }
+
+        .list-toc .list-group-item .row {
+            padding: 7px 0;
+        }
+
+        .list-toc .list-group-item .text-number {
+            padding-left: 10px;
+        }
+
+        .list-toc .list-toc-nested .list-group-item {
+            font-weight: normal;
+            border: 0 none !important;
+        }
+
+        .list-toc .list-toc-nested {
+            margin-bottom: 0;
+            padding-bottom: 10px;
+        }
+
+        .list-toc .list-group-item .bbt-toc-toggle {
+            display: block;
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-weight: normal;
+        }
+        .list-toc .list-group-item .bbt-toc-toggle:before {
+            content: "";
+            display: block;
+        }
+        .list-toc .list-group-item .bbt-toc-toggle.collapsed:before {
+            content: "";
+            display: block;
+        }
+
+        .list-toc > li:nth-child(2n+1) {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .bbt-theme-cyborg .list-toc > li:nth-child(2n+1),
+        .bbt-theme-darkly .list-toc > li:nth-child(2n+1),
+        .bbt-theme-slate .list-toc > li:nth-child(2n+1),
+        .bbt-theme-superhero .list-toc > li:nth-child(2n+1) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .list-toc .list-group-item {
+            border-bottom: 0 none;
+            border-left: 0 none;
+            border-right: 0 none;
+            font-size: inherit;
+        }
+
+        .list-toc .list-group-item:first-child {
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+        }
+
+        .list-toc .list-group-item:last-child {
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        /* Left navigation */
+        .nav-left ul li a {
+            padding-top: 3px;
+            padding-bottom: 3px;
+            border-left: 1px solid transparent;
+        }
+        .nav-left ul li.active a,
+        .nav-left ul li a:hover {
+            background: none !important;
+            color: inherit;
+            border-color: inherit;
+        }
+
+        .affix {
+            top: 60px;
+        }
+
+        .badge {
+            border-radius: 4px;
+            padding: 5px;
+        }
 
         /* Footer Section */
         footer {
@@ -81,98 +209,185 @@
             color: white;
         }
 
-        /* Overide bootsstrap default style */
-        table, .table {
-            font-size: inherit;
+        /* Top Navigation */
+        @media (max-width: 767px) {
+            ul.navbar-nav {
+                margin: 0 -15px
+            }
+
+            ul.navbar-nav li {
+                border-radius: 0;
+            }
+
+            ul.navbar-nav li ul {
+                background: rgba(255, 255, 255, 0.2);
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                display: block;
+                float: none;
+                left: auto;
+                padding: 0;
+                position: static;
+            }
+
+            ul.navbar-nav li ul li a {
+                padding: 8px 30px;
+            }
+
+            ul.navbar-nav li ul li ul li a {
+                padding: 6px 40px;
+            }
+        }
+
+        @media (min-width: 768px) {
+
+            ul.navbar-nav li {
+                display: block;
+                position: relative;
+                float: left;
+            }
+
+            ul.navbar-nav li ul {
+                display: none;
+            }
+
+            ul.navbar-nav li a {
+                display: block;
+            }
+
+            ul.navbar-nav li:hover > ul {
+                display: block;
+                position: absolute;
+            }
+
+            ul.navbar-nav li:hover li {
+                float: none;
+            }
+
+            ul.navbar-nav ul ul {
+                left: 100%;
+                top: 0;
+            }
         }
     </style>
-
-</head>
-    <body>
+    </head>
+    <body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-cerulean">
     <div class="page-wrapper">
-        
-<header>
+        <header>
+    <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
-        <h3 class="title text-center">
-            interop-config: Create instances depending on configuration        </h3>
-    </div>
-    <div class="links">
-        <div class="container">
-            <div class="row hidden-sm hidden-md hidden-lg">
-    <div class="prev col-xs-6">
-            </div>
-    <div class="next col-xs-6">
-                    <p>Next</p>
-            <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>            </div>
-</div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#js-navbar-collapse" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+                    </div>
 
-<div class="row hidden-xs">
-    <div class="prev col-sm-4">
-            </div>
-    <div class="parent col-sm-4">
-            </div>
-    <div class="next col-sm-4">
-                    <p>Next</p>
-            <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>            </div>
-</div>
+        <div class="collapse navbar-collapse" id="js-navbar-collapse">
+            
+    
+    <ul class="nav navbar-nav">
+                        <li>
+    <a href="/getting-started/">Getting Started</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/getting-started/overview.html">Overview</a>
+
+    </li>
+                        <li>
+    <a href="/getting-started/quick-Start.html">Quick Start</a>
+
+    </li>
+            </ul>
+
+    </li>
+                        <li>
+    <a href="/reference/">Reference</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/reference/api.html">API</a>
+
+    </li>
+                        <li>
+    <a href="/reference/examples.html">Examples</a>
+
+    </li>
+            </ul>
+
+    </li>
+                        <li>
+    <a href="/contribute/">Contribute</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/contribute/contributing.html">Contributing</a>
+
+    </li>
+                        <li>
+    <a href="/contribute/readme-git.html">Using GIT</a>
+
+    </li>
+                        <li>
+    <a href="/contribute/changelog.html">Changelog</a>
+
+    </li>
+            </ul>
+
+    </li>
+            </ul>
 
         </div>
     </div>
+</nav>
 </header>
+<div class="container">
+    <ol class="breadcrumb">
+                        <li class="active">interop-config</li>
+            </ol>
+    <div class="row">
 
-<section id="content">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
+                <div class="col-md-12">
 
-
-<h1>interop-config: Create instances depending on configuration</h1>
-<table class="table table-striped">
-    <tr><td>1</td><td><a href="http://sandrokeil.github.io/interop-config/intro.html#1">Interop Configuration</a></td></tr><tr><td>1.1</td><td><a href="http://sandrokeil.github.io/interop-config/intro.html#1.1">Installation</a></td></tr><tr><td>1.2</td><td><a href="http://sandrokeil.github.io/interop-config/intro.html#1.2">Documentation</a></td></tr><tr><td>1.3</td><td><a href="http://sandrokeil.github.io/interop-config/intro.html#1.3">Projects</a></td></tr><tr><td>1.4</td><td><a href="http://sandrokeil.github.io/interop-config/intro.html#1.4">Benchmarks</a></td></tr><tr><td>2</td><td><a href="http://sandrokeil.github.io/interop-config/overview.html#2">interop-config: Overview</a></td></tr><tr><td>2.1</td><td><a href="http://sandrokeil.github.io/interop-config/overview.html#2.1">Config Structure</a></td></tr><tr><td>3</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3">Quick Start</a></td></tr><tr><td>3.1</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.1"><code>RequiresConfig</code> interface</a></td></tr><tr><td>3.2</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.2"><code>RequiresContainerId</code> interface</a></td></tr><tr><td>3.3</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.3"><code>ConfigurationTrait</code></a></td></tr><tr><td>3.4</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.4">Create an instance</a></td></tr><tr><td>3.5</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.5"><code>RequiresMandatoryOptions</code> interface</a></td></tr><tr><td>3.6</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.6"><code>ProvidesDefaultOptions</code> interface</a></td></tr><tr><td>3.7</td><td><a href="http://sandrokeil.github.io/interop-config/quick-Start.html#3.7">Avoid exceptions</a></td></tr><tr><td>4</td><td><a href="http://sandrokeil.github.io/interop-config/examples.html#4">Examples</a></td></tr><tr><td>4.1</td><td><a href="http://sandrokeil.github.io/interop-config/examples.html#4.1">Retrieving options</a></td></tr><tr><td>4.2</td><td><a href="http://sandrokeil.github.io/interop-config/examples.html#4.2">Mandatory options check</a></td></tr><tr><td>4.3</td><td><a href="http://sandrokeil.github.io/interop-config/examples.html#4.3">Default options</a></td></tr><tr><td>5</td><td><a href="http://sandrokeil.github.io/interop-config/tutorial.html#5">Tutorial (TBD)</a></td></tr><tr><td>6</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6">interop-config API</a></td></tr><tr><td>6.1</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.1">RequiresConfig Interface</a></td></tr><tr><td>6.1.1</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.1.1">vendorName()</a></td></tr><tr><td>6.1.2</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.1.2">packageName()</a></td></tr><tr><td>6.1.3</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.1.3">canRetrieveOptions()</a></td></tr><tr><td>6.1.4</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.1.4">options()</a></td></tr><tr><td>6.1.4.1</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.1.4.1">Exceptions</a></td></tr><tr><td>6.2</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.2">RequiresContainerId Interface</a></td></tr><tr><td>6.2.1</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.2.1">containerId()</a></td></tr><tr><td>6.3</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.3">RequiresMandatoryOptions Interface</a></td></tr><tr><td>6.3.1</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.3.1">mandatoryOptions()</a></td></tr><tr><td>6.4</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.4">ProvidesDefaultOptions Interface</a></td></tr><tr><td>6.4.1</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.4.1">defaultOptions()</a></td></tr><tr><td>6.5</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.5">ConfigurationTrait</a></td></tr><tr><td>6.5.1</td><td><a href="http://sandrokeil.github.io/interop-config/api.html#6.5.1">optionsWithFallback()</a></td></tr></table>
-
+<h1>interop-config</h1>
+<ul class="list-toc list-group">
+<li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">1.</span></div><div class="col-sm-10"><a href="/getting-started/">Getting Started</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">1.1.</span></div><div class="col-sm-10"><a href="/getting-started/overview.html#1-1">Overview</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">1.2.</span></div><div class="col-sm-10"><a href="/getting-started/quick-Start.html#1-2">Quick Start</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">2.</span></div><div class="col-sm-10"><a href="/reference/">Reference</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">2.1.</span></div><div class="col-sm-10"><a href="/reference/api.html#2-1">API</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">2.2.</span></div><div class="col-sm-10"><a href="/reference/examples.html#2-2">Examples</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">3.</span></div><div class="col-sm-10"><a href="/contribute/">Contribute</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">3.1.</span></div><div class="col-sm-10"><a href="/contribute/contributing.html#3-1">Contributing</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">3.2.</span></div><div class="col-sm-10"><a href="/contribute/readme-git.html#3-2">Using GIT</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">3.3.</span></div><div class="col-sm-10"><a href="/contribute/changelog.html#3-3">Changelog</a></div></div></li></ul>
+        </div>
+    </div>
 </div>
-</div>
-</div>
-</section>
 
 <footer>
     <div class="links">
         <div class="container">
-            <div class="row hidden-sm hidden-md hidden-lg">
-    <div class="prev col-xs-6">
+            <div class="row">
+                <div class="prev col-xs-6">
+                                    </div>
+                <div class="next col-xs-6">
+                                            <a href="/getting-started/">Next</a>                                    </div>
             </div>
-    <div class="next col-xs-6">
-                    <p>Next</p>
-            <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>            </div>
-</div>
-
-<div class="row hidden-xs">
-    <div class="prev col-sm-4">
-            </div>
-    <div class="parent col-sm-4">
-            </div>
-    <div class="next col-sm-4">
-                    <p>Next</p>
-            <a href="http://sandrokeil.github.io/interop-config/intro.html">1. Interop Configuration</a>            </div>
-</div>
-
         </div>
     </div>
     <div id="copyright">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>
-                        Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a>.
-                    </p>
+                    <p>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>
     </div>
 </footer>
     </div>
-
-    <script src="http://tobiju.github.io/share/prismjs/main.js"></script>
-    <script src="http://tobiju.github.io/share/prismjs/prism.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+    <script src="https://tobiju.github.io/share/prismjs/main.js"></script>
+    <script src="https://tobiju.github.io/share/prismjs/prism.js"></script>
 </body>
 </html>

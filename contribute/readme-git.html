@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
     <meta name="HandheldFriendly" content="True"/>
-    <title>interop-config: Overview</title>
+    <title>Using GIT</title>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
     <link rel="stylesheet"
@@ -17,6 +17,10 @@
             height: 100%;
             padding-top: 36px;
             position: relative;
+        }
+
+        img {
+            max-width: 100%;
         }
 
         .page-wrapper {
@@ -117,10 +121,19 @@
         }
 
         .list-toc .list-group-item .bbt-toc-toggle {
+            display: block;
             position: absolute;
             top: 5px;
             right: 10px;
             font-weight: normal;
+        }
+        .list-toc .list-group-item .bbt-toc-toggle:before {
+            content: "";
+            display: block;
+        }
+        .list-toc .list-group-item .bbt-toc-toggle.collapsed:before {
+            content: "";
+            display: block;
         }
 
         .list-toc > li:nth-child(2n+1) {
@@ -170,7 +183,7 @@
 
         .badge {
             border-radius: 4px;
-            padding: 5px 8px;
+            padding: 5px;
         }
 
         /* Footer Section */
@@ -272,218 +285,192 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                            <a class="navbar-brand" href="/">
-                    <img alt="logo" src="http://prooph-software.de/img/favicon-blue-white_256x256.png" title="Home">
-                </a>
                     </div>
 
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
             
-
     
     <ul class="nav navbar-nav">
-                    
-    <li>
-    <a href="/intro.html">Interoperability Configuration</a>
+                        <li>
+    <a href="/getting-started/">Getting Started</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/getting-started/overview.html">Overview</a>
 
     </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/overview.html">interop-config: Overview</a>
+                        <li>
+    <a href="/getting-started/quick-Start.html">Quick Start</a>
 
     </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/quick-Start.html">Quick Start</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/examples.html">Examples</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/tutorial.html">Tutorial (TBD)</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/api.html">interop-config API</a>
-
-    </li>
-
-
-
-
-
-
-
             </ul>
 
+    </li>
+                        <li>
+    <a href="/reference/">Reference</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/reference/api.html">API</a>
 
+    </li>
+                        <li>
+    <a href="/reference/examples.html">Examples</a>
 
+    </li>
+            </ul>
 
+    </li>
+                        <li>
+    <a href="/contribute/">Contribute</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/contribute/contributing.html">Contributing</a>
 
+    </li>
+                        <li>
+    <a href="/contribute/readme-git.html">Using GIT</a>
 
+    </li>
+                        <li>
+    <a href="/contribute/changelog.html">Changelog</a>
 
+    </li>
+            </ul>
+
+    </li>
+            </ul>
 
         </div>
     </div>
 </nav>
 </header>
-
-
 <div class="container">
     <ol class="breadcrumb">
-                        <li><a href="/">interop-config: Create instances depending on configuration</a></li>
-                                <li class="active">interop-config: Overview</li>
+                        <li><a href="/">interop-config</a></li>
+                                <li><a href="/contribute/">Contribute</a></li>
+                                <li class="active">Using GIT</li>
             </ol>
     <div class="row">
 
                 <div class="col-md-3">
             <nav class="nav-left hidden-xs hidden-sm" id="sideNav">
     <ul class="nav nav-stacked" data-spy="affix" data-offset-top="59" role="tablist">
-        
-            
-            <li>
-                <a href="#2">interop-config: Overview</a>
+                                <li>
+                <a href="#3-2" title="Using&#x20;GIT">Using GIT</a>
             </li>
-        
-            
-            <li>
-                <a href="#2-1">Config Structure</a>
+                                <li>
+                <a href="#3-2-1" title="Setup&#x20;your&#x20;own&#x20;public&#x20;GitHub&#x20;repository">Setup your own public Gi...</a>
+            </li>
+                                <li>
+                <a href="#3-2-2" title="Keeping&#x20;Up-to-Date">Keeping Up-to-Date</a>
+            </li>
+                                <li>
+                <a href="#3-2-3" title="Working&#x20;on&#x20;interop-config">Working on interop-confi...</a>
+            </li>
+                                            <li>
+                <a href="#3-2-4" title="Branch&#x20;Cleanup">Branch Cleanup</a>
+            </li>
+                                <li>
+                <a href="#3-2-5" title="Feed&#x20;and&#x20;emails">Feed and emails</a>
             </li>
             </ul>
 </nav>
         </div>
                 <div class="col-md-9">
-<h1 id="2">2. interop-config: Overview</h1>
-<p><code>intop-config</code> provides interfaces and a concrete implementation to create instances depending on configuration via
-factory classes and ensures a valid config structure. It can also be used to auto discover factories and to create
-configuration files.</p>
+<h1 id="3-2">3.2. Using GIT</h1>
+<h2 id="3-2-1">3.2.1. Setup your own public GitHub repository</h2>
+<p>Your first step is to establish a public repository from which you can pull your work into the master repository.</p>
+<ol>
+<li>
+<p>Setup a <a href="https://github.com/">GitHub account</a>, if you haven't yet</p>
+</li>
+<li>
+<p>Fork the <a href="https://github.com/sandrokeil/interop-config">interop-config repository</a></p>
+</li>
+<li>
+<p>Clone your fork locally and enter it (use your own GitHub username in the statement below)</p>
+<pre><code class="language-sh">$ git clone git@github.com:[your username]/interop-config.git
+$ cd interop-config
+</code></pre>
+</li>
+<li>
+<p>Add a remote to the canonical <code>interop-config</code> repository, so you can keep your fork up-to-date:</p>
+<pre><code class="language-sh">$ git remote add upstream https://github.com/sandrokeil/interop-config.git
+$ git fetch upstream
+</code></pre>
+</li>
+</ol>
+<h2 id="3-2-2">3.2.2. Keeping Up-to-Date</h2>
+<p>Periodically, you should update your fork to match the canonical <code>interop-config</code> repository. we have
+added a remote to the <code>interop-config</code> repository, which allows you to do the following:</p>
+<pre><code class="language-sh">$ git checkout master
+$ git pull upstream master
+- OPTIONALLY, to keep your remote up-to-date -
+$ git push origin
+</code></pre>
+<p>If you're tracking other branches -- for example, the <em>develop</em> branch, where new feature development occurs --
+you'll want to do the same operations for that branch; simply substitute  "develop" for "master".</p>
+<h2 id="3-2-3">3.2.3. Working on interop-config</h2>
+<p>When working on <code>interop-config</code>, we recommend you do each new feature or bugfix in a new branch. This simplifies the
+task of code review as well as of merging your changes into the canonical repository.</p>
+<p>A typical work flow will then consist of the following:</p>
+<ol>
+<li>Create a new local branch based off your master branch.</li>
+<li>Switch to your new local branch. (This step can be combined with the previous step with the use of <code>git checkout -b</code>.)</li>
+<li>Do some work, commit, repeat as necessary.</li>
+<li>Push the local branch to your remote repository.</li>
+<li>Send a pull request.</li>
+</ol>
+<p>The mechanics of this process are actually quite trivial. Below, we will create a branch for fixing an issue in the tracker.</p>
+<pre><code class="language-sh">$ git checkout -b 3452
+Switched to a new branch '3452'
+</code></pre>
+<p>... do some work ...</p>
+<pre><code class="language-sh">$ git commit
+</code></pre>
+<p>... write your log message ...</p>
+<pre><code class="language-sh">$ git push origin HEAD:3452
+Counting objects: 38, done.
+Delta compression using up to 2 threads.
+Compression objects: 100$ (18/18), done.
+Writing objects: 100$ (20/20), 8.19KiB, done.
+Total 20 (delta 12), reused 0 (delta 0)
+To ssh://git@github.com/sandrokeil/interop-config.git
+   g5342..9k3532  HEAD -&gt; master
+</code></pre>
+<p>You can do the pull request from GitHub. Navigate to your repository, select the branch you just created, and then
+select the "Pull Request" button in the upper right. Select the user <em>sandrokeil</em> as the recipient.</p>
+<h3 id="3-2-3-1">3.2.3.1. Branch to issue the pull request</h3>
+<p>Which branch should you issue a pull request against?</p>
 <ul>
-<li>Configure a vendor/package or container id</li>
-<li>Check for mandatory options, recursion supported</li>
-<li>Check if options can be retrieved from configuration</li>
-<li>Merging of default options, recursion supported</li>
-<li>Generate configuration files from factory classes</li>
+<li>For fixes against the stable release, issue the pull request against the <em>master</em> branch.</li>
+<li>For new features, or fixes that introduce new elements to the public API
+(such as new public methods or properties), issue the pull request against the <em>develop</em> branch.</li>
 </ul>
-<h2 id="2-1">2.1. Config Structure</h2>
-<blockquote>
-<p>The following example is a common practice for libraries. You are free to use another config structure. See examples.</p>
-</blockquote>
-<p>The config keys should have the following structure <code>vendor.package.container_id</code>. The <code>container_id</code> is optional and is
-only necessary if you have different instances of the same class e.g. database connection.</p>
-<p>A common configuration looks like that:</p>
-<pre><code class="language-php">// interop config example
-return [
-    // vendor name
-    'doctrine' =&gt; [
-        // package name
-        'connection' =&gt; [
-            // container id
-            'orm_default' =&gt; [
-                // mandatory options
-                'driverClass' =&gt; 'Doctrine\DBAL\Driver\PDOMySql\Driver',
-                'params' =&gt; [
-                    'host'     =&gt; 'localhost',
-                    'port'     =&gt; '3306',
-                    'user'     =&gt; 'username',
-                    'password' =&gt; 'password',
-                    'dbname'   =&gt; 'database',
-                ],
-            ],
-        ],
-    ],
-];
+<h2 id="3-2-4">3.2.4. Branch Cleanup</h2>
+<p>As you might imagine, if you are a frequent contributor, you'll start to get a ton of branches both locally and on
+your remote.</p>
+<p>Once you know that your changes have been accepted to the master repository, we suggest doing some cleanup of these
+branches.</p>
+<ul>
+<li>
+<p>Local branch cleanup</p>
+<pre><code class="language-sh">$ git branch -d &lt;branchname&gt;
 </code></pre>
-<p>So <code>doctrine</code> is the vendor, <code>connection</code> is the package and <code>orm_default</code> is the container id. After that the specified
-instance options follow. The following example uses <code>ConfigurationTrait</code> which implements the logic to retrieve the
-options from a configuration. See documentation for more details.</p>
-<blockquote>
-<p>Note that the configuration above is injected as <code>$config</code> in <code>options()</code></p>
-</blockquote>
-<pre><code class="language-php">use Interop\Config\ConfigurationTrait;
-use Interop\Config\RequiresConfig;
-use Interop\Config\RequiresMandatoryOptions;
-use Interop\Container\ContainerInterface;
-
-class MyDBALConnectionFactory implements RequiresConfig, RequiresMandatoryOptions
-{
-    use ConfigurationTrait;
-    
-    public function __invoke(ContainerInterface $container)
-    {
-        // get options for doctrine.connection.orm_default
-        $options = $this-&gt;options($container-&gt;get('config'));
-
-        // mandatory options check is automatically done by RequiresMandatoryOptions
-
-        $driverClass = $options['driverClass'];
-        $params = $options['params'];
-
-        // create your instance and set options
-
-        return $instance;
-    }
-
-    /**
-     * Is used to retrieve options from the configuration array ['doctrine' =&gt; ['connection' =&gt; ['orm_default' =&gt; []]]].
-     *
-     * @return []
-     */
-    public function dimensions()
-    {
-        return ['doctrine', 'connection', 'orm_default'];
-    }
-
-    /**
-     * Returns a list of mandatory options which must be available
-     *
-     * @return string[] List with mandatory options
-     */
-    public function mandatoryOptions()
-    {
-        return ['params' =&gt; ['user', 'password', 'dbname']];
-    }
-}
+</li>
+<li>
+<p>Remote branch removal</p>
+<pre><code class="language-sh">$ git push origin :&lt;branchname&gt;
 </code></pre>
+</li>
+</ul>
+<h2 id="3-2-5">3.2.5. Feed and emails</h2>
+<p>RSS feeds may be found at:</p>
+<p><code>https://github.com/sandrokeil/interop-config/commits/&lt;branch&gt;.atom</code></p>
+<p>where &lt;branch&gt; is a branch in the repository.</p>
+<p>To subscribe to git email notifications, simply watch or fork the <code>interop-config</code> repository on GitHub.</p>
         </div>
     </div>
 </div>
@@ -493,9 +480,9 @@ class MyDBALConnectionFactory implements RequiresConfig, RequiresMandatoryOption
         <div class="container">
             <div class="row">
                 <div class="prev col-xs-6">
-                                            <a href="/intro.html">Previous</a>                                    </div>
+                                            <a href="/contribute/contributing.html">Previous</a>                                    </div>
                 <div class="next col-xs-6">
-                                            <a href="/quick-Start.html">Next</a>                                    </div>
+                                            <a href="/contribute/changelog.html">Next</a>                                    </div>
             </div>
         </div>
     </div>
@@ -503,7 +490,7 @@ class MyDBALConnectionFactory implements RequiresConfig, RequiresMandatoryOption
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a>.</p>
+                    <p>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>

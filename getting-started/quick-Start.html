@@ -19,6 +19,10 @@
             position: relative;
         }
 
+        img {
+            max-width: 100%;
+        }
+
         .page-wrapper {
             min-height: 100%;
             padding-bottom: 170px;
@@ -117,10 +121,19 @@
         }
 
         .list-toc .list-group-item .bbt-toc-toggle {
+            display: block;
             position: absolute;
             top: 5px;
             right: 10px;
             font-weight: normal;
+        }
+        .list-toc .list-group-item .bbt-toc-toggle:before {
+            content: "";
+            display: block;
+        }
+        .list-toc .list-group-item .bbt-toc-toggle.collapsed:before {
+            content: "";
+            display: block;
         }
 
         .list-toc > li:nth-child(2n+1) {
@@ -170,7 +183,7 @@
 
         .badge {
             border-radius: 4px;
-            padding: 5px 8px;
+            padding: 5px;
         }
 
         /* Footer Section */
@@ -272,106 +285,71 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                            <a class="navbar-brand" href="/">
-                    <img alt="logo" src="http://prooph-software.de/img/favicon-blue-white_256x256.png" title="Home">
-                </a>
                     </div>
 
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
             
-
     
     <ul class="nav navbar-nav">
-                    
-    <li>
-    <a href="/intro.html">Interoperability Configuration</a>
+                        <li>
+    <a href="/getting-started/">Getting Started</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/getting-started/overview.html">Overview</a>
 
     </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/overview.html">interop-config: Overview</a>
+                        <li>
+    <a href="/getting-started/quick-Start.html">Quick Start</a>
 
     </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/quick-Start.html">Quick Start</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/examples.html">Examples</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/tutorial.html">Tutorial (TBD)</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/api.html">interop-config API</a>
-
-    </li>
-
-
-
-
-
-
-
             </ul>
 
+    </li>
+                        <li>
+    <a href="/reference/">Reference</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/reference/api.html">API</a>
 
+    </li>
+                        <li>
+    <a href="/reference/examples.html">Examples</a>
 
+    </li>
+            </ul>
 
+    </li>
+                        <li>
+    <a href="/contribute/">Contribute</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/contribute/contributing.html">Contributing</a>
 
+    </li>
+                        <li>
+    <a href="/contribute/readme-git.html">Using GIT</a>
 
+    </li>
+                        <li>
+    <a href="/contribute/changelog.html">Changelog</a>
 
+    </li>
+            </ul>
+
+    </li>
+            </ul>
 
         </div>
     </div>
 </nav>
 </header>
-
-
 <div class="container">
     <ol class="breadcrumb">
-                        <li><a href="/">interop-config: Create instances depending on configuration</a></li>
+                        <li><a href="/">interop-config</a></li>
+                                <li><a href="/getting-started/">Getting Started</a></li>
                                 <li class="active">Quick Start</li>
             </ol>
     <div class="row">
@@ -379,53 +357,34 @@
                 <div class="col-md-3">
             <nav class="nav-left hidden-xs hidden-sm" id="sideNav">
     <ul class="nav nav-stacked" data-spy="affix" data-offset-top="59" role="tablist">
-        
-            
-            <li>
-                <a href="#3">Quick Start</a>
+                                <li>
+                <a href="#1-2" title="Quick&#x20;Start">Quick Start</a>
             </li>
-        
-            
-            <li>
-                <a href="#3-1"><code>RequiresConfig</co...</a>
+                                <li>
+                <a href="#1-2-1" title="RequiresConfig&#x20;interface">RequiresConfig interface</a>
             </li>
-        
-            
-            <li>
-                <a href="#3-1-1">Need configuration per c...</a>
+                                            <li>
+                <a href="#1-2-2" title="ConfigurationTrait">ConfigurationTrait</a>
             </li>
-        
-            
-            <li>
-                <a href="#3-2"><code>ConfigurationTrait...</a>
+                                <li>
+                <a href="#1-2-3" title="Create&#x20;an&#x20;instance">Create an instance</a>
             </li>
-        
-            
-            <li>
-                <a href="#3-3">Create an instance</a>
+                                <li>
+                <a href="#1-2-4" title="RequiresMandatoryOptions&#x20;interface">RequiresMandatoryOptions...</a>
             </li>
-        
-            
-            <li>
-                <a href="#3-4"><code>RequiresMandatoryO...</a>
+                                <li>
+                <a href="#1-2-5" title="ProvidesDefaultOptions&#x20;interface">ProvidesDefaultOptions i...</a>
             </li>
-        
-            
-            <li>
-                <a href="#3-5"><code>ProvidesDefaultOpt...</a>
-            </li>
-        
-            
-            <li>
-                <a href="#3-6">Avoid exceptions</a>
+                                <li>
+                <a href="#1-2-6" title="Avoid&#x20;exceptions">Avoid exceptions</a>
             </li>
             </ul>
 </nav>
         </div>
                 <div class="col-md-9">
-<h1 id="3">3. Quick Start</h1>
+<h1 id="1-2">1.2. Quick Start</h1>
 <p>Typically you will have a factory which creates a concrete instance depending on some options (dependencies).</p>
-<h2 id="3-1">3.1. <code>RequiresConfig</code> interface</h2>
+<h2 id="1-2-1">1.2.1. RequiresConfig interface</h2>
 <p>Let's say <em>My factory requires a configuration</em> so you will implement the <code>RequiresConfig</code> interface.</p>
 <pre><code class="language-php">use Interop\Config\RequiresConfig;
 
@@ -447,24 +406,26 @@ class MyAwesomeFactory implements RequiresConfig
     }
 }
 </code></pre>
-<h3 id="3-1-1">3.1.1. Need configuration per container id</h3>
-<p>If you support more than one instance with different configuration then you simply add one more value to the <code>dimensions</code>
-method.</p>
-<pre><code class="language-php">use Interop\Config\RequiresConfig;
+<h3 id="1-2-1-1">1.2.1.1. Need configuration per container id</h3>
+<p>If you support more than one instance with different configuration then you simply use the <code>RequiresConfigId</code> interface.</p>
+<blockquote>
+<p>Don't use the dimensions() method for container id configuration</p>
+</blockquote>
+<pre><code class="language-php">use Interop\Config\RequiresConfigId;
 
-class MyAwesomeFactory implements RequiresConfig
+class MyAwesomeFactory implements RequiresConfigId
 {
     public function dimensions()
     {
-        return ['vendor-package', 'container-id'];
+        return ['vendor-package'];
     }
     
-    public function canRetrieveOptions($config)
+    public function canRetrieveOptions($config, $configId = null)
     {
         // custom implementation depending on specifications
     }
     
-    public function options($config)
+    public function options($config, $configId = null)
     {
         // custom implementation depending on specifications
     }
@@ -472,7 +433,7 @@ class MyAwesomeFactory implements RequiresConfig
 </code></pre>
 <p>Ok you have now a factory which says that the factory supports a configuration and you have a PHP file which contains
 the configuration as a PHP array, but how is the configuration used?</p>
-<p>Depending on the implemented interfaces above our configuration PHP file looks like that:</p>
+<p>Depending on the implemented interface <code>RequiresConfigId</code> above our configuration PHP file looks like that:</p>
 <pre><code class="language-php">// interop config example
 return [
     // vendor/package name
@@ -486,53 +447,53 @@ return [
 </code></pre>
 <p>As you can see that you have to implement the functionality of <code>canRetrieveOptions()</code> and <code>options()</code> method. Good news,
 this is not necessary. See <code>ConfigurationTrait</code>.</p>
-<h2 id="3-2">3.2. <code>ConfigurationTrait</code>
-</h2>
+<h2 id="1-2-2">1.2.2. ConfigurationTrait</h2>
 <p>The <code>ConfigurationTrait</code> is a concrete implementation of the <code>RequiresConfig</code> interface and has full support of
-<code>ProvidesDefaultOptions</code> and <code>RequiresMandatoryOptions</code> interfaces. It's a
+<code>ProvidesDefaultOptions</code>, <code>RequiresMandatoryOptions</code> and <code>RequiresConfigId</code>interfaces. It's a
 <a href="http://php.net/manual/en/language.oop5.traits.php" title="PHP Trait Documentation">PHP Trait</a> so you can extend your factory
 from a class.</p>
 <p>Your factory looks now like that:</p>
-<pre><code class="language-php">use Interop\Config\RequiresConfig;
+<pre><code class="language-php">use Interop\Config\RequiresConfigId;
 use Interop\Config\ConfigurationTrait;
 
-class MyAwesomeFactory implements RequiresConfig
+class MyAwesomeFactory implements RequiresConfigId
 {
     use ConfigurationTrait;
     
     public function dimensions()
     {
-        return ['vendor-package', 'container-id'];
+        return ['vendor-package'];
     }
 }
 </code></pre>
 <p>Now you have all the ingredients to create multiple different instances depending on configuration.</p>
-<h2 id="3-3">3.3. Create an instance</h2>
+<h2 id="1-2-3">1.2.3. Create an instance</h2>
 <p>Factories are often implemented as a <a href="http://php.net/manual/en/language.oop5.magic.php#object.invoke" title="PHP __invoke() Documentation">callable</a>.
 This means that your factory instance can be called like a function. You can also use a <code>create</code> method or something else.</p>
 <p>The factory gets a <code>ContainerInterface</code> (<a href="https://github.com/php-fig/fig-standards/blob/master/proposed/container-meta.md">Container PSR</a>)
 provided to retrieve the configuration.</p>
 <blockquote>
-<p>Note that the configuration above is injected as <code>$config</code> in <code>options()</code></p>
+<p>Note that the configuration above is injected as <code>$config</code> in <code>options()</code> and
+<a href="https://github.com/container-interop/container-interop">container-interop</a> is used to retrieve the application configuration.</p>
 </blockquote>
-<pre><code class="language-php">use Interop\Config\RequiresConfig;
+<pre><code class="language-php">use Interop\Config\RequiresConfigId;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements RequiresConfig
+class MyAwesomeFactory implements RequiresConfigId
 {
     use ConfigurationTrait;
     
     public function dimensions()
     {
-        return ['vendor-package', 'container-id'];
+        return ['vendor-package'];
     }
     
     public function __invoke(ContainerInterface $container)
     {
         // get options for vendor-package.container-id
         // method options() is implemented in ConfigurationTrait
-        $options = $this-&gt;options($container-&gt;get('config'));
+        $options = $this-&gt;options($container-&gt;get('config'), 'orm_default');
         
         return new Awesome($options);
     }
@@ -540,7 +501,7 @@ class MyAwesomeFactory implements RequiresConfig
 </code></pre>
 <p>The <code>ConfigurationTrait</code> does the job to check and retrieve options depending on implemented interfaces. <em>Nice, but what is
 if I have mandatory options?</em> See <code>RequiresMandatoryOptions</code> interface.</p>
-<h2 id="3-4">3.4. <code>RequiresMandatoryOptions</code> interface</h2>
+<h2 id="1-2-4">1.2.4. RequiresMandatoryOptions interface</h2>
 <p>The <code>RequiresConfig::options()</code> interface specification says that it MUST support mandatory options check. Let's say that we need
 params for a db connection. Our config <em>should</em> looks like that:</p>
 <pre><code class="language-php">// interop config example
@@ -558,21 +519,21 @@ return [
     ],
 ];
 </code></pre>
-<p>Remember our factory sentence. <em>My factory requires a configuration and requires a container id along with mandatory options.</em>.
+<p>Remember our factory sentence. <em>My factory requires a configuration and requires a container id along with mandatory options</em>.
 The <code>ConfigurationTrait</code> ensures that these options are available, otherwise an exception is thrown. This is great, because
 the developer gets an exact exception message with what is wrong. This is useful for developers who use your factory the first time.</p>
-<pre><code class="language-php">use Interop\Config\RequiresConfig;
+<pre><code class="language-php">use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions
+class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
     
     public function dimensions()
     {
-        return ['vendor-package', 'container-id'];
+        return ['vendor-package'];
     }
     
     public function mandatoryOptions()
@@ -582,10 +543,10 @@ class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions
     
     public function __invoke(ContainerInterface $container)
     {
-        // get options for myvendor.mypackage.mycontainerid
+        // get options for vendor-package.container-id
         // method options() is implemented in ConfigurationTrait
         // an exception is raised when a mandatory option is missing
-        $options = $this-&gt;options($container-&gt;get('config'));
+        $options = $this-&gt;options($container-&gt;get('config'), 'container-id');
         
         return new Awesome($options);
     }
@@ -594,23 +555,23 @@ class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions
 <p><em>Hey, the database port and host is missing.</em> That's right, but the default value of the port is <em>3306</em> and the host is
 <em>localhost</em>. It makes no sense to set it in the configuration. <em>So I make the database port/host not configurable?</em> No, you
 use the <code>ProvidesDefaultOptions</code> interface.</p>
-<h2 id="3-5">3.5. <code>ProvidesDefaultOptions</code> interface</h2>
+<h2 id="1-2-5">1.2.5. ProvidesDefaultOptions interface</h2>
 <p>The <code>ProvidesDefaultOptions</code> interface defines default options for your instance. These options are merged with the provided
 options.</p>
 <p>Remember: <em>My factory requires configuration, requires a container id along with mandatory options and it provides default options.</em></p>
-<pre><code class="language-php">use Interop\Config\RequiresConfig;
+<pre><code class="language-php">use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions, ProvidesDefaultOptions
+class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
     
     public function dimensions()
     {
-        return ['vendor-package', 'container-id'];
+        return ['vendor-package'];
     }
     
     public function mandatoryOptions()
@@ -634,7 +595,7 @@ class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions, Prov
         // method options() is implemented in ConfigurationTrait
         // an exception is raised when a mandatory option is missing
         // if host/port is missing, default options will be used
-        $options = $this-&gt;options($container-&gt;get('config'));
+        $options = $this-&gt;options($container-&gt;get('config'), 'container-id');
         
         return new Awesome($options);
     }
@@ -642,17 +603,17 @@ class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions, Prov
 </code></pre>
 <p>Now you have a bullet proof factory class which throws meaningful exceptions if something goes wrong. <em>This is cool, but
 I don't want to use exceptions.</em> No problem, see next.</p>
-<h2 id="3-6">3.6. Avoid exceptions</h2>
+<h2 id="1-2-6">1.2.6. Avoid exceptions</h2>
 <p>The <code>RequiresConfig</code> interface provides a method <code>canRetrieveOptions()</code>. This method checks if options are available depending on
 implemented interfaces and checks that the retrieved options are an array or have implemented <code>\ArrayAccess</code>.</p>
 <p>You can call this function and if it returns false, you can use the default options.</p>
-<pre><code class="language-php">use Interop\Config\RequiresConfig;
+<pre><code class="language-php">use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions, ProvidesDefaultOptions
+class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
     
@@ -660,15 +621,15 @@ class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions, Prov
     
     public function __invoke(ContainerInterface $container)
     {
-        $config = $container-&gt;get('config')
+        $config = $container-&gt;get('config');
         
         $options = [];
         
-        if ($this-&gt;canRetrieveOptions($config)) {
+        if ($this-&gt;canRetrieveOptions($config, 'container-id')) {
             // get options for vendor-package.container-id
             // method options() is implemented in ConfigurationTrait
             // if host/port is missing, default options will be used
-            $options = $this-&gt;options($config);
+            $options = $this-&gt;options($config, 'container-id');
         } elseif ($this instanceof ProvidesDefaultOptions) {
             $options = $this-&gt;defaultOptions();
         }
@@ -679,13 +640,13 @@ class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions, Prov
 </code></pre>
 <p><em>Nice, is there a one-liner?</em> Of course. You can use the <code>optionsWithFallback()</code> method. This function is not a part
 of the specification but is implemented in <code>ConfigurationTrait</code> to reduce some boilerplate code.</p>
-<pre><code class="language-php">use Interop\Config\RequiresConfig;
+<pre><code class="language-php">use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
 use Interop\Container\ContainerInterface;
 
-class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions, ProvidesDefaultOptions
+class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
     
@@ -696,7 +657,7 @@ class MyAwesomeFactory implements RequiresConfig, RequiresMandatoryOptions, Prov
         // get options for vendor-package.container-id
         // method options() is implemented in ConfigurationTrait
         // if configuration is not available, default options will be used
-        $options = $this-&gt;optionsWithFallback($container-&gt;get('config'));
+        $options = $this-&gt;optionsWithFallback($container-&gt;get('config'), 'container-id');
         
         return new Awesome($options);
     }
@@ -714,9 +675,9 @@ the interfaces in a sense order.</p>
         <div class="container">
             <div class="row">
                 <div class="prev col-xs-6">
-                                            <a href="/overview.html">Previous</a>                                    </div>
+                                            <a href="/getting-started/overview.html">Previous</a>                                    </div>
                 <div class="next col-xs-6">
-                                            <a href="/examples.html">Next</a>                                    </div>
+                                            <a href="/reference/">Next</a>                                    </div>
             </div>
         </div>
     </div>
@@ -724,7 +685,7 @@ the interfaces in a sense order.</p>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a>.</p>
+                    <p>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>

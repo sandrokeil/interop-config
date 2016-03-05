@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
     <meta name="HandheldFriendly" content="True"/>
-    <title>interop-config: Overview</title>
+    <title>Changelog</title>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
     <link rel="stylesheet"
@@ -17,6 +17,10 @@
             height: 100%;
             padding-top: 36px;
             position: relative;
+        }
+
+        img {
+            max-width: 100%;
         }
 
         .page-wrapper {
@@ -117,10 +121,19 @@
         }
 
         .list-toc .list-group-item .bbt-toc-toggle {
+            display: block;
             position: absolute;
             top: 5px;
             right: 10px;
             font-weight: normal;
+        }
+        .list-toc .list-group-item .bbt-toc-toggle:before {
+            content: "";
+            display: block;
+        }
+        .list-toc .list-group-item .bbt-toc-toggle.collapsed:before {
+            content: "";
+            display: block;
         }
 
         .list-toc > li:nth-child(2n+1) {
@@ -170,7 +183,7 @@
 
         .badge {
             border-radius: 4px;
-            padding: 5px 8px;
+            padding: 5px;
         }
 
         /* Footer Section */
@@ -272,218 +285,241 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                            <a class="navbar-brand" href="/">
-                    <img alt="logo" src="http://prooph-software.de/img/favicon-blue-white_256x256.png" title="Home">
-                </a>
                     </div>
 
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
             
-
     
     <ul class="nav navbar-nav">
-                    
-    <li>
-    <a href="/intro.html">Interoperability Configuration</a>
+                        <li>
+    <a href="/getting-started/">Getting Started</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/getting-started/overview.html">Overview</a>
 
     </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/overview.html">interop-config: Overview</a>
+                        <li>
+    <a href="/getting-started/quick-Start.html">Quick Start</a>
 
     </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/quick-Start.html">Quick Start</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/examples.html">Examples</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/tutorial.html">Tutorial (TBD)</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/api.html">interop-config API</a>
-
-    </li>
-
-
-
-
-
-
-
             </ul>
 
+    </li>
+                        <li>
+    <a href="/reference/">Reference</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/reference/api.html">API</a>
 
+    </li>
+                        <li>
+    <a href="/reference/examples.html">Examples</a>
 
+    </li>
+            </ul>
 
+    </li>
+                        <li>
+    <a href="/contribute/">Contribute</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/contribute/contributing.html">Contributing</a>
 
+    </li>
+                        <li>
+    <a href="/contribute/readme-git.html">Using GIT</a>
 
+    </li>
+                        <li>
+    <a href="/contribute/changelog.html">Changelog</a>
 
+    </li>
+            </ul>
+
+    </li>
+            </ul>
 
         </div>
     </div>
 </nav>
 </header>
-
-
 <div class="container">
     <ol class="breadcrumb">
-                        <li><a href="/">interop-config: Create instances depending on configuration</a></li>
-                                <li class="active">interop-config: Overview</li>
+                        <li><a href="/">interop-config</a></li>
+                                <li><a href="/contribute/">Contribute</a></li>
+                                <li class="active">Changelog</li>
             </ol>
     <div class="row">
 
                 <div class="col-md-3">
             <nav class="nav-left hidden-xs hidden-sm" id="sideNav">
     <ul class="nav nav-stacked" data-spy="affix" data-offset-top="59" role="tablist">
-        
-            
-            <li>
-                <a href="#2">interop-config: Overview</a>
+                                <li>
+                <a href="#3-3" title="Changelog">Changelog</a>
             </li>
-        
-            
-            <li>
-                <a href="#2-1">Config Structure</a>
+                                <li>
+                <a href="#3-3-1" title="1.0.0&#x20;&#x28;2015-03-05&#x29;">1.0.0 (2015-03-05)</a>
             </li>
-            </ul>
+                                                                                <li>
+                <a href="#3-3-2" title="0.3.1&#x20;&#x28;2015-10-21&#x29;">0.3.1 (2015-10-21)</a>
+            </li>
+                                                                                <li>
+                <a href="#3-3-3" title="0.3.0&#x20;&#x28;2015-10-18&#x29;">0.3.0 (2015-10-18)</a>
+            </li>
+                                                                                <li>
+                <a href="#3-3-4" title="0.2.0&#x20;&#x28;2015-09-20&#x29;">0.2.0 (2015-09-20)</a>
+            </li>
+                                                                                <li>
+                <a href="#3-3-5" title="0.1.0&#x20;&#x28;2015-09-05&#x29;">0.1.0 (2015-09-05)</a>
+            </li>
+                                                            </ul>
 </nav>
         </div>
                 <div class="col-md-9">
-<h1 id="2">2. interop-config: Overview</h1>
-<p><code>intop-config</code> provides interfaces and a concrete implementation to create instances depending on configuration via
-factory classes and ensures a valid config structure. It can also be used to auto discover factories and to create
-configuration files.</p>
+<h1 id="3-3">3.3. Changelog</h1>
+<p>All notable changes to this project will be documented in this file, in reverse chronological order by release.</p>
+<h2 id="3-3-1">3.3.1. 1.0.0 (2015-03-05)</h2>
+<blockquote>
+<p>This release contains BC breaks, but upgrade path is simple.</p>
+</blockquote>
+<h3 id="3-3-1-1">3.3.1.1. Added</h3>
 <ul>
-<li>Configure a vendor/package or container id</li>
-<li>Check for mandatory options, recursion supported</li>
-<li>Check if options can be retrieved from configuration</li>
-<li>Merging of default options, recursion supported</li>
-<li>Generate configuration files from factory classes</li>
+<li>
+<a href="https://github.com/sandrokeil/interop-config/pull/26">#26</a>: <code>dimensions()</code> method to <code>RequiresConfig</code> to make configuration depth flexible</li>
 </ul>
-<h2 id="2-1">2.1. Config Structure</h2>
-<blockquote>
-<p>The following example is a common practice for libraries. You are free to use another config structure. See examples.</p>
-</blockquote>
-<p>The config keys should have the following structure <code>vendor.package.container_id</code>. The <code>container_id</code> is optional and is
-only necessary if you have different instances of the same class e.g. database connection.</p>
-<p>A common configuration looks like that:</p>
-<pre><code class="language-php">// interop config example
-return [
-    // vendor name
-    'doctrine' =&gt; [
-        // package name
-        'connection' =&gt; [
-            // container id
-            'orm_default' =&gt; [
-                // mandatory options
-                'driverClass' =&gt; 'Doctrine\DBAL\Driver\PDOMySql\Driver',
-                'params' =&gt; [
-                    'host'     =&gt; 'localhost',
-                    'port'     =&gt; '3306',
-                    'user'     =&gt; 'username',
-                    'password' =&gt; 'password',
-                    'dbname'   =&gt; 'database',
-                ],
-            ],
-        ],
-    ],
-];
-</code></pre>
-<p>So <code>doctrine</code> is the vendor, <code>connection</code> is the package and <code>orm_default</code> is the container id. After that the specified
-instance options follow. The following example uses <code>ConfigurationTrait</code> which implements the logic to retrieve the
-options from a configuration. See documentation for more details.</p>
-<blockquote>
-<p>Note that the configuration above is injected as <code>$config</code> in <code>options()</code></p>
-</blockquote>
-<pre><code class="language-php">use Interop\Config\ConfigurationTrait;
-use Interop\Config\RequiresConfig;
-use Interop\Config\RequiresMandatoryOptions;
-use Interop\Container\ContainerInterface;
-
-class MyDBALConnectionFactory implements RequiresConfig, RequiresMandatoryOptions
+<h3 id="3-3-1-2">3.3.1.2. Deprecated</h3>
+<ul>
+<li>Nothing</li>
+</ul>
+<h3 id="3-3-1-3">3.3.1.3. Removed</h3>
+<ul>
+<li>
+<p><a href="https://github.com/sandrokeil/interop-config/pull/26">#26</a>: <code>vendorName()</code> and <code>packageName()</code> method from <code>RequiresConfig</code>, replaced by <code>dimensions()</code> method</p>
+<ul>
+<li>It's recommended to remove the methods and use the values directly in <code>dimensions()</code> to increase performance</li>
+</ul>
+<pre><code class="language-php">public function dimensions()
 {
-    use ConfigurationTrait;
-    
-    public function __invoke(ContainerInterface $container)
-    {
-        // get options for doctrine.connection.orm_default
-        $options = $this-&gt;options($container-&gt;get('config'));
-
-        // mandatory options check is automatically done by RequiresMandatoryOptions
-
-        $driverClass = $options['driverClass'];
-        $params = $options['params'];
-
-        // create your instance and set options
-
-        return $instance;
-    }
-
-    /**
-     * Is used to retrieve options from the configuration array ['doctrine' =&gt; ['connection' =&gt; ['orm_default' =&gt; []]]].
-     *
-     * @return []
-     */
-    public function dimensions()
-    {
-        return ['doctrine', 'connection', 'orm_default'];
-    }
-
-    /**
-     * Returns a list of mandatory options which must be available
-     *
-     * @return string[] List with mandatory options
-     */
-    public function mandatoryOptions()
-    {
-        return ['params' =&gt; ['user', 'password', 'dbname']];
-    }
+    return [$this-&gt;vendorName(), $this-&gt;packageName()];
 }
 </code></pre>
+</li>
+<li>
+<p><a href="https://github.com/sandrokeil/interop-config/pull/26">#26</a>: <code>RequiresContainerId</code> interface is renamed to <code>RequiresConfigId</code></p>
+<ul>
+<li>use the container id as a second argument by <code>options()</code> method.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-3-1-4">3.3.1.4. Fixed</h3>
+<ul>
+<li>
+<a href="https://github.com/sandrokeil/interop-config/pull/28">#28</a>: Throws exception if dimensions are set but default options are available and no mandatory options configured</li>
+</ul>
+<h2 id="3-3-2">3.3.2. 0.3.1 (2015-10-21)</h2>
+<h3 id="3-3-2-1">3.3.2.1. Added</h3>
+<ul>
+<li>Nothing</li>
+</ul>
+<h3 id="3-3-2-2">3.3.2.2. Deprecated</h3>
+<ul>
+<li>Nothing</li>
+</ul>
+<h3 id="3-3-2-3">3.3.2.3. Removed</h3>
+<ul>
+<li>Nothing</li>
+</ul>
+<h3 id="3-3-2-4">3.3.2.4. Fixed</h3>
+<ul>
+<li>Fixed <em>Illegal offset type in isset or empty</em> if options are empty and recursive mandatory options are used</li>
+</ul>
+<h2 id="3-3-3">3.3.3. 0.3.0 (2015-10-18)</h2>
+<h3 id="3-3-3-1">3.3.3.1. Added</h3>
+<ul>
+<li>
+<a href="https://github.com/sandrokeil/interop-config/issues/9">#9</a>: Introducing ProvidesDefaultOptions interface</li>
+<li>
+<a href="https://github.com/sandrokeil/interop-config/issues/13">#13</a>: Support for recursive mandatory options check</li>
+<li>
+<code>canRetrieveOptions()</code> to <code>ConfigurationTrait</code> to perform the options check without throwing an exception</li>
+<li>
+<code>optionsWithFallback()</code> to <code>ConfigurationTrait</code> which uses default options if config can not be retrieved</li>
+<li>OptionNotFoundException and MandatoryOptionNotFoundException extends OutOfBoundsException instead of RuntimeException</li>
+<li>Check if retrieved options are an array or an instance of ArrayAccess</li>
+<li>Benchmark suite</li>
+<li>Updated documentation</li>
+</ul>
+<h3 id="3-3-3-2">3.3.3.2. Deprecated</h3>
+<ul>
+<li>Nothing</li>
+</ul>
+<h3 id="3-3-3-3">3.3.3.3. Removed</h3>
+<ul>
+<li>
+<code>HasConfig</code> interface, was renamed to <code>RequiresConfig</code>
+</li>
+<li>
+<code>HasContainer</code> interface, was renamed to <code>RequiresContainerId</code>
+</li>
+<li>
+<code>HasMandatoryOptions</code> interface, was renamed to <code>RequiresMandatoryOptions</code>
+</li>
+<li>
+<code>HasDefaultOptions</code> interface, was renamed to <code>ProvidesDefaultOptions</code>
+</li>
+<li>
+<code>ObtainsOptions</code> interface, was merged in <code>RequiresConfig</code>
+</li>
+<li>
+<code>OptionalOptions</code> interface, can be achieved via <code>ProvidesDefaultOptions</code>
+</li>
+</ul>
+<h3 id="3-3-3-4">3.3.3.4. Fixed</h3>
+<ul>
+<li>fixed wrong function name in documentation</li>
+</ul>
+<h2 id="3-3-4">3.3.4. 0.2.0 (2015-09-20)</h2>
+<h3 id="3-3-4-1">3.3.4.1. Added</h3>
+<ul>
+<li>
+<a href="https://github.com/sandrokeil/interop-config/issues/5">#5</a>: replaced <code>componentName</code> function with <code>packageName</code> (<a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader-meta.md#package-oriented-autoloading">PSR-4 standard</a>)</li>
+</ul>
+<h3 id="3-3-4-2">3.3.4.2. Deprecated</h3>
+<ul>
+<li>Nothing</li>
+</ul>
+<h3 id="3-3-4-3">3.3.4.3. Removed</h3>
+<ul>
+<li>
+<a href="https://github.com/sandrokeil/interop-config/issues/5">#5</a>: <code>componentName</code> function from <code>HasConfig</code> interface (BC break)</li>
+</ul>
+<h3 id="3-3-4-4">3.3.4.4. Fixed</h3>
+<ul>
+<li>Nothing</li>
+</ul>
+<h2 id="3-3-5">3.3.5. 0.1.0 (2015-09-05)</h2>
+<h3 id="3-3-5-1">3.3.5.1. Added</h3>
+<ul>
+<li>Initial release</li>
+<li>Added interfaces</li>
+<li>
+<a href="https://github.com/sandrokeil/interop-config/issues/2">#2</a>: Added trait implementation</li>
+</ul>
+<h3 id="3-3-5-2">3.3.5.2. Deprecated</h3>
+<ul>
+<li>Nothing</li>
+</ul>
+<h3 id="3-3-5-3">3.3.5.3. Removed</h3>
+<ul>
+<li>Nothing</li>
+</ul>
+<h3 id="3-3-5-4">3.3.5.4. Fixed</h3>
+<ul>
+<li>Nothing</li>
+</ul>
         </div>
     </div>
 </div>
@@ -493,9 +529,9 @@ class MyDBALConnectionFactory implements RequiresConfig, RequiresMandatoryOption
         <div class="container">
             <div class="row">
                 <div class="prev col-xs-6">
-                                            <a href="/intro.html">Previous</a>                                    </div>
+                                            <a href="/contribute/readme-git.html">Previous</a>                                    </div>
                 <div class="next col-xs-6">
-                                            <a href="/quick-Start.html">Next</a>                                    </div>
+                                    </div>
             </div>
         </div>
     </div>
@@ -503,7 +539,7 @@ class MyDBALConnectionFactory implements RequiresConfig, RequiresMandatoryOption
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a>.</p>
+                    <p>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>

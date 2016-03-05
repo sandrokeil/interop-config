@@ -19,6 +19,10 @@
             position: relative;
         }
 
+        img {
+            max-width: 100%;
+        }
+
         .page-wrapper {
             min-height: 100%;
             padding-bottom: 170px;
@@ -117,10 +121,19 @@
         }
 
         .list-toc .list-group-item .bbt-toc-toggle {
+            display: block;
             position: absolute;
             top: 5px;
             right: 10px;
             font-weight: normal;
+        }
+        .list-toc .list-group-item .bbt-toc-toggle:before {
+            content: "";
+            display: block;
+        }
+        .list-toc .list-group-item .bbt-toc-toggle.collapsed:before {
+            content: "";
+            display: block;
         }
 
         .list-toc > li:nth-child(2n+1) {
@@ -170,7 +183,7 @@
 
         .badge {
             border-radius: 4px;
-            padding: 5px 8px;
+            padding: 5px;
         }
 
         /* Footer Section */
@@ -272,106 +285,71 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                            <a class="navbar-brand" href="/">
-                    <img alt="logo" src="http://prooph-software.de/img/favicon-blue-white_256x256.png" title="Home">
-                </a>
                     </div>
 
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
             
-
     
     <ul class="nav navbar-nav">
-                    
-    <li>
-    <a href="/intro.html">Interoperability Configuration</a>
+                        <li>
+    <a href="/getting-started/">Getting Started</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/getting-started/overview.html">Overview</a>
 
     </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/overview.html">interop-config: Overview</a>
+                        <li>
+    <a href="/getting-started/quick-Start.html">Quick Start</a>
 
     </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/quick-Start.html">Quick Start</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/examples.html">Examples</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/tutorial.html">Tutorial (TBD)</a>
-
-    </li>
-
-
-
-
-
-
-
-                    
-    <li>
-    <a href="/api.html">interop-config API</a>
-
-    </li>
-
-
-
-
-
-
-
             </ul>
 
+    </li>
+                        <li>
+    <a href="/reference/">Reference</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/reference/api.html">API</a>
 
+    </li>
+                        <li>
+    <a href="/reference/examples.html">Examples</a>
 
+    </li>
+            </ul>
 
+    </li>
+                        <li>
+    <a href="/contribute/">Contribute</a>
+    
+    <ul class="dropdown-menu">
+                        <li>
+    <a href="/contribute/contributing.html">Contributing</a>
 
+    </li>
+                        <li>
+    <a href="/contribute/readme-git.html">Using GIT</a>
 
+    </li>
+                        <li>
+    <a href="/contribute/changelog.html">Changelog</a>
 
+    </li>
+            </ul>
+
+    </li>
+            </ul>
 
         </div>
     </div>
 </nav>
 </header>
-
-
 <div class="container">
     <ol class="breadcrumb">
-                        <li><a href="/">interop-config: Create instances depending on configuration</a></li>
+                        <li><a href="/">interop-config</a></li>
+                                <li><a href="/reference/">Reference</a></li>
                                 <li class="active">Examples</li>
             </ol>
     <div class="row">
@@ -379,45 +357,24 @@
                 <div class="col-md-3">
             <nav class="nav-left hidden-xs hidden-sm" id="sideNav">
     <ul class="nav nav-stacked" data-spy="affix" data-offset-top="59" role="tablist">
-        
-            
-            <li>
-                <a href="#4">Examples</a>
+                                <li>
+                <a href="#2-2" title="Examples">Examples</a>
             </li>
-        
-            
-            <li>
-                <a href="#4-1">Use a <code>vendor.packa...</a>
+                                <li>
+                <a href="#2-2-1" title="Use&#x20;a&#x20;vendor.package.id&#x20;config&#x20;structure">Use a vendor.package.id ...</a>
             </li>
-        
-            
-            <li>
-                <a href="#4-1-1">Retrieving options</a>
-            </li>
-        
-            
-            <li>
-                <a href="#4-1-2">Mandatory options check</a>
-            </li>
-        
-            
-            <li>
-                <a href="#4-1-3">Default options</a>
-            </li>
-        
-            
-            <li>
-                <a href="#4-2">Use arbitrary configurat...</a>
+                                                                    <li>
+                <a href="#2-2-2" title="Use&#x20;arbitrary&#x20;configuration&#x20;structure">Use arbitrary configurat...</a>
             </li>
             </ul>
 </nav>
         </div>
                 <div class="col-md-9">
-<h1 id="4">4. Examples</h1>
+<h1 id="2-2">2.2. Examples</h1>
 <p>This files contains examples for each interface. The factory class uses the <code>ConfigurationTrait</code> to retrieve options
 from a configuration and optional to perform a mandatory option check or merge default options. There is also an
 example for a independent config structure of the Zend Expressive TwigRendererFactory.</p>
-<h2 id="4-1">4.1. Use a <code>vendor.package.id</code> config structure</h2>
+<h2 id="2-2-1">2.2.1. Use a vendor.package.id config structure</h2>
 <p>Let's assume we have the following module configuration:</p>
 <pre><code class="language-php">// interop config example
 return [
@@ -436,7 +393,7 @@ return [
                     'password' =&gt; 'password',
                     'dbname'   =&gt; 'database',
                 ],
-            ],
+            ], 
         ],
     ],
 ];
@@ -444,19 +401,19 @@ return [
 <blockquote>
 <p>Note that the configuration above is injected as <code>$config</code> in <code>options()</code></p>
 </blockquote>
-<h3 id="4-1-1">4.1.1. Retrieving options</h3>
-<p>Then you have easily access to the <code>orm_default</code> options in your method with this trait.</p>
+<h3 id="2-2-1-1">2.2.1.1. Retrieving options</h3>
+<p>Then you have easily access to the <code>orm_default</code> options in your method with <code>ConfigurationTrait</code>.</p>
 <pre><code class="language-php">use Interop\Config\ConfigurationTrait;
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfigId;
 
-class MyDBALConnectionFactory implements RequiresContainerId
+class MyDBALConnectionFactory implements RequiresConfigId
 {
     use ConfigurationTrait;
     
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
-        $options = $this-&gt;options($container-&gt;get('config'));
+        $options = $this-&gt;options($container-&gt;get('config'), 'orm_default');
         
         // check if mandatory options are available or use \Interop\Config\RequiresMandatoryOptions, see below 
         if (empty($options['driverClass'])) {
@@ -490,32 +447,32 @@ class MyDBALConnectionFactory implements RequiresContainerId
     }
     
     /**
-     * Is used to retrieve options from the configuration array ['doctrine' =&gt; ['connection' =&gt; ['orm_default' =&gt; []]]].
+     * Is used to retrieve options from the configuration array ['doctrine' =&gt; ['connection' =&gt; [...]]].
      *
      * @return []
      */
     public function dimensions()
     {
-        return ['doctrine', 'connection', 'orm_default'];
+        return ['doctrine', 'connection'];
     }
 }
 </code></pre>
-<h3 id="4-1-2">4.1.2. Mandatory options check</h3>
+<h3 id="2-2-1-2">2.2.1.2. Mandatory options check</h3>
 <p>You can also check for mandatory options automatically with <code>MandatoryOptionsInterface</code>. Now we want also check that
 option <code>driverClass</code> and <code>params</code> are available. So we also implement in the example above the interface
 <code>RequiresMandatoryOptions</code>. If one of these options is missing, an exception is raised.</p>
 <pre><code class="language-php">use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresMandatoryOptions;
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfigId;
 
-class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryOptions
+class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
     
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
-        $options = $this-&gt;options($container-&gt;get('config'));
+        $options = $this-&gt;options($container-&gt;get('config'), 'orm_default');
 
         // mandatory options check is automatically done by RequiresMandatoryOptions
 
@@ -541,17 +498,17 @@ class MyDBALConnectionFactory implements RequiresContainerId, RequiresMandatoryO
     }
     
     /**
-     * Is used to retrieve options from the configuration array ['doctrine' =&gt; ['connection' =&gt; ['orm_default' =&gt; []]]].
+     * Is used to retrieve options from the configuration array ['doctrine' =&gt; ['connection' =&gt; [...]]].
      *
      * @return []
      */
     public function dimensions()
     {
-        return ['doctrine', 'connection', 'orm_default'];
+        return ['doctrine', 'connection'];
     }
 }
 </code></pre>
-<h3 id="4-1-3">4.1.3. Default options</h3>
+<h3 id="2-2-1-3">2.2.1.3. Default options</h3>
 <p>Use the <code>ProvidesDefaultOptions</code> interface if you have default options. These options are merged with the provided options in
 <code>\Interop\Config\RequiresConfig::options()</code>. Let's look at this example from
 <a href="https://github.com/doctrine/DoctrineORMModule/blob/master/docs/configuration.md#how-to-use-two-connections">DoctrineORMModule</a>.
@@ -571,16 +528,16 @@ All the options under the key <em>orm_crawler</em> are optional, but it's not vi
 </code></pre>
 <pre><code class="language-php">use Interop\Config\ConfigurationTrait;
 use Interop\Config\ProvidesDefaultOptions;
-use Interop\Config\RequiresContainerId;
+use Interop\Config\RequiresConfigId;
 
-class ConfigurationFactory implements RequiresContainerId, ProvidesDefaultOptions
+class ConfigurationFactory implements RequiresConfigId, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
     
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.configuration.orm_crawler
-        $options = $this-&gt;options($container-&gt;get('config'));
+        $options = $this-&gt;options($container-&gt;get('config'), 'orm_crawler');
 
         # these keys are always available now 
         $options['metadata_cache'];
@@ -610,17 +567,17 @@ class ConfigurationFactory implements RequiresContainerId, ProvidesDefaultOption
     
     /**
      * Is used to retrieve options from the configuration array 
-     * ['doctrine' =&gt; ['configuration' =&gt; ['orm_crawler' =&gt; []]]].
+     * ['doctrine' =&gt; ['configuration' =&gt; []]].
      *
      * @return []
      */
     public function dimensions()
     {
-        return ['doctrine', 'configuration', 'orm_crawler'];
+        return ['doctrine', 'configuration'];
     }
 }
 </code></pre>
-<h2 id="4-2">4.2. Use arbitrary configuration structure</h2>
+<h2 id="2-2-2">2.2.2. Use arbitrary configuration structure</h2>
 <p>Whatever configuration structure you use, <code>interop-config</code> can handle it. You can use a three-dimensional array with
 <code>vendor.package.id</code> like the examples above or you don't care of it and organize your configuration by behavior or
 nature (db, cache, ... or sale, admin).</p>
@@ -787,9 +744,9 @@ class TwigRendererFactory implements RequiresConfig, ProvidesDefaultOptions
         <div class="container">
             <div class="row">
                 <div class="prev col-xs-6">
-                                            <a href="/quick-Start.html">Previous</a>                                    </div>
+                                            <a href="/reference/api.html">Previous</a>                                    </div>
                 <div class="next col-xs-6">
-                                            <a href="/tutorial.html">Next</a>                                    </div>
+                                            <a href="/contribute/">Next</a>                                    </div>
             </div>
         </div>
     </div>
@@ -797,7 +754,7 @@ class TwigRendererFactory implements RequiresConfig, ProvidesDefaultOptions
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a>.</p>
+                    <p>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>
