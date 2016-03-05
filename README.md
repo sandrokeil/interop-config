@@ -59,10 +59,10 @@ $ docker run -it --rm -v $(pwd):/app sandrokeil/bookdown doc/bookdown.json
 $ docker run -it --rm -p 8080:8080 -v $(pwd):/app php:7.0-cli php -S 0.0.0.0:8080 -t /app/doc/html
 ```
 
-or run *bookdown* via Composer and `$HOME/.composer/vendor/bin` is on your `$PATH`.
+or run *bookdown*
 
 ```console
-$ bookdown doc/bookdown.json
+$ ./vendor/bin/bookdown doc/bookdown.json
 $ php -S 0.0.0.0:8080 -t doc/html/
 ```
 
