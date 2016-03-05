@@ -45,10 +45,15 @@ trait ConfigurationTrait
 
         foreach ($dimensions as $dimension) {
             if ((!is_array($config) && !$config instanceof ArrayAccess)
-                || !isset($config[$dimension])
+                || (!isset($config[$dimension]) && $this instanceof RequiresMandatoryOptions)
+                || (!isset($config[$dimension]) && !$this instanceof ProvidesDefaultOptions)
             ) {
                 return false;
             }
+            if (!isset($config[$dimension]) && $this instanceof ProvidesDefaultOptions) {
+                return true;
+            }
+
             $config = $config[$dimension];
         }
         return is_array($config) || $config instanceof ArrayAccess;
@@ -65,9 +70,14 @@ trait ConfigurationTrait
      * @param array|ArrayAccess $config Configuration
      * @param string $configId Config name, must be provided if factory uses RequiresConfigId interface
      * @return array|ArrayAccess
+     * @throws Exception\InvalidArgumentException If the $configId parameter is provided but factory does not support it
+     * @throws Exception\UnexpectedValueException If the $config parameter has the wrong type
+     * @throws Exception\OptionNotFoundException If no options are available
+     * @throws Exception\MandatoryOptionNotFoundException If a mandatory option is missing
      */
     public function options($config, $configId = null)
     {
+        $options = $config;
         $dimensions = $this->dimensions();
 
         if ($this instanceof RequiresConfigId) {
@@ -80,28 +90,31 @@ trait ConfigurationTrait
 
         // get configuration for provided dimensions
         foreach ($dimensions as $dimension) {
-            if (!is_array($config) && !$config instanceof ArrayAccess) {
+            if (!is_array($options) && !$options instanceof ArrayAccess) {
                 throw Exception\UnexpectedValueException::invalidOptions($dimensions, $dimension);
             }
 
-            if (!isset($config[$dimension])) {
+            if (!isset($options[$dimension])) {
+                if (!$this instanceof RequiresMandatoryOptions && $this instanceof ProvidesDefaultOptions) {
+                    break;
+                }
                 throw Exception\OptionNotFoundException::missingOptions($this, $dimension, $configId);
             }
-            $config = $config[$dimension];
+            $options = $options[$dimension];
         }
 
-        if (!is_array($config) && !$config instanceof ArrayAccess) {
+        if (!is_array($options) && !$options instanceof ArrayAccess) {
             throw Exception\UnexpectedValueException::invalidOptions($this->dimensions());
         }
 
         if ($this instanceof RequiresMandatoryOptions) {
-            $this->checkMandatoryOptions($this->mandatoryOptions(), $config);
+            $this->checkMandatoryOptions($this->mandatoryOptions(), $options);
         }
 
         if ($this instanceof ProvidesDefaultOptions) {
-            $config = array_replace_recursive($this->defaultOptions(), $config);
+            $options = array_replace_recursive($this->defaultOptions(), $options);
         }
-        return $config;
+        return $options;
     }
 
     /**

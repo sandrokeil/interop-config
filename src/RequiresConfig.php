@@ -59,7 +59,10 @@ interface RequiresConfig
      *
      * @param array|ArrayAccess $config Configuration
      * @return array|ArrayAccess options
-     *
+     * @throws Exception\InvalidArgumentException If the $configId parameter is provided but factory does not support it
+     * @throws Exception\UnexpectedValueException If the $config parameter has the wrong type
+     * @throws Exception\OptionNotFoundException If no options are available
+     * @throws Exception\MandatoryOptionNotFoundException If a mandatory option is missing
      */
     public function options($config);
 
