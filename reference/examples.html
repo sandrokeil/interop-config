@@ -357,13 +357,17 @@
     <body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-cerulean">
 <div class="page-wrapper">
     <header>
-
+    
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="box-header container">
         <form class="form-search navbar-form navbar-right" role="search">
             <div class="form-group">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                <input type="text" placeholder="Search" class="js-search-input form-control">
+                <input type="text"
+                       placeholder="Search"
+                       class="js-search-input form-control"
+                       data-roothref="https://sandrokeil.github.io/interop-config/">
+
                 <div class="js-search-results"></div>
             </div>
         </form>
@@ -379,12 +383,12 @@
                     </div>
 
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
-
-
+            
+    
     <ul class="nav navbar-nav">
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/getting-started/">Getting Started</a>
-
+    
     <ul class="dropdown-menu">
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/getting-started/overview.html">Overview</a>
@@ -399,7 +403,7 @@
     </li>
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/reference/">Reference</a>
-
+    
     <ul class="dropdown-menu">
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/reference/api.html">API</a>
@@ -414,7 +418,7 @@
     </li>
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/contribute/">Contribute</a>
-
+    
     <ul class="dropdown-menu">
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/contribute/contributing.html">Contributing</a>
@@ -454,8 +458,11 @@
                                 <li>
                 <a href="#2-2-1" title="Use&#x20;a&#x20;vendor.package.id&#x20;config&#x20;structure">Use a vendor.package.id ...</a>
             </li>
-                                                                    <li>
-                <a href="#2-2-2" title="Use&#x20;arbitrary&#x20;configuration&#x20;structure">Use arbitrary configurat...</a>
+                                                        <li>
+                <a href="#2-2-2" title="Use&#x20;a&#x20;static&#x20;factory">Use a static factory</a>
+            </li>
+                                            <li>
+                <a href="#2-2-3" title="Use&#x20;arbitrary&#x20;configuration&#x20;structure">Use arbitrary configurat...</a>
             </li>
             </ul>
 </nav>
@@ -464,7 +471,9 @@
 <h1 id="2-2">2.2. Examples</h1>
 <p>This files contains examples for each interface. The factory class uses the <code>ConfigurationTrait</code> to retrieve options
 from a configuration and optional to perform a mandatory option check or merge default options. There is also an
-example for a independent config structure of the Zend Expressive TwigRendererFactory.</p>
+example for a independent config structure of the Zend Expressive TwigRendererFactory. The
+<a href="https://github.com/container-interop/container-interop" title="Container Interoperability">container-interop</a> specification
+is used, so it's framework agnostic.</p>
 <h2 id="2-2-1">2.2.1. Use a vendor.package.id config structure</h2>
 <p>Let's assume we have the following module configuration:</p>
 <pre><code class="language-php">// interop config example
@@ -484,7 +493,7 @@ return [
                     'password' =&gt; 'password',
                     'dbname'   =&gt; 'database',
                 ],
-            ],
+            ], 
         ],
     ],
 ];
@@ -496,23 +505,24 @@ return [
 <p>Then you have easily access to the <code>orm_default</code> options in your method with <code>ConfigurationTrait</code>.</p>
 <pre><code class="language-php">use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresConfigId;
+use Interop\Container\ContainerInterface;
 
 class MyDBALConnectionFactory implements RequiresConfigId
 {
     use ConfigurationTrait;
-
+    
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
         $options = $this-&gt;options($container-&gt;get('config'), 'orm_default');
-
-        // check if mandatory options are available or use \Interop\Config\RequiresMandatoryOptions, see below
+        
+        // check if mandatory options are available or use \Interop\Config\RequiresMandatoryOptions, see below 
         if (empty($options['driverClass'])) {
             throw new Exception\RuntimeException(
                 sprintf(
                     'Driver class was not set for configuration %s.%s.%s',
-                    'doctrine',
-                    'connection',
+                    'doctrine', 
+                    'connection', 
                     'orm_default'
                 )
             );
@@ -522,8 +532,8 @@ class MyDBALConnectionFactory implements RequiresConfigId
             throw new Exception\RuntimeException(
                 sprintf(
                     'Params was not set for configuration %s.%s.%s',
-                    'doctrine',
-                    'connection',
+                    'doctrine', 
+                    'connection', 
                     'orm_default'
                 )
             );
@@ -536,7 +546,7 @@ class MyDBALConnectionFactory implements RequiresConfigId
 
         return $instance;
     }
-
+    
     /**
      * Is used to retrieve options from the configuration array ['doctrine' =&gt; ['connection' =&gt; [...]]].
      *
@@ -555,11 +565,12 @@ option <code>driverClass</code> and <code>params</code> are available. So we als
 <pre><code class="language-php">use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\RequiresConfigId;
+use Interop\Container\ContainerInterface;
 
 class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
-
+    
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.connection.orm_default
@@ -587,7 +598,7 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
             'params',
         ];
     }
-
+     
     /**
      * Is used to retrieve options from the configuration array ['doctrine' =&gt; ['connection' =&gt; [...]]].
      *
@@ -599,7 +610,101 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
     }
 }
 </code></pre>
-<h3 id="2-2-1-3">2.2.1.3. Default options</h3>
+<h2 id="2-2-2">2.2.2. Use a static factory</h2>
+<p>Creation of a new instance of a specific config key is really easy by using the static variants of the factory. With
+this you don't have to instantiate a factory to use another config id in your config, which is really awesome. Remember,
+config files should only contain scalar values, so you can cache it in production. We have to add some lines of code
+to our factory. The magic is done via the <code>__callStatic()</code> method.</p>
+<pre><code class="language-php">use Interop\Config\ConfigurationTrait;
+use Interop\Config\RequiresMandatoryOptions;
+use Interop\Config\RequiresConfigId;
+use Interop\Container\ContainerInterface;
+
+class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOptions
+{
+    use ConfigurationTrait;
+    
+    /**
+     * @var string
+     */
+    private $configId;
+
+    /**
+     * Creates a new instance from a specified config, specifically meant to be used as static factory.
+     *
+     * In case you want to use another config key than provided by the factories, you can add the following factory to
+     * your config:
+     *
+     * &lt;code&gt;
+     * &lt;?php
+     * return [
+     *     'doctrine.connection.orm_second' =&gt; [MyDBALConnectionFactory::class, 'orm_second'],
+     * ];
+     * &lt;/code&gt;
+     *
+     * @param string $name
+     * @param array $arguments
+     * @return mixed
+     * @throws \InvalidArgumentException
+     */
+    public static function __callStatic($name, array $arguments)
+    {
+        if (!isset($arguments[0]) || !$arguments[0] instanceof ContainerInterface) {
+            throw new \InvalidArgumentException(
+                sprintf('The first argument must be of type %s', ContainerInterface::class)
+            );
+        }
+        return (new static($name))-&gt;__invoke($arguments[0]);
+    }
+
+    /**
+     * @param string $configId
+     */
+    public function __construct($configId)
+    {
+        $this-&gt;configId = $configId;
+    }
+    
+    public function __invoke(ContainerInterface $container)
+    {
+        // get options for doctrine.connection.[config id]
+        $options = $this-&gt;options($container-&gt;get('config'), $this-&gt;configId);
+
+        // mandatory options check is automatically done by RequiresMandatoryOptions
+
+        $driverClass = $options['driverClass'];
+        $params = $options['params'];
+
+        // create your instance and set options
+
+        return $instance;
+    }
+
+    /**
+     * Returns a list of mandatory options which must be available
+     *
+     * @return string[] List with mandatory options
+     */
+    public function mandatoryOptions()
+    {
+        return [
+            'driverClass',
+            'params',
+        ];
+    }
+    
+    /**
+     * Is used to retrieve options from the configuration array ['doctrine' =&gt; ['connection' =&gt; [...]]].
+     *
+     * @return []
+     */
+    public function dimensions()
+    {
+        return ['doctrine', 'connection'];
+    }
+}
+</code></pre>
+<h3 id="2-2-2-1">2.2.2.1. Default options</h3>
 <p>Use the <code>ProvidesDefaultOptions</code> interface if you have default options. These options are merged with the provided options in
 <code>\Interop\Config\RequiresConfig::options()</code>. Let's look at this example from
 <a href="https://github.com/doctrine/DoctrineORMModule/blob/master/docs/configuration.md#how-to-use-two-connections">DoctrineORMModule</a>.
@@ -624,13 +729,13 @@ use Interop\Config\RequiresConfigId;
 class ConfigurationFactory implements RequiresConfigId, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
-
+    
     public function __invoke(ContainerInterface $container)
     {
         // get options for doctrine.configuration.orm_crawler
         $options = $this-&gt;options($container-&gt;get('config'), 'orm_crawler');
 
-        # these keys are always available now
+        # these keys are always available now 
         $options['metadata_cache'];
         $options['query_cache'];
         $options['result_cache'];
@@ -640,7 +745,7 @@ class ConfigurationFactory implements RequiresConfigId, ProvidesDefaultOptions
 
         return $instance;
     }
-
+    
     /**
      * Returns a list of default options, which are merged in \Interop\Config\RequiresConfig::options
      *
@@ -655,9 +760,9 @@ class ConfigurationFactory implements RequiresConfigId, ProvidesDefaultOptions
             'hydration_cache' =&gt; 'array',
         ];
     }
-
+    
     /**
-     * Is used to retrieve options from the configuration array
+     * Is used to retrieve options from the configuration array 
      * ['doctrine' =&gt; ['configuration' =&gt; []]].
      *
      * @return []
@@ -668,7 +773,7 @@ class ConfigurationFactory implements RequiresConfigId, ProvidesDefaultOptions
     }
 }
 </code></pre>
-<h2 id="2-2-2">2.2.2. Use arbitrary configuration structure</h2>
+<h2 id="2-2-3">2.2.3. Use arbitrary configuration structure</h2>
 <p>Whatever configuration structure you use, <code>interop-config</code> can handle it. You can use a three-dimensional array with
 <code>vendor.package.id</code> like the examples above or you don't care of it and organize your configuration by behavior or
 nature (db, cache, ... or sale, admin).</p>
@@ -879,9 +984,10 @@ class TwigRendererFactory implements RequiresConfig, ProvidesDefaultOptions
             this.bindEvents();
         },
         createIndex: function () {
-            var $this = this;
+            var $this = this,
+                indexFilePath = $('.js-search-input').data('roothref') + 'index.json';
 
-            $.getJSON("/interop-config/index.json", function (data) {
+            $.getJSON(indexFilePath, function (data) {
                 $.each(data, function (key, item) {
                     $this.index.add({
                         id: item.id,
@@ -900,51 +1006,64 @@ class TwigRendererFactory implements RequiresConfig, ProvidesDefaultOptions
         bindEvents: function () {
             var $this = this;
 
-            $('html').on('click', {}, $this.close);
-            $('.js-search-input, .js-search-results').on('click', {}, $this.click);
-            $('.js-search-input').on('focus', {}, $this.focus)
-                .on('keyup', {
-                    index: $this.index,
-                    store: $this.store,
-                    searchResults: $this.searchResults,
-                    cropText: $this.cropText
-                }, $this.search)
-                .on('keydown', {
-                    'close': $this.close
-                }, $this.navigation);
+            $('html')
+                .on('click', function (event) {
+                    $this.close($(this), event);
+                });
+
+            $('.js-search-input, .js-search-results')
+                .on('click', function (event) {
+                    $this.click($(this), event);
+                });
+
+            $('.js-search-input')
+                .on('focus', function (event) {
+                    $this.focus($(this), event);
+                })
+                .on('keyup', function (event) {
+                    $this.search($(this), event)
+                })
+                .on('keydown', function (event) {
+                    $this.navigation($(this), event)
+                })
         },
-        click: function (event) {
+        click: function (element, event) {
             event.stopPropagation();
         },
-        focus: function (event) {
-            $(this).data.searchInputWidth = $(this).css('width');
-            $(this).animate({
+        focus: function (element, event) {
+            this.searchInputWidth = element.css('width');
+            element.animate({
                 'width': 600
             }, 500);
         },
-        close: function (event) {
+        close: function (element, event) {
+            var $this = this;
+
             $('.js-search-results').hide();
             $('.js-search-input').animate({
-                'width': $(this).data.searchInputWidth
+                'width': $this.searchInputWidth
             }, 500);
         },
-        search: function (event) {
+        search: function (element, event) {
+            var $this = this;
+
             if (event.keyCode == 13 || event.keyCode == 38 || event.keyCode == 40) {
                 return;
             }
-            var query = $(this).val(),
-                results = event.data.index.search(query);
+
+            var query = element.val(),
+                results = $this.index.search(query);
 
             if (!results.length) {
-                event.data.searchResults.empty();
+                $this.searchResults.empty();
                 return;
             }
 
             var resultsList = results.reduce(function (ul, result) {
-                var item = event.data.store[result.ref];
+                var item = $this.store[result.ref];
                 var title = $('<b>').text(item.title);
 
-                var cropText = event.data.cropText(item.content, query);
+                var cropText = $this.cropText(item.content, query);
                 if (cropText.length === 0) {
                     cropText = $('<p>').html(item.content.substring(0, 120) + "...");
                 }
@@ -962,14 +1081,14 @@ class TwigRendererFactory implements RequiresConfig, ProvidesDefaultOptions
                 return ul;
             }, $('<ul>'));
 
-            event.data.searchResults.html(resultsList);
+            this.searchResults.html(resultsList);
 
             $('.js-search-results').show();
             $(".js-search-results li:first-child").addClass('selected');
         },
         cropText: function (content, query) {
-            var cropedText = '';
-            var re = new RegExp("\\s?(.{0,30})?" + query + ".*?\\b(.{0,30}.)?\\s?", "gi");
+            var cropedText = '',
+                re = new RegExp("\\s?(.{0,30})?" + query + ".*?\\b(.{0,30}.)?\\s?", "gi");
 
             $.each(content.match(re), function (key, value) {
                 cropedText += '...' + value + '...';
@@ -977,17 +1096,17 @@ class TwigRendererFactory implements RequiresConfig, ProvidesDefaultOptions
 
             return cropedText;
         },
-        navigation: function (event) {
-            var selected = null;
-            var listSelector = ".js-search-results ul";
-            var listItemSelector = listSelector + " li";
-            var selectedListItemSelector = listItemSelector + ".selected";
-            var selectedListItemSelectorAnchor = listItemSelector + ".selected a";
+        navigation: function (element, event) {
+            var selected = null,
+                listSelector = ".js-search-results ul",
+                listItemSelector = listSelector + " li",
+                selectedListItemSelector = listItemSelector + ".selected",
+                selectedListItemSelectorAnchor = listItemSelector + ".selected a";
 
             // enter
             if (event.keyCode == 13) {
                 event.preventDefault();
-                event.data.close();
+                this.close();
                 window.location.replace($(selectedListItemSelectorAnchor).attr('href'));
             }
 
@@ -997,11 +1116,13 @@ class TwigRendererFactory implements RequiresConfig, ProvidesDefaultOptions
                 $(listItemSelector).removeClass("selected");
 
                 if (selected.prev().length == 0) {
-                    selected.siblings().last().addClass("selected").focus();
+                    selected.siblings().last().addClass("selected");
                 } else {
-                    selected.prev().addClass("selected").focus();
+                    selected.prev().addClass("selected");
                 }
-                $(listSelector).scrollTop($(selectedListItemSelector).position().top);
+
+                selected = $(selectedListItemSelector);
+                this.scrollListUp(selected);
             }
 
             // down
@@ -1010,11 +1131,40 @@ class TwigRendererFactory implements RequiresConfig, ProvidesDefaultOptions
                 $(listItemSelector).removeClass("selected");
 
                 if (selected.next().length == 0) {
-                    selected.siblings().first().addClass("selected").focus();
+                    selected.siblings().first().addClass("selected");
                 } else {
-                    selected.next().addClass("selected").focus();
+                    selected.next().addClass("selected");
                 }
-                $(listSelector).scrollTop($(selectedListItemSelector).position().top);
+
+                selected = $(selectedListItemSelector);
+                this.scrollListDown(selected);
+            }
+        },
+        scrollListDown: function (element) {
+            var ul = element.parent(),
+                ulHeight = ul.height(),
+                ulBottomPosition = ulHeight + ul.scrollTop(),
+                liBottomPosition = element.position().top + element.height();
+
+            if (liBottomPosition > ulBottomPosition) {
+                ul.scrollTop(liBottomPosition - ulHeight);
+            }
+
+            if (element.is(':first-child')) {
+                ul.scrollTop(0);
+            }
+        },
+        scrollListUp: function (element) {
+            var ul = element.parent(),
+                ulTopPosition = ul.scrollTop(),
+                liTopPosition = element.position().top;
+
+            if (liTopPosition < ulTopPosition) {
+                ul.scrollTop(element.position().top);
+            }
+
+            if (element.is(':last-child')) {
+                ul.scrollTop(element.position().top - element.height());
             }
         }
     };

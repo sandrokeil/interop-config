@@ -357,13 +357,17 @@
     <body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-cerulean">
 <div class="page-wrapper">
     <header>
-
+    
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="box-header container">
         <form class="form-search navbar-form navbar-right" role="search">
             <div class="form-group">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                <input type="text" placeholder="Search" class="js-search-input form-control">
+                <input type="text"
+                       placeholder="Search"
+                       class="js-search-input form-control"
+                       data-roothref="https://sandrokeil.github.io/interop-config/">
+
                 <div class="js-search-results"></div>
             </div>
         </form>
@@ -379,12 +383,12 @@
                     </div>
 
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
-
-
+            
+    
     <ul class="nav navbar-nav">
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/getting-started/">Getting Started</a>
-
+    
     <ul class="dropdown-menu">
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/getting-started/overview.html">Overview</a>
@@ -399,7 +403,7 @@
     </li>
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/reference/">Reference</a>
-
+    
     <ul class="dropdown-menu">
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/reference/api.html">API</a>
@@ -414,7 +418,7 @@
     </li>
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/contribute/">Contribute</a>
-
+    
     <ul class="dropdown-menu">
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/contribute/contributing.html">Contributing</a>
@@ -485,12 +489,12 @@ class MyAwesomeFactory implements RequiresConfig
     {
         return ['vendor-package'];
     }
-
+    
     public function canRetrieveOptions($config)
     {
         // custom implementation depending on specifications
     }
-
+    
     public function options($config)
     {
         // custom implementation depending on specifications
@@ -510,12 +514,12 @@ class MyAwesomeFactory implements RequiresConfigId
     {
         return ['vendor-package'];
     }
-
+    
     public function canRetrieveOptions($config, $configId = null)
     {
         // custom implementation depending on specifications
     }
-
+    
     public function options($config, $configId = null)
     {
         // custom implementation depending on specifications
@@ -550,7 +554,7 @@ use Interop\Config\ConfigurationTrait;
 class MyAwesomeFactory implements RequiresConfigId
 {
     use ConfigurationTrait;
-
+    
     public function dimensions()
     {
         return ['vendor-package'];
@@ -574,18 +578,18 @@ use Interop\Container\ContainerInterface;
 class MyAwesomeFactory implements RequiresConfigId
 {
     use ConfigurationTrait;
-
+    
     public function dimensions()
     {
         return ['vendor-package'];
     }
-
+    
     public function __invoke(ContainerInterface $container)
     {
         // get options for vendor-package.container-id
         // method options() is implemented in ConfigurationTrait
         $options = $this-&gt;options($container-&gt;get('config'), 'orm_default');
-
+        
         return new Awesome($options);
     }
 }
@@ -621,24 +625,24 @@ use Interop\Container\ContainerInterface;
 class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
-
+    
     public function dimensions()
     {
         return ['vendor-package'];
     }
-
+    
     public function mandatoryOptions()
     {
         return ['params' =&gt; ['user', 'password', 'dbname']];
     }
-
+    
     public function __invoke(ContainerInterface $container)
     {
         // get options for vendor-package.container-id
         // method options() is implemented in ConfigurationTrait
         // an exception is raised when a mandatory option is missing
         $options = $this-&gt;options($container-&gt;get('config'), 'container-id');
-
+        
         return new Awesome($options);
     }
 }
@@ -659,17 +663,17 @@ use Interop\Container\ContainerInterface;
 class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
-
+    
     public function dimensions()
     {
         return ['vendor-package'];
     }
-
+    
     public function mandatoryOptions()
     {
         return ['params' =&gt; ['user', 'password', 'dbname']];
     }
-
+    
     public function defaultOptions()
     {
         return [
@@ -679,7 +683,7 @@ class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, Pr
             ],
         ];
     }
-
+    
     public function __invoke(ContainerInterface $container)
     {
         // get options for vendor-package.container-id
@@ -687,7 +691,7 @@ class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, Pr
         // an exception is raised when a mandatory option is missing
         // if host/port is missing, default options will be used
         $options = $this-&gt;options($container-&gt;get('config'), 'container-id');
-
+        
         return new Awesome($options);
     }
 }
@@ -707,15 +711,15 @@ use Interop\Container\ContainerInterface;
 class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
-
+    
     // other functions see above
-
+    
     public function __invoke(ContainerInterface $container)
     {
         $config = $container-&gt;get('config');
-
+        
         $options = [];
-
+        
         if ($this-&gt;canRetrieveOptions($config, 'container-id')) {
             // get options for vendor-package.container-id
             // method options() is implemented in ConfigurationTrait
@@ -724,7 +728,7 @@ class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, Pr
         } elseif ($this instanceof ProvidesDefaultOptions) {
             $options = $this-&gt;defaultOptions();
         }
-
+        
         return new Awesome($options);
     }
 }
@@ -740,16 +744,16 @@ use Interop\Container\ContainerInterface;
 class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
-
+    
     // other functions see above
-
+    
     public function __invoke(ContainerInterface $container)
     {
         // get options for vendor-package.container-id
         // method options() is implemented in ConfigurationTrait
         // if configuration is not available, default options will be used
         $options = $this-&gt;optionsWithFallback($container-&gt;get('config'), 'container-id');
-
+        
         return new Awesome($options);
     }
 }
@@ -810,9 +814,10 @@ the interfaces in a sense order.</p>
             this.bindEvents();
         },
         createIndex: function () {
-            var $this = this;
+            var $this = this,
+                indexFilePath = $('.js-search-input').data('roothref') + 'index.json';
 
-            $.getJSON("/interop-config/index.json", function (data) {
+            $.getJSON(indexFilePath, function (data) {
                 $.each(data, function (key, item) {
                     $this.index.add({
                         id: item.id,
@@ -831,51 +836,64 @@ the interfaces in a sense order.</p>
         bindEvents: function () {
             var $this = this;
 
-            $('html').on('click', {}, $this.close);
-            $('.js-search-input, .js-search-results').on('click', {}, $this.click);
-            $('.js-search-input').on('focus', {}, $this.focus)
-                .on('keyup', {
-                    index: $this.index,
-                    store: $this.store,
-                    searchResults: $this.searchResults,
-                    cropText: $this.cropText
-                }, $this.search)
-                .on('keydown', {
-                    'close': $this.close
-                }, $this.navigation);
+            $('html')
+                .on('click', function (event) {
+                    $this.close($(this), event);
+                });
+
+            $('.js-search-input, .js-search-results')
+                .on('click', function (event) {
+                    $this.click($(this), event);
+                });
+
+            $('.js-search-input')
+                .on('focus', function (event) {
+                    $this.focus($(this), event);
+                })
+                .on('keyup', function (event) {
+                    $this.search($(this), event)
+                })
+                .on('keydown', function (event) {
+                    $this.navigation($(this), event)
+                })
         },
-        click: function (event) {
+        click: function (element, event) {
             event.stopPropagation();
         },
-        focus: function (event) {
-            $(this).data.searchInputWidth = $(this).css('width');
-            $(this).animate({
+        focus: function (element, event) {
+            this.searchInputWidth = element.css('width');
+            element.animate({
                 'width': 600
             }, 500);
         },
-        close: function (event) {
+        close: function (element, event) {
+            var $this = this;
+
             $('.js-search-results').hide();
             $('.js-search-input').animate({
-                'width': $(this).data.searchInputWidth
+                'width': $this.searchInputWidth
             }, 500);
         },
-        search: function (event) {
+        search: function (element, event) {
+            var $this = this;
+
             if (event.keyCode == 13 || event.keyCode == 38 || event.keyCode == 40) {
                 return;
             }
-            var query = $(this).val(),
-                results = event.data.index.search(query);
+
+            var query = element.val(),
+                results = $this.index.search(query);
 
             if (!results.length) {
-                event.data.searchResults.empty();
+                $this.searchResults.empty();
                 return;
             }
 
             var resultsList = results.reduce(function (ul, result) {
-                var item = event.data.store[result.ref];
+                var item = $this.store[result.ref];
                 var title = $('<b>').text(item.title);
 
-                var cropText = event.data.cropText(item.content, query);
+                var cropText = $this.cropText(item.content, query);
                 if (cropText.length === 0) {
                     cropText = $('<p>').html(item.content.substring(0, 120) + "...");
                 }
@@ -893,14 +911,14 @@ the interfaces in a sense order.</p>
                 return ul;
             }, $('<ul>'));
 
-            event.data.searchResults.html(resultsList);
+            this.searchResults.html(resultsList);
 
             $('.js-search-results').show();
             $(".js-search-results li:first-child").addClass('selected');
         },
         cropText: function (content, query) {
-            var cropedText = '';
-            var re = new RegExp("\\s?(.{0,30})?" + query + ".*?\\b(.{0,30}.)?\\s?", "gi");
+            var cropedText = '',
+                re = new RegExp("\\s?(.{0,30})?" + query + ".*?\\b(.{0,30}.)?\\s?", "gi");
 
             $.each(content.match(re), function (key, value) {
                 cropedText += '...' + value + '...';
@@ -908,17 +926,17 @@ the interfaces in a sense order.</p>
 
             return cropedText;
         },
-        navigation: function (event) {
-            var selected = null;
-            var listSelector = ".js-search-results ul";
-            var listItemSelector = listSelector + " li";
-            var selectedListItemSelector = listItemSelector + ".selected";
-            var selectedListItemSelectorAnchor = listItemSelector + ".selected a";
+        navigation: function (element, event) {
+            var selected = null,
+                listSelector = ".js-search-results ul",
+                listItemSelector = listSelector + " li",
+                selectedListItemSelector = listItemSelector + ".selected",
+                selectedListItemSelectorAnchor = listItemSelector + ".selected a";
 
             // enter
             if (event.keyCode == 13) {
                 event.preventDefault();
-                event.data.close();
+                this.close();
                 window.location.replace($(selectedListItemSelectorAnchor).attr('href'));
             }
 
@@ -928,11 +946,13 @@ the interfaces in a sense order.</p>
                 $(listItemSelector).removeClass("selected");
 
                 if (selected.prev().length == 0) {
-                    selected.siblings().last().addClass("selected").focus();
+                    selected.siblings().last().addClass("selected");
                 } else {
-                    selected.prev().addClass("selected").focus();
+                    selected.prev().addClass("selected");
                 }
-                $(listSelector).scrollTop($(selectedListItemSelector).position().top);
+
+                selected = $(selectedListItemSelector);
+                this.scrollListUp(selected);
             }
 
             // down
@@ -941,11 +961,40 @@ the interfaces in a sense order.</p>
                 $(listItemSelector).removeClass("selected");
 
                 if (selected.next().length == 0) {
-                    selected.siblings().first().addClass("selected").focus();
+                    selected.siblings().first().addClass("selected");
                 } else {
-                    selected.next().addClass("selected").focus();
+                    selected.next().addClass("selected");
                 }
-                $(listSelector).scrollTop($(selectedListItemSelector).position().top);
+
+                selected = $(selectedListItemSelector);
+                this.scrollListDown(selected);
+            }
+        },
+        scrollListDown: function (element) {
+            var ul = element.parent(),
+                ulHeight = ul.height(),
+                ulBottomPosition = ulHeight + ul.scrollTop(),
+                liBottomPosition = element.position().top + element.height();
+
+            if (liBottomPosition > ulBottomPosition) {
+                ul.scrollTop(liBottomPosition - ulHeight);
+            }
+
+            if (element.is(':first-child')) {
+                ul.scrollTop(0);
+            }
+        },
+        scrollListUp: function (element) {
+            var ul = element.parent(),
+                ulTopPosition = ul.scrollTop(),
+                liTopPosition = element.position().top;
+
+            if (liTopPosition < ulTopPosition) {
+                ul.scrollTop(element.position().top);
+            }
+
+            if (element.is(':last-child')) {
+                ul.scrollTop(element.position().top - element.height());
             }
         }
     };
