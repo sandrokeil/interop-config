@@ -30,7 +30,7 @@ interface RequiresConfig
      *
      * @return array|ArrayAccess
      */
-    public function dimensions();
+    public function getDimensions();
 
     /**
      * Returns options based on dimensions() like [vendor][package] and can perform mandatory option checks if
@@ -64,7 +64,7 @@ interface RequiresConfig
      * @throws Exception\OptionNotFoundException If no options are available
      * @throws Exception\MandatoryOptionNotFoundException If a mandatory option is missing
      */
-    public function options($config);
+    public function getOptions($config);
 
     /**
      * Checks if options are available depending on implemented interfaces and checks that the retrieved options are an
