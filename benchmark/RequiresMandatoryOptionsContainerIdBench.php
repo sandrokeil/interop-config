@@ -9,15 +9,40 @@
 
 namespace InteropBench\Config;
 
+use Interop\Config\RequiresConfig;
 use InteropTest\Config\TestAsset\ConnectionMandatoryContainerIdConfiguration;
 
 class RequiresMandatoryOptionsContainerIdBench extends BaseCase
 {
-    /**
-     * @inheritdoc \InteropBench\Config\BaseCase::getFactoryClass
-     */
-    protected function getFactoryClass()
+    protected function getFactoryClass(): RequiresConfig
     {
         return new ConnectionMandatoryContainerIdConfiguration();
+    }
+
+    /**
+     * @Subject
+     * @Groups({"configId", "mandatory"})
+     */
+    public function options(): void
+    {
+        $this->factory->options($this->config, $this->configId);
+    }
+
+    /**
+     * @Subject
+     * @Groups({"configId", "mandatory"})
+     */
+    public function can(): void
+    {
+        $this->factory->canRetrieveOptions($this->config, $this->configId);
+    }
+
+    /**
+     * @Subject
+     * @Groups({"configId", "mandatory"})
+     */
+    public function fallback(): void
+    {
+        $this->factory->optionsWithFallback($this->config, $this->configId);
     }
 }

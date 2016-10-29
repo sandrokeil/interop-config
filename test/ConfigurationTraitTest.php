@@ -15,7 +15,7 @@ use Interop\Config\Exception\OptionNotFoundException;
 use Interop\Config\Exception\UnexpectedValueException;
 use InteropTest\Config\TestAsset\ConnectionConfiguration;
 use InteropTest\Config\TestAsset\ConnectionContainerIdConfiguration;
-use InteropTest\Config\TestAsset\ConnectionDefaultOptionsConfiguration;
+use InteropTest\Config\TestAsset\ConnectionDefaultOptionsMandatoryContainetIdConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryContainerIdConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryRecursiveContainerIdConfiguration;
@@ -356,7 +356,7 @@ class ConfigurationTraitTest extends TestCase
      */
     public function testOptionsReturnsDataWithDefaultOptions()
     {
-        $stub = new ConnectionDefaultOptionsConfiguration();
+        $stub = new ConnectionDefaultOptionsMandatoryContainetIdConfiguration();
 
         $testConfig = $this->getTestConfig();
 
@@ -365,10 +365,11 @@ class ConfigurationTraitTest extends TestCase
 
         self::assertTrue($stub->canRetrieveOptions($testConfig, 'orm_default'));
         $options = $stub->options($testConfig, 'orm_default');
+        $defaultOptions = $stub->defaultOptions();
 
         self::assertArrayHasKey('params', $options);
-        self::assertSame($options['params']['host'], $stub->defaultOptions()['params']['host']);
-        self::assertSame($options['params']['port'], $stub->defaultOptions()['params']['port']);
+        self::assertSame($options['params']['host'], $defaultOptions['params']['host']);
+        self::assertSame($options['params']['port'], $defaultOptions['params']['port']);
         self::assertSame(
             $options['params']['user'],
             $testConfig['doctrine']['connection']['orm_default']['params']['user']
@@ -383,8 +384,8 @@ class ConfigurationTraitTest extends TestCase
         $options = $stub->options($testConfig, 'orm_default');
 
         self::assertArrayHasKey('params', $options);
-        self::assertSame($options['params']['host'], $stub->defaultOptions()['params']['host']);
-        self::assertSame($options['params']['port'], $stub->defaultOptions()['params']['port']);
+        self::assertSame($options['params']['host'], $defaultOptions['params']['host']);
+        self::assertSame($options['params']['port'], $defaultOptions['params']['port']);
     }
 
     /**
@@ -417,7 +418,7 @@ class ConfigurationTraitTest extends TestCase
      */
     public function testOptionsThatDefaultOptionsNotOverrideProvidedOptions()
     {
-        $stub = new ConnectionDefaultOptionsConfiguration();
+        $stub = new ConnectionDefaultOptionsMandatoryContainetIdConfiguration();
 
         $testConfig = $this->getTestConfig();
 
@@ -546,7 +547,7 @@ class ConfigurationTraitTest extends TestCase
      */
     public function testOptionsWithFallback()
     {
-        $stub = new ConnectionDefaultOptionsConfiguration();
+        $stub = new ConnectionDefaultOptionsMandatoryContainetIdConfiguration();
 
         $config = $this->getTestConfig();
         self::assertTrue($stub->canRetrieveOptions($config, 'orm_default'));

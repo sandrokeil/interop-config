@@ -1,5 +1,6 @@
 {
   "bootstrap": "vendor/autoload.php",
   "path": "benchmark",
-  "retry_threshold": 4
+  "retry_threshold": 4,
+  "xml_storage_path": "build/logs/bench"
 }

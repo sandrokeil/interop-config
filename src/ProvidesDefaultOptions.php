@@ -7,6 +7,8 @@
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types = 1);
+
 namespace Interop\Config;
 
 /**
@@ -20,7 +22,7 @@ interface ProvidesDefaultOptions
     /**
      * Returns a list of default options, which are merged in \Interop\Config\RequiresConfig::options()
      *
-     * @return string[] List with default options and values
+     * @return mixed[] List with default options and values, can be nested
      */
-    public function defaultOptions();
+    public function defaultOptions(): array;
 }

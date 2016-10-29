@@ -11,39 +11,30 @@ namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\ProvidesDefaultOptions;
-use Interop\Config\RequiresConfig;
+use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
 
-class PackageDefaultAndMandatoryOptionsConfiguration implements RequiresConfig, ProvidesDefaultOptions, RequiresMandatoryOptions
+class ConnectionDefaultOptionsMandatoryContainetIdConfiguration implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
 
-    /**
-     * @interitdoc
-     */
     public function dimensions(): iterable
     {
-        return ['vendor', 'package'];
+        return ['doctrine', 'connection'];
     }
 
-    /**
-     * @interitdoc
-     */
+    public function mandatoryOptions(): iterable
+    {
+        return ['driverClass'];
+    }
+
     public function defaultOptions(): array
     {
         return [
-            'minLength' => 2,
-            'maxLength' => 10,
-        ];
-    }
-
-    /**
-     * @interitdoc
-     */
-    public function mandatoryOptions(): iterable
-    {
-        return [
-            'callback',
+            'params' => [
+                'host' => 'awesomehost',
+                'port' => '4444',
+            ],
         ];
     }
 }

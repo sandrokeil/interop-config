@@ -20,7 +20,7 @@ class ConnectionMandatoryContainerIdConfiguration implements RequiresConfigId, R
     /**
      * @interitdoc
      */
-    public function dimensions()
+    public function dimensions(): iterable
     {
         return ['doctrine', 'connection'];
     }
@@ -28,7 +28,7 @@ class ConnectionMandatoryContainerIdConfiguration implements RequiresConfigId, R
     /**
      * @interitdoc
      */
-    public function mandatoryOptions()
+    public function mandatoryOptions(): iterable
     {
         return ['driverClass', 'params'];
     }

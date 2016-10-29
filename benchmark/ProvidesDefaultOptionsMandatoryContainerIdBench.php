@@ -10,18 +10,18 @@
 namespace InteropBench\Config;
 
 use Interop\Config\RequiresConfig;
-use InteropTest\Config\TestAsset\ConnectionMandatoryRecursiveContainerIdConfiguration;
+use InteropTest\Config\TestAsset\ConnectionDefaultOptionsMandatoryContainetIdConfiguration;
 
-class RequiresMandatoryOptionsRecursiveContainerIdBench extends BaseCase
+class ProvidesDefaultOptionsMandatoryContainerIdBench extends BaseCase
 {
     protected function getFactoryClass(): RequiresConfig
     {
-        return new ConnectionMandatoryRecursiveContainerIdConfiguration();
+        return new ConnectionDefaultOptionsMandatoryContainetIdConfiguration();
     }
 
     /**
      * @Subject
-     * @Groups({"configId", "mandatoryRec"})
+     * @Groups({"default", "configId", "mandatory"})
      */
     public function options(): void
     {
@@ -30,7 +30,7 @@ class RequiresMandatoryOptionsRecursiveContainerIdBench extends BaseCase
 
     /**
      * @Subject
-     * @Groups({"configId", "mandatoryRec"})
+     * @Groups({"default", "configId", "mandatory"})
      */
     public function can(): void
     {
@@ -39,7 +39,7 @@ class RequiresMandatoryOptionsRecursiveContainerIdBench extends BaseCase
 
     /**
      * @Subject
-     * @Groups({"configId", "mandatoryRec"})
+     * @Groups({"default", "configId", "mandatory"})
      */
     public function fallback(): void
     {

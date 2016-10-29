@@ -23,9 +23,9 @@ class OptionNotFoundException extends OutOfBoundsException
      * @param RequiresConfig $factory
      * @param mixed $currentDimension Current configuration key
      * @param string $configId
-     * @return InvalidArgumentException
+     * @return OptionNotFoundException
      */
-    public static function missingOptions(RequiresConfig $factory, $currentDimension, $configId)
+    public static function missingOptions(RequiresConfig $factory, $currentDimension, ?string $configId) : self
     {
         $position = [];
 

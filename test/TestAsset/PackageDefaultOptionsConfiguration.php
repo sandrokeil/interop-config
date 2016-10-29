@@ -20,7 +20,7 @@ class PackageDefaultOptionsConfiguration implements RequiresConfig, ProvidesDefa
     /**
      * @interitdoc
      */
-    public function dimensions()
+    public function dimensions(): iterable
     {
         return ['vendor', 'package'];
     }
@@ -28,11 +28,11 @@ class PackageDefaultOptionsConfiguration implements RequiresConfig, ProvidesDefa
     /**
      * @interitdoc
      */
-    public function defaultOptions()
+    public function defaultOptions(): array
     {
         return [
             'minLength' => 2,
-            'maxLength' => 10
+            'maxLength' => 10,
         ];
     }
 }

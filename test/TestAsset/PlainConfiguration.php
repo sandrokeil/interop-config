@@ -19,7 +19,7 @@ class PlainConfiguration implements RequiresConfig
     /**
      * @interitdoc
      */
-    public function dimensions()
+    public function dimensions(): iterable
     {
         return [];
     }

@@ -15,6 +15,7 @@
 [![Build Status](https://travis-ci.org/sandrokeil/interop-config.png?branch=master)](https://travis-ci.org/sandrokeil/interop-config)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/sandrokeil/interop-config/badges/quality-score.png?s=cdef161c14156e3e36ed0ce3d6fd7979d38d916c)](https://scrutinizer-ci.com/g/sandrokeil/interop-config/)
 [![Coverage Status](https://coveralls.io/repos/sandrokeil/interop-config/badge.svg?branch=master)](https://coveralls.io/r/sandrokeil/interop-config?branch=master)
+[![Dependency Status](https://www.versioneye.com/user/projects/55ddfcba2383e9001700007e/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55ddfcba2383e9001700007e)
 [![HHVM Status](http://hhvm.h4cc.de/badge/sandrokeil/interop-config.svg?style=flat)](http://hhvm.h4cc.de/package/sandrokeil/interop-config)
 [![PHP 7 ready](http://php7ready.timesplinter.ch/sandrokeil/interop-config/badge.svg)](https://travis-ci.org/sandrokeil/interop-config)
 [![Latest Stable Version](https://poser.pugx.org/sandrokeil/interop-config/v/stable.png)](https://packagist.org/packages/sandrokeil/interop-config)
@@ -40,13 +41,7 @@ You should have coding conventions and you should have config conventions. If no
 Installation of this module uses composer. For composer documentation, please refer to
 [getcomposer.org](http://getcomposer.org/).
 
-Put the following into your composer.json or run `composer require sandrokeil/interop-config`.
-
-    {
-        "require": {
-            "sandrokeil/interop-config": "^1.0"
-        }
-    }
+Run `composer require sandrokeil/interop-config` to install interop-config.
 
 ## Documentation
 For the latest online documentation visit [http://sandrokeil.github.io/interop-config/](http://sandrokeil.github.io/interop-config/ "Latest interop-config documentation").
@@ -90,5 +85,11 @@ $ ./vendor/bin/phpbench run --report=aggregate
 or with [Docker](https://www.docker.com/)
  
 ```console
-$ docker run --rm -it --volume $(pwd):/app prooph/php:7.0-cli-opcache php ./vendor/bin/phpbench run --report=aggregate
+$ docker run --rm -it --volume $(pwd):/app prooph/php:7.1-cli-opcache php ./vendor/bin/phpbench run --report='generator: "table", sort: {benchmark: "asc", mean: "desc"}'
 ```
+
+You can use the `group` and `filter` argument to get only results for a specific group/filter. 
+
+These groups are available: `perf`, `config`, `configId`, `mandatory` and `default`
+
+These filters are available: `can`, `options` and `fallback`

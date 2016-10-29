@@ -19,7 +19,7 @@ class ConnectionContainerIdConfiguration implements RequiresConfigId
     /**
      * @interitdoc
      */
-    public function dimensions()
+    public function dimensions(): iterable
     {
         return ['doctrine', 'connection'];
     }

@@ -19,7 +19,7 @@ class ConnectionConfiguration implements RequiresConfig
     /**
      * @interitdoc
      */
-    public function dimensions()
+    public function dimensions(): iterable
     {
         return ['doctrine', 'connection'];
     }

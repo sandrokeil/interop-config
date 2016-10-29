@@ -14,13 +14,13 @@ cache:
 matrix:
   fast_finish: true
   include:
-    - php: 5.5
-    - php: 5.6
-      env:
-        - EXECUTE_CS_CHECK=true
-    - php: 7
+    - php: 7.1
       env:
         - EXECUTE_TEST_COVERALLS=true
+        - EXECUTE_CS_CHECK=true
+        - EXECUTE_DOCHEADER_CHECK=true
+    - php: hhvm
+  allow_failures:
     - php: hhvm
 
 before_install:
@@ -36,6 +36,7 @@ script:
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit ; fi
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then ./vendor/bin/phpunit --no-coverage ; fi
   - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/phpcs ; fi
+  - if [[ $EXECUTE_DOCHEADER_CHECK == 'true' ]]; then ./vendor/bin/docheader check src/ test/ ; fi
 
 after_script:
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/coveralls ; fi

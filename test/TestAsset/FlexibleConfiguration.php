@@ -16,7 +16,7 @@ class FlexibleConfiguration implements RequiresConfig
 {
     use ConfigurationTrait;
 
-    public function dimensions()
+    public function dimensions(): iterable
     {
         return ['one', 'two', 'three', 'four'];
     }

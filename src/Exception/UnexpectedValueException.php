@@ -19,11 +19,11 @@ use UnexpectedValueException as PhpUnexpectedValueException;
 class UnexpectedValueException extends PhpUnexpectedValueException implements ExceptionInterface
 {
     /**
-     * @param array|\ArrayAccess $dimensions
+     * @param iterable $dimensions
      * @param mixed $currentDimension Current configuration key
      * @return UnexpectedValueException
      */
-    public static function invalidOptions($dimensions, $currentDimension = null)
+    public static function invalidOptions(iterable $dimensions, $currentDimension = null) : self
     {
         $position = [];
 

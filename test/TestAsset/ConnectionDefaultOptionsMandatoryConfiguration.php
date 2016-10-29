@@ -14,36 +14,27 @@ use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\RequiresConfig;
 use Interop\Config\RequiresMandatoryOptions;
 
-class PackageDefaultAndMandatoryOptionsConfiguration implements RequiresConfig, ProvidesDefaultOptions, RequiresMandatoryOptions
+class ConnectionDefaultOptionsMandatoryConfiguration implements RequiresConfig, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
 
-    /**
-     * @interitdoc
-     */
     public function dimensions(): iterable
     {
-        return ['vendor', 'package'];
+        return ['doctrine', 'connection', 'orm_default'];
     }
 
-    /**
-     * @interitdoc
-     */
+    public function mandatoryOptions(): iterable
+    {
+        return ['driverClass'];
+    }
+
     public function defaultOptions(): array
     {
         return [
-            'minLength' => 2,
-            'maxLength' => 10,
-        ];
-    }
-
-    /**
-     * @interitdoc
-     */
-    public function mandatoryOptions(): iterable
-    {
-        return [
-            'callback',
+            'params' => [
+                'host' => 'awesomehost',
+                'port' => '4444',
+            ],
         ];
     }
 }

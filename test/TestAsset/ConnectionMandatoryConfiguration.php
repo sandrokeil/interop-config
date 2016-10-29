@@ -20,12 +20,12 @@ class ConnectionMandatoryConfiguration implements RequiresConfig, RequiresMandat
     /**
      * @interitdoc
      */
-    public function dimensions()
+    public function dimensions(): iterable
     {
         return ['doctrine', 'connection'];
     }
 
-    public function mandatoryOptions()
+    public function mandatoryOptions(): iterable
     {
         return ['orm_default'];
     }

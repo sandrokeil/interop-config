@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.0.0 TBA
+
+### Added
+
+* PHP 7.1 language features
+
+### Deprecated
+
+* Nothing
+
+### Removed
+
+* PHP < 7.1 support
+
+### Fixed
+
+* Nothing
+
+
 ## 1.0.0 (2015-03-05)
 
 > This release contains BC breaks, but upgrade path is simple.

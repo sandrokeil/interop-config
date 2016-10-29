@@ -7,6 +7,8 @@
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types = 1);
+
 namespace Interop\Config;
 
 use ArrayAccess;
@@ -23,7 +25,7 @@ trait ConfigurationTrait
     /**
      * @inheritdoc \Interop\Config\RequiresConfig::dimensions
      */
-    abstract public function dimensions();
+    abstract public function dimensions(): iterable;
 
     /**
      * Checks if options are available depending on implemented interfaces and checks that the retrieved options are an
@@ -35,7 +37,7 @@ trait ConfigurationTrait
      * @param string|null $configId Config name, must be provided if factory uses RequiresConfigId interface
      * @return bool True if options are available, otherwise false
      */
-    public function canRetrieveOptions($config, $configId = null)
+    public function canRetrieveOptions($config, string $configId = null): bool
     {
         $dimensions = $this->dimensions();
 
@@ -44,7 +46,7 @@ trait ConfigurationTrait
         }
 
         foreach ($dimensions as $dimension) {
-            if ((!is_array($config) && !$config instanceof ArrayAccess)
+            if (((array)$config !== $config && !$config instanceof ArrayAccess)
                 || (!isset($config[$dimension]) && $this instanceof RequiresMandatoryOptions)
                 || (!isset($config[$dimension]) && !$this instanceof ProvidesDefaultOptions)
             ) {
@@ -56,7 +58,7 @@ trait ConfigurationTrait
 
             $config = $config[$dimension];
         }
-        return is_array($config) || $config instanceof ArrayAccess;
+        return (array)$config === $config || $config instanceof ArrayAccess;
     }
 
     /**
@@ -75,9 +77,8 @@ trait ConfigurationTrait
      * @throws Exception\OptionNotFoundException If no options are available
      * @throws Exception\MandatoryOptionNotFoundException If a mandatory option is missing
      */
-    public function options($config, $configId = null)
+    public function options($config, string $configId = null)
     {
-        $options = $config;
         $dimensions = $this->dimensions();
 
         if ($this instanceof RequiresConfigId) {
@@ -90,31 +91,31 @@ trait ConfigurationTrait
 
         // get configuration for provided dimensions
         foreach ($dimensions as $dimension) {
-            if (!is_array($options) && !$options instanceof ArrayAccess) {
+            if ((array)$config !== $config && !$config instanceof ArrayAccess) {
                 throw Exception\UnexpectedValueException::invalidOptions($dimensions, $dimension);
             }
 
-            if (!isset($options[$dimension])) {
+            if (!isset($config[$dimension])) {
                 if (!$this instanceof RequiresMandatoryOptions && $this instanceof ProvidesDefaultOptions) {
                     break;
                 }
                 throw Exception\OptionNotFoundException::missingOptions($this, $dimension, $configId);
             }
-            $options = $options[$dimension];
+            $config = $config[$dimension];
         }
 
-        if (!is_array($options) && !$options instanceof ArrayAccess) {
+        if ((array)$config !== $config && !$config instanceof ArrayAccess) {
             throw Exception\UnexpectedValueException::invalidOptions($this->dimensions());
         }
 
         if ($this instanceof RequiresMandatoryOptions) {
-            $this->checkMandatoryOptions($this->mandatoryOptions(), $options);
+            $this->checkMandatoryOptions($this->mandatoryOptions(), $config);
         }
 
         if ($this instanceof ProvidesDefaultOptions) {
-            $options = array_replace_recursive($this->defaultOptions(), $options);
+            $config = array_replace_recursive($this->defaultOptions(), $config);
         }
-        return $options;
+        return $config;
     }
 
     /**
@@ -125,37 +126,37 @@ trait ConfigurationTrait
      * @param string $configId Config name, must be provided if factory uses RequiresConfigId interface
      * @return array|ArrayAccess options Default options or an empty array
      */
-    public function optionsWithFallback($config, $configId = null)
+    public function optionsWithFallback($config, string $configId = null)
     {
-        $options = [];
+        $config = [];
 
         if ($this->canRetrieveOptions($config, $configId)) {
-            $options = $this->options($config, $configId);
+            $config = $this->options($config, $configId);
         }
-        if (empty($options) && $this instanceof ProvidesDefaultOptions) {
-            $options = $this->defaultOptions();
+        if (empty($config) && $this instanceof ProvidesDefaultOptions) {
+            $config = $this->defaultOptions();
         }
-        return $options;
+        return $config;
     }
 
     /**
      * Checks if a mandatory param is missing, supports recursion
      *
-     * @param array|ArrayAccess $mandatoryOptions
-     * @param array|ArrayAccess $options
+     * @param iterable $mandatoryOptions
+     * @param array|ArrayAccess $config
      * @throws Exception\MandatoryOptionNotFoundException
      */
-    private function checkMandatoryOptions($mandatoryOptions, $options)
+    private function checkMandatoryOptions(iterable $mandatoryOptions, $config): void
     {
         foreach ($mandatoryOptions as $key => $mandatoryOption) {
             $useRecursion = !is_scalar($mandatoryOption);
 
-            if ($useRecursion && isset($options[$key])) {
-                $this->checkMandatoryOptions($mandatoryOption, $options[$key]);
+            if ($useRecursion && isset($config[$key])) {
+                $this->checkMandatoryOptions($mandatoryOption, $config[$key]);
                 return;
             }
 
-            if (!$useRecursion && isset($options[$mandatoryOption])) {
+            if (!$useRecursion && isset($config[$mandatoryOption])) {
                 continue;
             }
 

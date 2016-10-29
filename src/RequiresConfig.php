@@ -7,6 +7,8 @@
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types = 1);
+
 namespace Interop\Config;
 
 use ArrayAccess;
@@ -28,9 +30,9 @@ interface RequiresConfig
      *   return ['prooph', 'service_bus', 'command_bus'];
      * </code>
      *
-     * @return array|ArrayAccess
+     * @return iterable
      */
-    public function dimensions();
+    public function dimensions(): iterable;
 
     /**
      * Returns options based on dimensions() like [vendor][package] and can perform mandatory option checks if
@@ -73,5 +75,5 @@ interface RequiresConfig
      * @param array|ArrayAccess $config Configuration
      * @return bool True if options are available, otherwise false
      */
-    public function canRetrieveOptions($config);
+    public function canRetrieveOptions($config): bool;
 }
