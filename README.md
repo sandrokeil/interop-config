@@ -85,11 +85,11 @@ $ ./vendor/bin/phpbench run --report=aggregate
 or with [Docker](https://www.docker.com/)
  
 ```console
-$ docker run --rm -it --volume $(pwd):/app prooph/php:7.1-cli-opcache php ./vendor/bin/phpbench run --report='generator: "table", sort: {benchmark: "asc", mean: "desc"}'
+$ docker run --rm -it --volume $(pwd):/app prooph/php:7.1-cli-opcache php ./vendor/bin/phpbench run --report=table
 ```
 
 You can use the `group` and `filter` argument to get only results for a specific group/filter. 
 
-These groups are available: `perf`, `config`, `configId`, `mandatory` and `default`
+These groups are available: `perf`, `config`, `configId`, `mandatory`, `mandatoryRev` and `default`
 
 These filters are available: `can`, `options` and `fallback`

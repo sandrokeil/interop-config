@@ -15,4 +15,7 @@ if (!class_exists($class)) {
 $benchmarkClass = new $class();
 $benchmarkClass->classSetUp();
 
-$benchmarkClass->benchOptions();
+$probe = BlackfireProbe::getMainInstance();
+$probe->enable();
+$benchmarkClass->options();
+$probe->disable();

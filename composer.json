@@ -72,7 +72,7 @@
     "test-coverage": "phpunit",
     "docheader": "docheader check src/ test/",
     "docs": "bookdown doc/bookdown.json",
-    "benchmark": "phpbench run -v --report='generator: \"table\", sort: {benchmark: \"asc\", mean: \"desc\"}'"
+    "benchmark": "phpbench run -v --report=table"
   },
   "archive": {
     "exclude": [
