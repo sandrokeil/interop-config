@@ -52,7 +52,7 @@ trait ConfigurationTrait
             ) {
                 return false;
             }
-            if (!isset($config[$dimension]) && $this instanceof ProvidesDefaultOptions) {
+            if ($this instanceof ProvidesDefaultOptions && !isset($config[$dimension])) {
                 return true;
             }
 
@@ -151,13 +151,13 @@ trait ConfigurationTrait
         foreach ($mandatoryOptions as $key => $mandatoryOption) {
             $useRecursion = !is_scalar($mandatoryOption);
 
+            if (!$useRecursion && isset($config[$mandatoryOption])) {
+                continue;
+            }
+
             if ($useRecursion && isset($config[$key])) {
                 $this->checkMandatoryOptions($mandatoryOption, $config[$key]);
                 return;
-            }
-
-            if (!$useRecursion && isset($config[$mandatoryOption])) {
-                continue;
             }
 
             throw Exception\MandatoryOptionNotFoundException::missingOption(
