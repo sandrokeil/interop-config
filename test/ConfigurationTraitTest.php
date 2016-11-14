@@ -7,6 +7,8 @@
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types = 1);
+
 namespace InteropTest\Config;
 
 use Interop\Config\Exception\InvalidArgumentException;
@@ -18,6 +20,7 @@ use InteropTest\Config\TestAsset\ConnectionContainerIdConfiguration;
 use InteropTest\Config\TestAsset\ConnectionDefaultOptionsMandatoryContainetIdConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryContainerIdConfiguration;
+use InteropTest\Config\TestAsset\ConnectionMandatoryRecursiveArrayIteratorContainerIdConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryRecursiveContainerIdConfiguration;
 use InteropTest\Config\TestAsset\FlexibleConfiguration;
 use InteropTest\Config\TestAsset\PackageDefaultAndMandatoryOptionsConfiguration;
@@ -44,7 +47,7 @@ class ConfigurationTraitTest extends TestCase
      *
      * @covers \Interop\Config\ConfigurationTrait::options
      */
-    public function testOptionsThrowsInvalidArgumentExceptionIfConfigIsNotAnArray()
+    public function testOptionsThrowsInvalidArgumentExceptionIfConfigIsNotAnArray() : void
     {
         $stub = new ConnectionConfiguration();
 
@@ -54,11 +57,11 @@ class ConfigurationTraitTest extends TestCase
     }
 
     /**
-     * Tests canRetrieveOptions()
+     * Tests canRetrieveOptions() : void
      *
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testCanRetrieveOptions()
+    public function testCanRetrieveOptions() : void
     {
         $stub = new ConnectionConfiguration();
 
@@ -80,11 +83,11 @@ class ConfigurationTraitTest extends TestCase
     }
 
     /**
-     * Tests canRetrieveOptions()
+     * Tests canRetrieveOptions() : void
      *
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testCanRetrieveOptionsWithContainerId()
+    public function testCanRetrieveOptionsWithContainerId() : void
     {
         $stub = new ConnectionContainerIdConfiguration();
 
@@ -118,7 +121,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsThrowsInvalidArgumentExceptionIfConfigIdIsProvidedButRequiresConfigIdIsNotImplemented()
+    public function testOptionsThrowsInvalidArgumentExceptionIfConfigIdIsProvidedButRequiresConfigIdIsNotImplemented() : void
     {
         $stub = new ConnectionConfiguration();
 
@@ -136,7 +139,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\Exception\OptionNotFoundException::missingOptions
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsThrowsOptionNotFoundExceptionIfConfigIdIsMissingButRequiresConfigIdIsImplemented()
+    public function testOptionsThrowsOptionNotFoundExceptionIfConfigIdIsMissingButRequiresConfigIdIsImplemented() : void
     {
         $stub = new ConnectionContainerIdConfiguration();
 
@@ -156,7 +159,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\Exception\OptionNotFoundException::missingOptions
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsThrowsOptionNotFoundExceptionIfNoVendorConfigIsAvailable()
+    public function testOptionsThrowsOptionNotFoundExceptionIfNoVendorConfigIsAvailable() : void
     {
         $stub = new ConnectionConfiguration();
 
@@ -176,7 +179,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\Exception\OptionNotFoundException::missingOptions
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsThrowsOptionNotFoundExceptionIfNoPackageOptionIsAvailable()
+    public function testOptionsThrowsOptionNotFoundExceptionIfNoPackageOptionIsAvailable() : void
     {
         $stub = new ConnectionConfiguration();
 
@@ -199,7 +202,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\Exception\OptionNotFoundException::missingOptions
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsThrowsOptionNotFoundExceptionIfNoContainerIdOptionIsAvailable()
+    public function testOptionsThrowsOptionNotFoundExceptionIfNoContainerIdOptionIsAvailable() : void
     {
         $stub = new ConnectionContainerIdConfiguration();
 
@@ -219,7 +222,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\Exception\OptionNotFoundException::missingOptions
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsThrowsOptionNotFoundExceptionIfDimensionIsNotAvailable()
+    public function testOptionsThrowsOptionNotFoundExceptionIfDimensionIsNotAvailable() : void
     {
         $stub = new FlexibleConfiguration();
 
@@ -238,7 +241,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsThrowsExceptionIfMandatoryOptionsWithDefaultOptionsSetAndNoConfigurationIsSet()
+    public function testOptionsThrowsExceptionIfMandatoryOptionsWithDefaultOptionsSetAndNoConfigurationIsSet() : void
     {
         $stub = new PackageDefaultAndMandatoryOptionsConfiguration();
 
@@ -256,7 +259,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\Exception\UnexpectedValueException::invalidOptions
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsThrowsUnexpectedValueExceptionIfRetrievedOptionsNotAnArrayOrArrayAccess()
+    public function testOptionsThrowsUnexpectedValueExceptionIfRetrievedOptionsNotAnArrayOrArrayAccess() : void
     {
         $stub = new ConnectionContainerIdConfiguration();
 
@@ -275,7 +278,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsReturnsDataWithContainerId()
+    public function testOptionsReturnsDataWithContainerId() : void
     {
         $stub = new ConnectionContainerIdConfiguration();
 
@@ -295,7 +298,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsReturnsData()
+    public function testOptionsReturnsData() : void
     {
         $stub = new ConnectionConfiguration();
 
@@ -314,7 +317,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsReturnsDataWithFlexibleDimensions()
+    public function testOptionsReturnsDataWithFlexibleDimensions() : void
     {
         $stub = new FlexibleConfiguration();
 
@@ -334,7 +337,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsReturnsDataWithNoDimensions()
+    public function testOptionsReturnsDataWithNoDimensions() : void
     {
         $stub = new PlainConfiguration();
 
@@ -354,7 +357,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsReturnsDataWithDefaultOptions()
+    public function testOptionsReturnsDataWithDefaultOptions() : void
     {
         $stub = new ConnectionDefaultOptionsMandatoryContainetIdConfiguration();
 
@@ -394,7 +397,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsReturnsPackageDataWithDefaultOptionsIfNoConfigurationIsSet()
+    public function testOptionsReturnsPackageDataWithDefaultOptionsIfNoConfigurationIsSet() : void
     {
         $stub = new PackageDefaultOptionsConfiguration();
 
@@ -416,7 +419,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\ConfigurationTrait::options
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsThatDefaultOptionsNotOverrideProvidedOptions()
+    public function testOptionsThatDefaultOptionsNotOverrideProvidedOptions() : void
     {
         $stub = new ConnectionDefaultOptionsMandatoryContainetIdConfiguration();
 
@@ -447,7 +450,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsChecksMandatoryOptions()
+    public function testOptionsChecksMandatoryOptions() : void
     {
         $stub = new ConnectionMandatoryConfiguration();
 
@@ -466,7 +469,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsChecksMandatoryOptionsWithContainerId()
+    public function testOptionsChecksMandatoryOptionsWithContainerId() : void
     {
         $stub = new ConnectionMandatoryContainerIdConfiguration();
 
@@ -487,7 +490,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\Exception\MandatoryOptionNotFoundException::missingOption
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfMandatoryOptionIsMissing()
+    public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfMandatoryOptionIsMissing() : void
     {
         $stub = new ConnectionMandatoryContainerIdConfiguration();
 
@@ -508,7 +511,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\Exception\MandatoryOptionNotFoundException::missingOption
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfMandatoryOptionRecursiveIsMissing()
+    public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfMandatoryOptionRecursiveIsMissing() : void
     {
         $stub = new ConnectionMandatoryRecursiveContainerIdConfiguration();
 
@@ -529,9 +532,26 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsWithRecursiveMandatoryOptionCheck()
+    public function testOptionsWithRecursiveMandatoryOptionCheck() : void
     {
         $stub = new ConnectionMandatoryRecursiveContainerIdConfiguration();
+
+        $config = $this->getTestConfig();
+
+        self::assertTrue($stub->canRetrieveOptions($config, 'orm_default'));
+        self::assertArrayHasKey('params', $stub->options($config, 'orm_default'));
+    }
+
+    /**
+     * Tests options() with recursive mandatory options as array iterator
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     */
+    public function testOptionsWithRecursiveArrayIteratorMandatoryOptionCheck() : void
+    {
+        $stub = new ConnectionMandatoryRecursiveArrayIteratorContainerIdConfiguration();
 
         $config = $this->getTestConfig();
 
@@ -545,7 +565,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\ConfigurationTrait::optionsWithFallback
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsWithFallback()
+    public function testOptionsWithFallback() : void
     {
         $stub = new ConnectionDefaultOptionsMandatoryContainetIdConfiguration();
 
@@ -568,7 +588,7 @@ class ConfigurationTraitTest extends TestCase
      * @covers \Interop\Config\Exception\MandatoryOptionNotFoundException::missingOption
      * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
-    public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfOptionsAreEmpty()
+    public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfOptionsAreEmpty() : void
     {
         $stub = new ConnectionMandatoryRecursiveContainerIdConfiguration();
 
@@ -586,7 +606,7 @@ class ConfigurationTraitTest extends TestCase
      *
      * @return array
      */
-    private function getTestConfig()
+    private function getTestConfig() : array
     {
         // Load the user-defined test configuration file, if it exists; otherwise, load default
         if (is_readable('test/TestConfig.php')) {
@@ -602,13 +622,9 @@ class ConfigurationTraitTest extends TestCase
      * @param $exception
      * @param $message
      */
-    private function assertException($exception, $message)
+    private function assertException($exception, $message) : void
     {
-        if (method_exists($this, 'expectException')) {
-            $this->expectException($exception);
-            $this->expectExceptionMessage($message);
-        } else {
-            $this->setExpectedException($exception, $message);
-        }
+        $this->expectException($exception);
+        $this->expectExceptionMessage($message);
     }
 }
