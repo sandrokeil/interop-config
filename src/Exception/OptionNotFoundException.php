@@ -7,6 +7,8 @@
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types = 1);
+
 namespace Interop\Config\Exception;
 
 use Interop\Config\RequiresConfig;

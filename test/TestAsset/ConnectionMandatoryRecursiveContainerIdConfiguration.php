@@ -7,6 +7,8 @@
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types = 1);
+
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
@@ -22,7 +24,7 @@ class ConnectionMandatoryRecursiveContainerIdConfiguration implements RequiresCo
      */
     public function dimensions(): iterable
     {
-        return ['doctrine', 'connection'];
+        return new \ArrayIterator(['doctrine', 'connection']);
     }
 
     /**
@@ -30,6 +32,6 @@ class ConnectionMandatoryRecursiveContainerIdConfiguration implements RequiresCo
      */
     public function mandatoryOptions(): iterable
     {
-        return ['params' => ['user', 'dbname'], 'driverClass'];
+        return new \ArrayIterator(['params' => ['user', 'dbname'], 'driverClass']);
     }
 }
