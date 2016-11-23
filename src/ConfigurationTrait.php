@@ -130,15 +130,15 @@ trait ConfigurationTrait
      */
     public function optionsWithFallback($config, string $configId = null)
     {
-        $config = [];
+        $options = [];
 
         if ($this->canRetrieveOptions($config, $configId)) {
-            $config = $this->options($config, $configId);
+            $options = $this->options($config, $configId);
         }
-        if (empty($config) && $this instanceof ProvidesDefaultOptions) {
-            $config = $this->defaultOptions();
+        if (empty($options) && $this instanceof ProvidesDefaultOptions) {
+            $options = $this->defaultOptions();
         }
-        return $config;
+        return $options;
     }
 
     /**
