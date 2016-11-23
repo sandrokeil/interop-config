@@ -39,13 +39,7 @@ You should have coding conventions and you should have config conventions. If no
 Installation of this library uses Composer. For Composer documentation, please refer to
 [getcomposer.org](http://getcomposer.org/).
 
-Put the following into your composer.json or run `composer require sandrokeil/interop-config`.
-
-    {
-        "require": {
-            "sandrokeil/interop-config": "^1.0"
-        }
-    }
+Run `composer require sandrokeil/interop-config` to install interop-config.
     
 It is recommended to use [container-interop](https://github.com/container-interop/container-interop) to retrieve the
 configuration in your factories.
@@ -117,9 +111,9 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
     /**
      * Is used to retrieve options from the configuration array ['doctrine' => ['connection' => []]].
      *
-     * @return []
+     * @return iterable
      */
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['doctrine', 'connection'];
     }
@@ -127,9 +121,9 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
     /**
      * Returns a list of mandatory options which must be available
      *
-     * @return string[] List with mandatory options
+     * @return iterable List with mandatory options
      */
-    public function mandatoryOptions()
+    public function mandatoryOptions() : iterable
     {
         return ['params' => ['user', 'password', 'dbname']];
     }

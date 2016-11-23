@@ -9,12 +9,12 @@ use Interop\Config\RequiresConfig;
 
 class MyAwesomeFactory implements RequiresConfig
 {
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['vendor-package'];
     }
     
-    public function canRetrieveOptions($config)
+    public function canRetrieveOptions($config) : bool
     {
         // custom implementation depending on specifications
     }
@@ -36,12 +36,12 @@ use Interop\Config\RequiresConfigId;
 
 class MyAwesomeFactory implements RequiresConfigId
 {
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['vendor-package'];
     }
     
-    public function canRetrieveOptions($config, $configId = null)
+    public function canRetrieveOptions($config, $configId = null) : bool
     {
         // custom implementation depending on specifications
     }
@@ -90,7 +90,7 @@ class MyAwesomeFactory implements RequiresConfigId
 {
     use ConfigurationTrait;
     
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['vendor-package'];
     }
@@ -118,7 +118,7 @@ class MyAwesomeFactory implements RequiresConfigId
 {
     use ConfigurationTrait;
     
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['vendor-package'];
     }
@@ -171,12 +171,12 @@ class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
     
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['vendor-package'];
     }
     
-    public function mandatoryOptions()
+    public function mandatoryOptions() : iterable
     {
         return ['params' => ['user', 'password', 'dbname']];
     }
@@ -214,17 +214,17 @@ class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, Pr
 {
     use ConfigurationTrait;
     
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['vendor-package'];
     }
     
-    public function mandatoryOptions()
+    public function mandatoryOptions() : iterable
     {
         return ['params' => ['user', 'password', 'dbname']];
     }
     
-    public function defaultOptions()
+    public function defaultOptions() : iterable
     {
         return [
             'params' => [
@@ -253,6 +253,9 @@ I don't want to use exceptions.* No problem, see next.
 ## Avoid exceptions
 The `RequiresConfig` interface provides a method `canRetrieveOptions()`. This method checks if options are available depending on 
 implemented interfaces and checks that the retrieved options are an array or have implemented `\ArrayAccess`.
+
+> `canRetrieveOptions()` returning true does not mean that `options($config)` will not throw an exception.
+It does however mean that `options()` will not throw an `OptionNotFoundException`. Mandatory options are not checked.
 
 You can call this function and if it returns false, you can use the default options.
 

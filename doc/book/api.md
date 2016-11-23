@@ -15,7 +15,7 @@ The `RequiresConfig` interface exposes three methods: `dimensions`, `canRetrieve
 
 ### dimensions()
 ```php
-    public function dimensions() : []
+    public function dimensions() : iterable
 ```
 
 The `dimensions` method has no parameters and MUST return an array. The values (used as key names) of the array are used
@@ -62,7 +62,7 @@ The `RequiresMandatoryOptions` interface exposes one method: `mandatoryOptions`
 
 ### mandatoryOptions()
 ```php
-    public function mandatoryOptions() : string[]
+    public function mandatoryOptions() : iterable
 ```
 The `mandatoryOptions` method has no parameters and MUST return an array of strings which represents the list of mandatory
 options. This array can have a multiple depth.
@@ -72,7 +72,7 @@ The `DefaultOptions` interface exposes one method: `defaultOptions`
 
 ### defaultOptions()
 ```php
-    public function defaultOptions() : []
+    public function defaultOptions() : iterable
 ```
 The `defaultOptions` method has no parameters and MUST return an key-value array where the key is the option name and
 the value is the default value for this option. This array can have a multiple depth.

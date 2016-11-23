@@ -87,9 +87,9 @@ class MyDBALConnectionFactory implements RequiresConfigId
     /**
      * Is used to retrieve options from the configuration array ['doctrine' => ['connection' => [...]]].
      *
-     * @return []
+     * @return iterable
      */
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['doctrine', 'connection'];
     }
@@ -99,7 +99,7 @@ class MyDBALConnectionFactory implements RequiresConfigId
 ### Mandatory options check
 You can also check for mandatory options automatically with `MandatoryOptionsInterface`. Now we want also check that
 option `driverClass` and `params` are available. So we also implement in the example above the interface
-`RequiresMandatoryOptions`. If one of these options is missing, an exception is raised.
+`RequiresMandatoryOptions`. If one of these options are missing, an exception is raised.
 
 ```php
 use Interop\Config\ConfigurationTrait;
@@ -131,7 +131,7 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
      *
      * @return string[] List with mandatory options
      */
-    public function mandatoryOptions()
+    public function mandatoryOptions() : iterable
     {
         return [
             'driverClass',
@@ -144,7 +144,7 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
      *
      * @return []
      */
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['doctrine', 'connection'];
     }
@@ -203,7 +203,7 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
     /**
      * @param string $configId
      */
-    public function __construct($configId)
+    public function __construct(string $configId)
     {
         $this->configId = $configId;
     }
@@ -226,9 +226,9 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
     /**
      * Returns a list of mandatory options which must be available
      *
-     * @return string[] List with mandatory options
+     * @return iterable List with mandatory options
      */
-    public function mandatoryOptions()
+    public function mandatoryOptions() : iterable
     {
         return [
             'driverClass',
@@ -239,9 +239,9 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
     /**
      * Is used to retrieve options from the configuration array ['doctrine' => ['connection' => [...]]].
      *
-     * @return []
+     * @return iterable
      */
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['doctrine', 'connection'];
     }
@@ -297,9 +297,9 @@ class ConfigurationFactory implements RequiresConfigId, ProvidesDefaultOptions
     /**
      * Returns a list of default options, which are merged in \Interop\Config\RequiresConfig::options
      *
-     * @return string[] List with default options and values
+     * @return iterable List with default options and values
      */
-    public function defaultOptions()
+    public function defaultOptions() : iterable
     {
         return [
             'metadata_cache' => 'array',
@@ -313,9 +313,9 @@ class ConfigurationFactory implements RequiresConfigId, ProvidesDefaultOptions
      * Is used to retrieve options from the configuration array 
      * ['doctrine' => ['configuration' => []]].
      *
-     * @return []
+     * @return iterable
      */
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['doctrine', 'configuration'];
     }
@@ -383,9 +383,9 @@ class TwigRendererFactory implements RequiresConfig, ProvidesDefaultOptions
     /**
      * Uses root config to retrieve several options
      *
-     * @return array
+     * @return iterable
      */
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return [];
     }
@@ -393,7 +393,7 @@ class TwigRendererFactory implements RequiresConfig, ProvidesDefaultOptions
     /**
      * This is the whole config structure with default settings for this factory
      */
-    public function defaultOptions()
+    public function defaultOptions() : iterable
     {
         return [
             'debug' => false,
