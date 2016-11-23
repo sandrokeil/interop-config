@@ -72,6 +72,10 @@ interface RequiresConfig
      * Checks if options are available depending on implemented interfaces and checks that the retrieved options are an
      * array or have implemented \ArrayAccess. The ConfigurationTrait supports RequiresConfigId interface.
      *
+     * `canRetrieveOptions()` returning true does not mean that `options($config)` will not throw an exception.
+     * It does however mean that `options()` will not throw an `OptionNotFoundException`. Mandatory options are
+     * not checked.
+     *
      * @param array|ArrayAccess $config Configuration
      * @return bool True if options are available, otherwise false
      */

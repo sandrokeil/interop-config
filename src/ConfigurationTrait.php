@@ -28,14 +28,16 @@ trait ConfigurationTrait
     abstract public function dimensions(): iterable;
 
     /**
-     * Checks if options are available depending on implemented interfaces and checks that the retrieved options are an
-     * array or have implemented \ArrayAccess.
+     * Checks if options are available depending on implemented interfaces and checks that the retrieved options from
+     * the dimensions path are an array or have implemented \ArrayAccess. The RequiresConfigId interface is supported.
      *
-     * The RequiresConfigId interface is supported.
+     * `canRetrieveOptions()` returning true does not mean that `options($config)` will not throw an exception.
+     * It does however mean that `options()` will not throw an `OptionNotFoundException`. Mandatory options are
+     * not checked.
      *
      * @param array|ArrayAccess $config Configuration
      * @param string|null $configId Config name, must be provided if factory uses RequiresConfigId interface
-     * @return bool True if options are available, otherwise false
+     * @return bool True if options depending on dimensions are available, otherwise false
      */
     public function canRetrieveOptions($config, string $configId = null): bool
     {
