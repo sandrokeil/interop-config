@@ -33,7 +33,7 @@ install:
   - composer info -i
 
 script:
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit ; fi
+  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit --coverage-text; fi
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then ./vendor/bin/phpunit --no-coverage ; fi
   - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/phpcs ; fi
   - if [[ $EXECUTE_DOCHEADER_CHECK == 'true' ]]; then ./vendor/bin/docheader check src/ test/ ; fi
