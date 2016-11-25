@@ -4,9 +4,8 @@
 
 In this short tutorial we will implement a simple example of interop-config. This example tries to give you a better 
 understanding of what interop-config is and why you should use it.
- 
- 
-## Components
+
+### Components
 
 To implement interop-config we need a few components to glue it together.
 
@@ -18,66 +17,72 @@ To implement interop-config we need a few components to glue it together.
 * ExampleFactory
     * This class represent the factory for a simple component and implements some interfaces from interop-config
     
-## Folders
+### Folders
 
 We use the following simple folder structure for the example application:
 
-* application_root
-    * config
-        * main.php
-    * library
-        * ServiceLocator.php
-        * SomeVendorName
-            * Exception
-                * RuntimeException.php
-            * MyComponent
-                * MyComponentFactory.php
-                * MyFirstComponent.php
-                * MySecondComponent.php
-    * public
-        * index.php
+```
+─── application_root/
+    ├── composer.json
+    ├── config/
+    │   └── main.php
+    ├── public/
+    │   └── index.php
+    └── src/
+        └── SomVendorName/
+            ├── Exception/
+            │   └── RuntimeException.php
+            └── MyComponent/
+                ├── MyComponentFactory.php
+                └── MyFirstComponent.php
+```
 
-# Install composer and interop-config
+## Install Composer and interop-config
  
-Since we have composer it is really easy to manage our php packages. First of all we need composer run. For that go to your `application_root` directory and setup a composer.json file with the following listing.
+Since we have Composer it is really easy to manage our php packages. First of all we need Composer run. For that go to 
+your `application_root` directory and setup a Composer.json file with the following listing.
 
 ```json
 {
-  "require": {
-    "sandrokeil/interop-config": "1.0.x-dev"
+  "name": "test",
+  "autoload": {
+    "psr-4": {
+      "SomeVendorName\\": "src/"
+    }
   }
 }
 ```
 
-To use composer we need to download the `composer.phar` from [getcomposer.org](https://getcomposer.org) via `curl -sS https://getcomposer.org/installer | php`. 
-Next we can get the php packages we setup in the composer.json via `php composer.phar install`
+To use Composer we need to download the `composer.phar` from [getcomposer.org](https://getcomposer.org/download/). 
+If you have installed Composer, you can get the PHP packages we setup in the composer.json via `php composer.phar require sandrokeil/interop-config`
 
-If you need more help look at [getcomposer.org](https://getcomposer.org).
+If you need more help look at [getcomposer.org](https://getcomposer.org/doc/00-intro.md).
 
-
-# Setup composer autoloading
+### Setup Composer autoloading
   
-Put the following code to the public/index.php to get the class auto loading, so we do not have to `include/require` classes before using them.
+Put the following code to the `public/index.php` to get the class auto loading, so we do not have to `include/require` classes before using them.
 
 ```php
 
-$loader = require 'vendor/autoload.php';
-$loader->add('SomeVendorName\\', dirname(__FILE__).'/../library');
+// this makes our life easier, everything is relative to application root now
+chdir(dirname(__DIR__));
 
-...
+require 'vendor/autoload.php';
+
+// ...
 ```
         
-# Setup main configuration
+## Setup config and classes
 
-The following code is located in application_root/config/main.php and holds the main configuration `array` of the project.
+The following code is located in `config/main.php` and holds the main configuration `array` of the project.
 
 ```php
 
 return [
     'some_vendor_name' => [
         'my_component_configuration' => [
-            'driverClass' => 'SomeVendorName\MyComponent\MyFirstComponent',
-            'params' => [
+            'debug' => false,
+            'routes' => [
                 'key1' => 'value1',
                 'key2' => 'value2',
                 'key3' => 'value3',
@@ -87,7 +92,7 @@ return [
 ];
 ```
 
-# ServiceLocator
+### ServiceLocator
 
 The `ServiceLocator` holds the application configuration and some plugin manager classes. 
 The `ServiceLocator` is the main entry point if you need to instantiate classes in your application.  
@@ -143,7 +148,7 @@ class ServiceLocator
      * @param $name
      * @return bool
      */
-    public function has($name)
+    public function has($name): bool
     {
         return isset($this->factories[$name]);
     }
@@ -151,11 +156,11 @@ class ServiceLocator
 }
 ```
 
-# Runtime Exception
+### Runtime Exception
 
 To throw useful exceptions we have a `RuntimeException` in our namespace. There are many more exception types, but for 
 this simple example we satisfied by the `RuntimeException`. The following code is located in 
-application_root/library/SomeVendorName/Exception/RuntimeException.php.
+`src/SomeVendorName/Exception/RuntimeException.php`.
 
 ```php
 
@@ -167,7 +172,7 @@ class RuntimeException extends \Exception {
 
 ```
 
-# The component factory class
+### The component factory class
 
 The factory class implements `OptainOptions` and uses the `ConfigurationTrait`. The factory class creates components 
 with the configuration we explicitly setup before. Every component created by this factory will get the same configuration parameters.
@@ -178,62 +183,39 @@ namespace SomeVendorName\MyComponent;
 
 use SomeVendorName\ServiceLocator;
 use SomeVendorName\Exception\RuntimeException;
+use SomeVendorName\MyComponent\MyFirstComponent;
 
-use Interop\Config\ObtainsOptions;
+use Interop\Config\RequiresConfig;
 use Interop\Config\ConfigurationTrait;
 
 class MyComponentFactory implements ObtainsOptions
 {
-
     use ConfigurationTrait;
 
-    public function vendorName()
+    public function dimensions(): iterable
     {
-        return 'some_vendor_name';
+        return ['some_vendor_name', 'my_component_configuration'];
     }
 
-    public function componentName()
-    {
-        return 'my_component_configuration';
-    }
-
-    public function __invoke(ServiceLocator $ServiceLocator)
+    public function __invoke(ServiceLocator $ServiceLocator): MyFirstComponent
     {
 
         $options = $this->options($ServiceLocator->get('config'));
 
-        // check if mandatory options are available or use \Interop\Config\HasMandatoryOptions, see below
-        if (empty($options['driverClass'])) {
-            throw new RuntimeException(
-                sprintf(
-                    'Driver class was not set for configuration %s.%s.%s',
-                    'doctrine',
-                    'connection',
-                    'orm_default'
-                )
-            );
+        // check if mandatory options are available or use \Interop\Config\RequiresMandatoryOptions
+        if (empty($options['routes'])) {
+            throw new RuntimeException('routes not defined');
+        }
+        if (empty($options['debug'])) {
+            throw new RuntimeException('debug not defined');
         }
 
-        if (empty($options['params'])) {
-            throw new RuntimeException(
-                sprintf(
-                    'Params was not set for configuration %s.%s.%s',
-                    'doctrine',
-                    'connection',
-                    'orm_default'
-                )
-            );
-        }
-
-        $driverClass = $options['driverClass'];
-        $params = $options['params'];
-
-        return new $driverClass($params);
+        return new MyFirstComponent($options['routes'], $options['debug']);
     }
 }
 ```
 
-# The first component class
+### The first component class
 
 Finally we have the component class where we need the configuration.
 
@@ -245,34 +227,30 @@ use SomeVendorName\Exception\RuntimeException;
 
 class MyFirstComponent
 {
-    private $config = array();
-
-    public function __construct($config = array()){
-        $this->config = $config;
-
-        // use config params in here
-        var_dump($config);
-
+    public function __construct($routes, $debug){
+        var_dump(routes, debug);
     }
 }
 ```
 
-# Run the example application
+## Run the example application
 
 To run the example application we just need the following few lines in the public/index.php:
 
 ```php
 
-$loader = require 'vendor/autoload.php';
-$loader->add('SomeVendorName\\', __DIR__.'/library');
+// this makes our life easier, everything is relative to application root now
+chdir(dirname(__DIR__));
 
-$ServiceLocator = new SomeVendorName\ServiceLocator(include dirname('__FILE__')."/../config/main.php");
+require 'vendor/autoload.php';
+
+$ServiceLocator = new SomeVendorName\ServiceLocator('config/main.php');
 $MyComponentFactory = $ServiceLocator->get('my_component_factory');
 
-...
 ```
 
-If you see some output different from fatal error you have successfully implemented interop-config.
+If you see some output different from fatal error you have successfully implemented interop-config. Take a look at the
+Quick-Start section to see what interop-config can do for you.
 
 
 
