@@ -34,14 +34,14 @@ and to create configuration files.
  * **Listen to your ideas.** Have a great idea? Bring your tested pull request or open a new issue. See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 You should have coding conventions and you should have config conventions. If not, you should think about that.
-`interop-config` is universally applicable! See further documentation for more details.
+`interop-config` is universally applicable! See further [documentation](http://sandrokeil.github.io/interop-config/ "Latest interop-config documentation") for more details.
 
 ## Installation
 
 Installation of this module uses composer. For composer documentation, please refer to
 [getcomposer.org](http://getcomposer.org/).
 
-Run `composer require sandrokeil/interop-config` to install interop-config.
+Run `composer require sandrokeil/interop-config` to install interop-config. Version `1.x` is for PHP < 7.1 and Version `2.x` is for PHP >= 7.1.
 
 ## Documentation
 For the latest online documentation visit [http://sandrokeil.github.io/interop-config/](http://sandrokeil.github.io/interop-config/ "Latest interop-config documentation").
@@ -74,12 +74,14 @@ This is a list of projects who are using `interop-config` interfaces (incomplete
 * [prooph/snapshot-memcached-adapter](https://github.com/prooph/snapshot-memcached-adapter) - Snapshot Memcached Adapter for ProophEventStore 
 * [prooph/snapshot-doctrine-adapter](https://github.com/prooph/snapshot-doctrine-adapter) - Snapshot Doctrine Adapter for ProophEventStore 
 * [prooph/laravel-package](https://github.com/prooph/laravel-package) - Laravel package for prooph components
+* [prooph/service-bus-symfony-bundle](https://github.com/prooph/service-bus-symfony-bundle) - Symfony Bundle for prooph service bus
+* [prooph/event-store-symfony-bundle](https://github.com/prooph/event-store-symfony-bundle) - Symfony Bundle for prooph event store
 
 ## Benchmarks
 The benchmarks uses [PHPBench](http://phpbench.readthedocs.org/en/latest/) and can be started by the following command:
  
 ```console
-$ ./vendor/bin/phpbench run --report=aggregate
+$ ./vendor/bin/phpbench run -v --report=table
 ```
  
 or with [Docker](https://www.docker.com/)
