@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
 <meta name="HandheldFriendly" content="True"/>
-<title>interop-config</title>
+<title>interop-config - configurable factories</title>
     <link rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
 <link rel="stylesheet"
@@ -118,18 +118,6 @@
         .form-search {
             position: relative;
             margin-top: 0;
-        }
-    }
-
-    .form-search .glyphicon-search {
-        position: absolute;
-        right: 24px;
-        top: 8px;
-    }
-
-    @media (max-width: 767px) {
-        .form-search .glyphicon-search {
-            top: 18px;
         }
     }
 
@@ -366,7 +354,6 @@
     <div class="box-header container">
         <form class="form-search navbar-form navbar-right" role="search">
             <div class="form-group">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                 <input type="text"
                        placeholder="Search"
                        class="js-search-input form-control"
@@ -417,6 +404,10 @@
     <a href="https://sandrokeil.github.io/interop-config/reference/examples.html">Examples</a>
 
     </li>
+                        <li>
+    <a href="https://sandrokeil.github.io/interop-config/reference/tutorial.html">Tutorial</a>
+
+    </li>
             </ul>
 
     </li>
@@ -447,15 +438,15 @@
 </header>
 <div class="container">
     <ol class="breadcrumb">
-                        <li class="active">interop-config</li>
+                        <li class="active">interop-config - configurable factories</li>
             </ol>
     <div class="row">
 
                 <div class="col-md-12">
 
-<h1>interop-config</h1>
+<h1>interop-config - configurable factories</h1>
 <ul class="list-toc list-group">
-<li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">1.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/getting-started/">Getting Started</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">1.1.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/getting-started/overview.html#1-1">Overview</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">1.2.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/getting-started/quick-Start.html#1-2">Quick Start</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">2.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/reference/">Reference</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">2.1.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/reference/api.html#2-1">API</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">2.2.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/reference/examples.html#2-2">Examples</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">3.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/contribute/">Contribute</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">3.1.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/contribute/contributing.html#3-1">Contributing</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">3.2.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/contribute/readme-git.html#3-2">Using GIT</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">3.3.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/contribute/changelog.html#3-3">Changelog</a></div></div></li></ul>
+<li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">1.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/getting-started/">Getting Started</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">1.1.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/getting-started/overview.html#1-1">Overview</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">1.2.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/getting-started/quick-Start.html#1-2">Quick Start</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">2.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/reference/">Reference</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">2.1.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/reference/api.html#2-1">API</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">2.2.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/reference/examples.html#2-2">Examples</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">2.3.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/reference/tutorial.html#2-3">Tutorial</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">3.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/contribute/">Contribute</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">3.1.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/contribute/contributing.html#3-1">Contributing</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">3.2.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/contribute/readme-git.html#3-2">Using GIT</a></div></div></li><li class="list-group-item"><div class="row clearfix"><div class="col-sm-2"><span class="text-number">3.3.</span></div><div class="col-sm-10"><a href="https://sandrokeil.github.io/interop-config/contribute/changelog.html#3-3">Changelog</a></div></div></li></ul>
         </div>
     </div>
 </div>
@@ -475,7 +466,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
+                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>
@@ -549,7 +540,9 @@
                     $this.search($(this), event)
                 })
                 .on('keydown', function (event) {
-                    $this.navigation($(this), event)
+                    if ($('.js-search-results ul').is(':visible')){
+                        $this.navigation($(this), event)
+                    }
                 })
         },
         click: function (element, event) {
@@ -560,6 +553,7 @@
             element.animate({
                 'width': 600
             }, 500);
+            $('#js-navbar-collapse > ul').fadeOut();
         },
         close: function (element, event) {
             var $this = this;
@@ -568,6 +562,7 @@
             $('.js-search-input').animate({
                 'width': $this.searchInputWidth
             }, 500);
+            $('#js-navbar-collapse > ul').fadeIn();
         },
         search: function (element, event) {
             var $this = this;

@@ -121,18 +121,6 @@
         }
     }
 
-    .form-search .glyphicon-search {
-        position: absolute;
-        right: 24px;
-        top: 8px;
-    }
-
-    @media (max-width: 767px) {
-        .form-search .glyphicon-search {
-            top: 18px;
-        }
-    }
-
     .form-search .form-control {
         border: 0;
         width: 80px;
@@ -366,7 +354,6 @@
     <div class="box-header container">
         <form class="form-search navbar-form navbar-right" role="search">
             <div class="form-group">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                 <input type="text"
                        placeholder="Search"
                        class="js-search-input form-control"
@@ -417,6 +404,10 @@
     <a href="https://sandrokeil.github.io/interop-config/reference/examples.html">Examples</a>
 
     </li>
+                        <li>
+    <a href="https://sandrokeil.github.io/interop-config/reference/tutorial.html">Tutorial</a>
+
+    </li>
             </ul>
 
     </li>
@@ -447,7 +438,7 @@
 </header>
 <div class="container">
     <ol class="breadcrumb">
-                        <li><a href="https://sandrokeil.github.io/interop-config/">interop-config</a></li>
+                        <li><a href="https://sandrokeil.github.io/interop-config/">interop-config - configurable factories</a></li>
                                 <li><a href="https://sandrokeil.github.io/interop-config/getting-started/">Getting Started</a></li>
                                 <li class="active">Overview</li>
             </ol>
@@ -516,13 +507,7 @@ configuration files.</p>
 <h2 id="1-1-1">1.1.1. Installation</h2>
 <p>Installation of this library uses Composer. For Composer documentation, please refer to
 <a href="http://getcomposer.org/">getcomposer.org</a>.</p>
-<p>Put the following into your composer.json or run <code>composer require sandrokeil/interop-config</code>.</p>
-<pre><code>{
-    "require": {
-        "sandrokeil/interop-config": "^1.0"
-    }
-}
-</code></pre>
+<p>Run <code>composer require sandrokeil/interop-config</code> to install interop-config.</p>
 <p>It is recommended to use <a href="https://github.com/container-interop/container-interop">container-interop</a> to retrieve the
 configuration in your factories.</p>
 <h2 id="1-1-2">1.1.2. Config Structure</h2>
@@ -588,9 +573,9 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
     /**
      * Is used to retrieve options from the configuration array ['doctrine' =&gt; ['connection' =&gt; []]].
      *
-     * @return []
+     * @return iterable
      */
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['doctrine', 'connection'];
     }
@@ -598,9 +583,9 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
     /**
      * Returns a list of mandatory options which must be available
      *
-     * @return string[] List with mandatory options
+     * @return iterable List with mandatory options
      */
-    public function mandatoryOptions()
+    public function mandatoryOptions() : iterable
     {
         return ['params' =&gt; ['user', 'password', 'dbname']];
     }
@@ -625,7 +610,7 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
+                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>
@@ -699,7 +684,9 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
                     $this.search($(this), event)
                 })
                 .on('keydown', function (event) {
-                    $this.navigation($(this), event)
+                    if ($('.js-search-results ul').is(':visible')){
+                        $this.navigation($(this), event)
+                    }
                 })
         },
         click: function (element, event) {
@@ -710,6 +697,7 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
             element.animate({
                 'width': 600
             }, 500);
+            $('#js-navbar-collapse > ul').fadeOut();
         },
         close: function (element, event) {
             var $this = this;
@@ -718,6 +706,7 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
             $('.js-search-input').animate({
                 'width': $this.searchInputWidth
             }, 500);
+            $('#js-navbar-collapse > ul').fadeIn();
         },
         search: function (element, event) {
             var $this = this;

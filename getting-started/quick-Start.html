@@ -121,18 +121,6 @@
         }
     }
 
-    .form-search .glyphicon-search {
-        position: absolute;
-        right: 24px;
-        top: 8px;
-    }
-
-    @media (max-width: 767px) {
-        .form-search .glyphicon-search {
-            top: 18px;
-        }
-    }
-
     .form-search .form-control {
         border: 0;
         width: 80px;
@@ -366,7 +354,6 @@
     <div class="box-header container">
         <form class="form-search navbar-form navbar-right" role="search">
             <div class="form-group">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                 <input type="text"
                        placeholder="Search"
                        class="js-search-input form-control"
@@ -417,6 +404,10 @@
     <a href="https://sandrokeil.github.io/interop-config/reference/examples.html">Examples</a>
 
     </li>
+                        <li>
+    <a href="https://sandrokeil.github.io/interop-config/reference/tutorial.html">Tutorial</a>
+
+    </li>
             </ul>
 
     </li>
@@ -447,7 +438,7 @@
 </header>
 <div class="container">
     <ol class="breadcrumb">
-                        <li><a href="https://sandrokeil.github.io/interop-config/">interop-config</a></li>
+                        <li><a href="https://sandrokeil.github.io/interop-config/">interop-config - configurable factories</a></li>
                                 <li><a href="https://sandrokeil.github.io/interop-config/getting-started/">Getting Started</a></li>
                                 <li class="active">Quick Start</li>
             </ol>
@@ -489,12 +480,12 @@
 
 class MyAwesomeFactory implements RequiresConfig
 {
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['vendor-package'];
     }
     
-    public function canRetrieveOptions($config)
+    public function canRetrieveOptions($config) : bool
     {
         // custom implementation depending on specifications
     }
@@ -514,12 +505,12 @@ class MyAwesomeFactory implements RequiresConfig
 
 class MyAwesomeFactory implements RequiresConfigId
 {
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['vendor-package'];
     }
     
-    public function canRetrieveOptions($config, $configId = null)
+    public function canRetrieveOptions($config, $configId = null) : bool
     {
         // custom implementation depending on specifications
     }
@@ -559,7 +550,7 @@ class MyAwesomeFactory implements RequiresConfigId
 {
     use ConfigurationTrait;
     
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['vendor-package'];
     }
@@ -583,7 +574,7 @@ class MyAwesomeFactory implements RequiresConfigId
 {
     use ConfigurationTrait;
     
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['vendor-package'];
     }
@@ -630,12 +621,12 @@ class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
     
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['vendor-package'];
     }
     
-    public function mandatoryOptions()
+    public function mandatoryOptions() : iterable
     {
         return ['params' =&gt; ['user', 'password', 'dbname']];
     }
@@ -668,17 +659,17 @@ class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, Pr
 {
     use ConfigurationTrait;
     
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['vendor-package'];
     }
     
-    public function mandatoryOptions()
+    public function mandatoryOptions() : iterable
     {
         return ['params' =&gt; ['user', 'password', 'dbname']];
     }
     
-    public function defaultOptions()
+    public function defaultOptions() : iterable
     {
         return [
             'params' =&gt; [
@@ -705,6 +696,10 @@ I don't want to use exceptions.</em> No problem, see next.</p>
 <h2 id="1-2-6">1.2.6. Avoid exceptions</h2>
 <p>The <code>RequiresConfig</code> interface provides a method <code>canRetrieveOptions()</code>. This method checks if options are available depending on
 implemented interfaces and checks that the retrieved options are an array or have implemented <code>\ArrayAccess</code>.</p>
+<blockquote>
+<p><code>canRetrieveOptions()</code> returning true does not mean that <code>options($config)</code> will not throw an exception.
+It does however mean that <code>options()</code> will not throw an <code>OptionNotFoundException</code>. Mandatory options are not checked.</p>
+</blockquote>
 <p>You can call this function and if it returns false, you can use the default options.</p>
 <pre><code class="language-php">use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
@@ -784,7 +779,7 @@ the interfaces in a sense order.</p>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
+                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>
@@ -858,7 +853,9 @@ the interfaces in a sense order.</p>
                     $this.search($(this), event)
                 })
                 .on('keydown', function (event) {
-                    $this.navigation($(this), event)
+                    if ($('.js-search-results ul').is(':visible')){
+                        $this.navigation($(this), event)
+                    }
                 })
         },
         click: function (element, event) {
@@ -869,6 +866,7 @@ the interfaces in a sense order.</p>
             element.animate({
                 'width': 600
             }, 500);
+            $('#js-navbar-collapse > ul').fadeOut();
         },
         close: function (element, event) {
             var $this = this;
@@ -877,6 +875,7 @@ the interfaces in a sense order.</p>
             $('.js-search-input').animate({
                 'width': $this.searchInputWidth
             }, 500);
+            $('#js-navbar-collapse > ul').fadeIn();
         },
         search: function (element, event) {
             var $this = this;
