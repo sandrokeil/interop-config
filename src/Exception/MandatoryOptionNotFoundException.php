@@ -7,6 +7,8 @@
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types = 1);
+
 namespace Interop\Config\Exception;
 
 /**
@@ -16,15 +18,15 @@ namespace Interop\Config\Exception;
  */
 class MandatoryOptionNotFoundException extends OutOfBoundsException
 {
-    /**
-     * @param array|\ArrayAccess $dimensions
-     * @param mixed $option Missed option
-     * @return UnexpectedValueException
-     */
-    public static function missingOption($dimensions, $option)
+    public static function missingOption(iterable $dimensions, $option) : self
     {
+        $depth = '';
+
+        foreach ($dimensions as $dimension) {
+            $depth .= '.' . $dimension;
+        }
         return new static(
-            sprintf('Mandatory option "%s" was not set for configuration "%s"', $option, implode('.', $dimensions))
+            sprintf('Mandatory option "%s" was not set for configuration "%s"', $option, $depth)
         );
     }
 }

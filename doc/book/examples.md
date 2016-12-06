@@ -2,7 +2,9 @@
 
 This files contains examples for each interface. The factory class uses the `ConfigurationTrait` to retrieve options 
 from a configuration and optional to perform a mandatory option check or merge default options. There is also an 
-example for a independent config structure of the Zend Expressive TwigRendererFactory. 
+example for a independent config structure of the Zend Expressive TwigRendererFactory. The 
+[container-interop](https://github.com/container-interop/container-interop "Container Interoperability") specification 
+is used, so it's framework agnostic.
 
 ## Use a vendor.package.id config structure
 
@@ -40,6 +42,7 @@ Then you have easily access to the `orm_default` options in your method with `Co
 ```php
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresConfigId;
+use Interop\Container\ContainerInterface;
 
 class MyDBALConnectionFactory implements RequiresConfigId
 {
@@ -84,9 +87,9 @@ class MyDBALConnectionFactory implements RequiresConfigId
     /**
      * Is used to retrieve options from the configuration array ['doctrine' => ['connection' => [...]]].
      *
-     * @return []
+     * @return iterable
      */
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['doctrine', 'connection'];
     }
@@ -96,12 +99,13 @@ class MyDBALConnectionFactory implements RequiresConfigId
 ### Mandatory options check
 You can also check for mandatory options automatically with `MandatoryOptionsInterface`. Now we want also check that
 option `driverClass` and `params` are available. So we also implement in the example above the interface
-`RequiresMandatoryOptions`. If one of these options is missing, an exception is raised.
+`RequiresMandatoryOptions`. If one of these options are missing, an exception is raised.
 
 ```php
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\RequiresConfigId;
+use Interop\Container\ContainerInterface;
 
 class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
@@ -127,7 +131,104 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
      *
      * @return string[] List with mandatory options
      */
-    public function mandatoryOptions()
+    public function mandatoryOptions() : iterable
+    {
+        return [
+            'driverClass',
+            'params',
+        ];
+    }
+     
+    /**
+     * Is used to retrieve options from the configuration array ['doctrine' => ['connection' => [...]]].
+     *
+     * @return []
+     */
+    public function dimensions() : iterable
+    {
+        return ['doctrine', 'connection'];
+    }
+}
+```
+
+## Use a static factory
+Creation of a new instance of a specific config key is really easy by using the static variants of the factory. With 
+this you don't have to instantiate a factory to use another config id in your config, which is really awesome. Remember,
+config files should only contain scalar values, so you can cache it in production. We have to add some lines of code 
+to our factory. The magic is done via the `__callStatic()` method.
+
+```php
+use Interop\Config\ConfigurationTrait;
+use Interop\Config\RequiresMandatoryOptions;
+use Interop\Config\RequiresConfigId;
+use Interop\Container\ContainerInterface;
+
+class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOptions
+{
+    use ConfigurationTrait;
+    
+    /**
+     * @var string
+     */
+    private $configId;
+
+    /**
+     * Creates a new instance from a specified config, specifically meant to be used as static factory.
+     *
+     * In case you want to use another config key than provided by the factories, you can add the following factory to
+     * your config:
+     *
+     * <code>
+     * <?php
+     * return [
+     *     'doctrine.connection.orm_second' => [MyDBALConnectionFactory::class, 'orm_second'],
+     * ];
+     * </code>
+     *
+     * @param string $name
+     * @param array $arguments
+     * @return mixed
+     * @throws \InvalidArgumentException
+     */
+    public static function __callStatic($name, array $arguments)
+    {
+        if (!isset($arguments[0]) || !$arguments[0] instanceof ContainerInterface) {
+            throw new \InvalidArgumentException(
+                sprintf('The first argument must be of type %s', ContainerInterface::class)
+            );
+        }
+        return (new static($name))->__invoke($arguments[0]);
+    }
+
+    /**
+     * @param string $configId
+     */
+    public function __construct(string $configId)
+    {
+        $this->configId = $configId;
+    }
+    
+    public function __invoke(ContainerInterface $container)
+    {
+        // get options for doctrine.connection.[config id]
+        $options = $this->options($container->get('config'), $this->configId);
+
+        // mandatory options check is automatically done by RequiresMandatoryOptions
+
+        $driverClass = $options['driverClass'];
+        $params = $options['params'];
+
+        // create your instance and set options
+
+        return $instance;
+    }
+
+    /**
+     * Returns a list of mandatory options which must be available
+     *
+     * @return iterable List with mandatory options
+     */
+    public function mandatoryOptions() : iterable
     {
         return [
             'driverClass',
@@ -138,9 +239,9 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
     /**
      * Is used to retrieve options from the configuration array ['doctrine' => ['connection' => [...]]].
      *
-     * @return []
+     * @return iterable
      */
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['doctrine', 'connection'];
     }
@@ -196,9 +297,9 @@ class ConfigurationFactory implements RequiresConfigId, ProvidesDefaultOptions
     /**
      * Returns a list of default options, which are merged in \Interop\Config\RequiresConfig::options
      *
-     * @return string[] List with default options and values
+     * @return iterable List with default options and values
      */
-    public function defaultOptions()
+    public function defaultOptions() : iterable
     {
         return [
             'metadata_cache' => 'array',
@@ -212,9 +313,9 @@ class ConfigurationFactory implements RequiresConfigId, ProvidesDefaultOptions
      * Is used to retrieve options from the configuration array 
      * ['doctrine' => ['configuration' => []]].
      *
-     * @return []
+     * @return iterable
      */
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return ['doctrine', 'configuration'];
     }
@@ -282,9 +383,9 @@ class TwigRendererFactory implements RequiresConfig, ProvidesDefaultOptions
     /**
      * Uses root config to retrieve several options
      *
-     * @return array
+     * @return iterable
      */
-    public function dimensions()
+    public function dimensions() : iterable
     {
         return [];
     }
@@ -292,7 +393,7 @@ class TwigRendererFactory implements RequiresConfig, ProvidesDefaultOptions
     /**
      * This is the whole config structure with default settings for this factory
      */
-    public function defaultOptions()
+    public function defaultOptions() : iterable
     {
         return [
             'debug' => false,

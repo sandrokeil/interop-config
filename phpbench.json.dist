@@ -1,5 +1,23 @@
 {
   "bootstrap": "vendor/autoload.php",
   "path": "benchmark",
-  "retry_threshold": 4
+  "retry_threshold": 4,
+  "xml_storage_path": "build/logs/bench",
+  "reports": {
+    "table": {
+      "generator": "table",
+      "cols": [
+        "benchmark",
+        "subject",
+        "mem_peak",
+        "mean",
+        "best",
+        "diff"
+      ],
+      "sort": {
+        "benchmark": "asc",
+        "mean": "desc"
+      }
+    }
+  }
 }

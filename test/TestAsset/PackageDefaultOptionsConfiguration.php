@@ -7,6 +7,8 @@
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types = 1);
+
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
@@ -20,7 +22,7 @@ class PackageDefaultOptionsConfiguration implements RequiresConfig, ProvidesDefa
     /**
      * @interitdoc
      */
-    public function dimensions()
+    public function dimensions(): iterable
     {
         return ['vendor', 'package'];
     }
@@ -28,11 +30,11 @@ class PackageDefaultOptionsConfiguration implements RequiresConfig, ProvidesDefa
     /**
      * @interitdoc
      */
-    public function defaultOptions()
+    public function defaultOptions(): array
     {
         return [
             'minLength' => 2,
-            'maxLength' => 10
+            'maxLength' => 10,
         ];
     }
 }

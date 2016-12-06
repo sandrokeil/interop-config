@@ -12,17 +12,31 @@ declare(strict_types = 1);
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
+use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\RequiresConfigId;
+use Interop\Config\RequiresMandatoryOptions;
 
-class ConnectionContainerIdConfiguration implements RequiresConfigId
+class ConnectionDefaultOptionsMandatoryContainetIdConfiguration implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
 
-    /**
-     * @interitdoc
-     */
     public function dimensions(): iterable
     {
         return ['doctrine', 'connection'];
+    }
+
+    public function mandatoryOptions(): iterable
+    {
+        return ['driverClass'];
+    }
+
+    public function defaultOptions(): array
+    {
+        return [
+            'params' => [
+                'host' => 'awesomehost',
+                'port' => '4444',
+            ],
+        ];
     }
 }

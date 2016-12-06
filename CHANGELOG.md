@@ -2,7 +2,34 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.0.0 (2015-03-05)
+## 2.0.0 (2016-12-06)
+To upgrade from version 1.x to version 2.x you have to add the PHP scalar types of the interfaces to your implemented 
+factory methods.
+
+### Added
+
+* [#33](https://github.com/sandrokeil/interop-config/pull/33): PHP 7.1 language features (return types, scalar type hints)
+  * `dimensions()` method return type is `iterable`
+  * `canRetrieveOptions()` method return type is `bool`
+  * `mandatoryOptions()` method return type is `iterable`
+  * `defaultOptions()` method return type is `array`
+* Minor performance improvements
+* More test cases
+
+### Deprecated
+
+* Nothing
+
+### Removed
+
+* PHP < 7.1 support
+
+### Fixed
+
+* Nothing
+
+
+## 1.0.0 (2016-03-05)
 
 > This release contains BC breaks, but upgrade path is simple.
 

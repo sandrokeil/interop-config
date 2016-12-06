@@ -7,6 +7,8 @@
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types = 1);
+
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
@@ -20,12 +22,12 @@ class ConnectionMandatoryConfiguration implements RequiresConfig, RequiresMandat
     /**
      * @interitdoc
      */
-    public function dimensions()
+    public function dimensions(): iterable
     {
         return ['doctrine', 'connection'];
     }
 
-    public function mandatoryOptions()
+    public function mandatoryOptions(): iterable
     {
         return ['orm_default'];
     }

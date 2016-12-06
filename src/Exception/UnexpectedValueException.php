@@ -7,6 +7,8 @@
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types = 1);
+
 namespace Interop\Config\Exception;
 
 use UnexpectedValueException as PhpUnexpectedValueException;
@@ -19,11 +21,11 @@ use UnexpectedValueException as PhpUnexpectedValueException;
 class UnexpectedValueException extends PhpUnexpectedValueException implements ExceptionInterface
 {
     /**
-     * @param array|\ArrayAccess $dimensions
+     * @param iterable $dimensions
      * @param mixed $currentDimension Current configuration key
      * @return UnexpectedValueException
      */
-    public static function invalidOptions($dimensions, $currentDimension = null)
+    public static function invalidOptions(iterable $dimensions, $currentDimension = null) : self
     {
         $position = [];
 

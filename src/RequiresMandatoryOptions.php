@@ -7,6 +7,8 @@
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types = 1);
+
 namespace Interop\Config;
 
 /**
@@ -19,7 +21,7 @@ interface RequiresMandatoryOptions
     /**
      * Returns a list of mandatory options which must be available
      *
-     * @return string[] List with mandatory options
+     * @return iterable List with mandatory options, can be nested
      */
-    public function mandatoryOptions();
+    public function mandatoryOptions(): iterable;
 }

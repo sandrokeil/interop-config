@@ -7,6 +7,8 @@
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types = 1);
+
 namespace Interop\Config\Exception;
 
 use Interop\Config\RequiresConfig;
@@ -23,9 +25,9 @@ class OptionNotFoundException extends OutOfBoundsException
      * @param RequiresConfig $factory
      * @param mixed $currentDimension Current configuration key
      * @param string $configId
-     * @return InvalidArgumentException
+     * @return OptionNotFoundException
      */
-    public static function missingOptions(RequiresConfig $factory, $currentDimension, $configId)
+    public static function missingOptions(RequiresConfig $factory, $currentDimension, ?string $configId) : self
     {
         $position = [];
 

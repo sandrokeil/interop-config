@@ -12,26 +12,31 @@ declare(strict_types = 1);
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\RequiresConfigId;
+use Interop\Config\ProvidesDefaultOptions;
+use Interop\Config\RequiresConfig;
 use Interop\Config\RequiresMandatoryOptions;
 
-class ConnectionMandatoryRecursiveContainerIdConfiguration implements RequiresConfigId, RequiresMandatoryOptions
+class ConnectionDefaultOptionsMandatoryConfiguration implements RequiresConfig, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
 
-    /**
-     * @interitdoc
-     */
     public function dimensions(): iterable
     {
-        return new \ArrayIterator(['doctrine', 'connection']);
+        return ['doctrine', 'connection', 'orm_default'];
     }
 
-    /**
-     * @interitdoc
-     */
     public function mandatoryOptions(): iterable
     {
-        return new \ArrayIterator(['params' => ['user', 'dbname'], 'driverClass']);
+        return ['driverClass'];
+    }
+
+    public function defaultOptions(): array
+    {
+        return [
+            'params' => [
+                'host' => 'awesomehost',
+                'port' => '4444',
+            ],
+        ];
     }
 }

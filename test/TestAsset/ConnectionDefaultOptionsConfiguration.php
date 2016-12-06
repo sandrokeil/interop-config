@@ -7,31 +7,24 @@
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types = 1);
+
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\ProvidesDefaultOptions;
-use Interop\Config\RequiresConfigId;
-use Interop\Config\RequiresMandatoryOptions;
+use Interop\Config\RequiresConfig;
 
-class ConnectionDefaultOptionsConfiguration implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
+class ConnectionDefaultOptionsConfiguration implements RequiresConfig, ProvidesDefaultOptions
 {
     use ConfigurationTrait;
 
-    /**
-     * @interitdoc
-     */
-    public function dimensions()
+    public function dimensions(): iterable
     {
         return ['doctrine', 'connection'];
     }
 
-    public function mandatoryOptions()
-    {
-        return ['driverClass'];
-    }
-
-    public function defaultOptions()
+    public function defaultOptions(): array
     {
         return [
             'params' => [

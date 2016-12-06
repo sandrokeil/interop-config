@@ -15,6 +15,7 @@
 [![Build Status](https://travis-ci.org/sandrokeil/interop-config.png?branch=master)](https://travis-ci.org/sandrokeil/interop-config)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/sandrokeil/interop-config/badges/quality-score.png?s=cdef161c14156e3e36ed0ce3d6fd7979d38d916c)](https://scrutinizer-ci.com/g/sandrokeil/interop-config/)
 [![Coverage Status](https://coveralls.io/repos/sandrokeil/interop-config/badge.svg?branch=master)](https://coveralls.io/r/sandrokeil/interop-config?branch=master)
+[![Dependency Status](https://www.versioneye.com/user/projects/55ddfcba2383e9001700007e/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55ddfcba2383e9001700007e)
 [![HHVM Status](http://hhvm.h4cc.de/badge/sandrokeil/interop-config.svg?style=flat)](http://hhvm.h4cc.de/package/sandrokeil/interop-config)
 [![PHP 7 ready](http://php7ready.timesplinter.ch/sandrokeil/interop-config/badge.svg)](https://travis-ci.org/sandrokeil/interop-config)
 [![Latest Stable Version](https://poser.pugx.org/sandrokeil/interop-config/v/stable.png)](https://packagist.org/packages/sandrokeil/interop-config)
@@ -33,20 +34,14 @@ and to create configuration files.
  * **Listen to your ideas.** Have a great idea? Bring your tested pull request or open a new issue. See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 You should have coding conventions and you should have config conventions. If not, you should think about that.
-`interop-config` is universally applicable! See further documentation for more details.
+`interop-config` is universally applicable! See further [documentation](http://sandrokeil.github.io/interop-config/ "Latest interop-config documentation") for more details.
 
 ## Installation
 
 Installation of this module uses composer. For composer documentation, please refer to
 [getcomposer.org](http://getcomposer.org/).
 
-Put the following into your composer.json or run `composer require sandrokeil/interop-config`.
-
-    {
-        "require": {
-            "sandrokeil/interop-config": "^1.0"
-        }
-    }
+Run `composer require sandrokeil/interop-config` to install interop-config. Version `1.x` is for PHP < 7.1 and Version `2.x` is for PHP >= 7.1.
 
 ## Documentation
 For the latest online documentation visit [http://sandrokeil.github.io/interop-config/](http://sandrokeil.github.io/interop-config/ "Latest interop-config documentation").
@@ -79,16 +74,24 @@ This is a list of projects who are using `interop-config` interfaces (incomplete
 * [prooph/snapshot-memcached-adapter](https://github.com/prooph/snapshot-memcached-adapter) - Snapshot Memcached Adapter for ProophEventStore 
 * [prooph/snapshot-doctrine-adapter](https://github.com/prooph/snapshot-doctrine-adapter) - Snapshot Doctrine Adapter for ProophEventStore 
 * [prooph/laravel-package](https://github.com/prooph/laravel-package) - Laravel package for prooph components
+* [prooph/service-bus-symfony-bundle](https://github.com/prooph/service-bus-symfony-bundle) - Symfony Bundle for prooph service bus
+* [prooph/event-store-symfony-bundle](https://github.com/prooph/event-store-symfony-bundle) - Symfony Bundle for prooph event store
 
 ## Benchmarks
 The benchmarks uses [PHPBench](http://phpbench.readthedocs.org/en/latest/) and can be started by the following command:
  
 ```console
-$ ./vendor/bin/phpbench run --report=aggregate
+$ ./vendor/bin/phpbench run -v --report=table
 ```
  
 or with [Docker](https://www.docker.com/)
  
 ```console
-$ docker run --rm -it --volume $(pwd):/app prooph/php:7.0-cli-opcache php ./vendor/bin/phpbench run --report=aggregate
+$ docker run --rm -it --volume $(pwd):/app prooph/php:7.1-cli-opcache php ./vendor/bin/phpbench run --report=table
 ```
+
+You can use the `group` and `filter` argument to get only results for a specific group/filter. 
+
+These groups are available: `perf`, `config`, `configId`, `mandatory`, `mandatoryRev` and `default`
+
+These filters are available: `can`, `options` and `fallback`

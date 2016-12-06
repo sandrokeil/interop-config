@@ -12,14 +12,26 @@ declare(strict_types = 1);
 namespace InteropTest\Config\TestAsset;
 
 use Interop\Config\ConfigurationTrait;
-use Interop\Config\RequiresConfig;
+use Interop\Config\RequiresConfigId;
+use Interop\Config\RequiresMandatoryOptions;
 
-class FlexibleConfiguration implements RequiresConfig
+class ConnectionMandatoryRecursiveArrayIteratorContainerIdConfiguration implements RequiresConfigId, RequiresMandatoryOptions
 {
     use ConfigurationTrait;
 
+    /**
+     * @interitdoc
+     */
     public function dimensions(): iterable
     {
-        return ['one', 'two', 'three', 'four'];
+        return ['doctrine', 'connection'];
+    }
+
+    /**
+     * @interitdoc
+     */
+    public function mandatoryOptions(): iterable
+    {
+        return ['params' => ['user', 'dbname'], 'driverClass'];
     }
 }

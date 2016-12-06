@@ -9,38 +9,20 @@
 
 namespace InteropBench\Config;
 
-use Interop\Config\RequiresConfig;
-use Interop\Config\RequiresConfigId;
-
 /**
  * @BeforeMethods({"classSetUp"})
  * @Revs(10000)
  * @Iterations(10)
  * @Warmup(2)
+ * @Groups({"perf"})
  */
-abstract class BaseCase
+class ArrayPerfBench
 {
     /**
      * @var array
      */
-    protected $config;
+    private $config;
 
-    /**
-     * @var RequiresConfig
-     */
-    protected $factory;
-
-    /**
-     * @var string
-     */
-    protected $configId;
-
-    /**
-     * Returns benchmark factory class
-     *
-     * @return RequiresConfig
-     */
-    abstract protected function getFactoryClass(): RequiresConfig;
 
     /**
      * Setup config and class
@@ -48,8 +30,22 @@ abstract class BaseCase
     public function classSetUp(): void
     {
         $this->config = $this->getTestConfig();
-        $this->factory = $this->getFactoryClass();
-        $this->configId = $this->factory instanceof RequiresConfigId ? 'orm_default' : null;
+    }
+
+    /**
+     * @Subject
+     */
+    public function isArray(): bool
+    {
+        return is_array($this->config);
+    }
+
+    /**
+     * @Subject
+     */
+    public function castArray(): bool
+    {
+        return (array)$this->config === $this->config;
     }
 
     /**
