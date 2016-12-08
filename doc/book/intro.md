@@ -36,7 +36,7 @@ You should have coding conventions and you should have config conventions. If no
 `interop-config` is universally applicable! See further documentation for more details.
 
 ## Installation
-Installation of this library uses Composer. For Composer documentation, please refer to
+The suggested installation method is via composer. For composer documentation, please refer to
 [getcomposer.org](http://getcomposer.org/).
 
 Run `composer require sandrokeil/interop-config` to install interop-config.

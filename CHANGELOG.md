@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.0.1 (2016-12-09)
+This release contains **no** BC break.
+
+### Added
+
+* More test cases for iterable return type and `\Iterator` objects
+
+### Deprecated
+
+* Nothing
+
+### Removed
+
+* Nothing
+
+### Fixed
+
+* [#34](https://github.com/sandrokeil/interop-config/issue/34): Inconsistent return type in `defaultOptions()`
+  * `defaultOptions()` method return type is `iterable` but `array` is still valid
+
+
 ## 2.0.0 (2016-12-06)
 To upgrade from version 1.x to version 2.x you have to add the PHP scalar types of the interfaces to your implemented 
 factory methods.
