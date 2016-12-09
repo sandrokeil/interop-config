@@ -1,5 +1,5 @@
 {
-  "title": "interop-config",
+  "title": "interop-config - configurable factories",
   "content": [
     {"getting-started": "book/getting-started/bookdown.json"},
     {"reference": "book/reference/bookdown.json"},
@@ -8,5 +8,5 @@
   "target": "./html",
   "tocDepth": 2,
   "template": "../vendor/tobiju/bookdown-bootswatch-templates/templates/main.php",
-  "copyright": "Copyright (c) 2015-2016 <a href=\"https://sandro-keil.de/\" title=\"I write about topics, advices and trends of web development\">Sandro Keil</a> <br/> Powered by <a href=\"https://github.com/tobiju/bookdown-bootswatch-templates\" title=\"Visit project to generate your own docs\">Bookdown Bootswatch Templates</a>"
+  "copyright": "Visit interop-config on <a href=\"https://github.com/sandrokeil/interop-config\" title=\"interop-config on GitHub\">GitHub</a><br/>Copyright (c) 2015-2016 <a href=\"https://sandro-keil.de/\" title=\"I write about topics, advices and trends of web development\">Sandro Keil</a> <br/> Powered by <a href=\"https://github.com/tobiju/bookdown-bootswatch-templates\" title=\"Visit project to generate your own docs\">Bookdown Bootswatch Templates</a>"
 }

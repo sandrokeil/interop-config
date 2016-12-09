@@ -28,6 +28,20 @@ return [
                 ],
             ],
         ],
+        // package name
+        'universal' => [
+            // container id
+            'orm_default' => [
+                // mandatory params
+                'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+                'params' => [
+                    'host'     => 'localhost',
+                    'user'     => 'username',
+                    'password' => 'password',
+                    'dbname'   => 'database',
+                ],
+            ],
+        ],
     ],
     'one' => [
         'two' => [

@@ -24,7 +24,7 @@ class ConnectionDefaultOptionsConfiguration implements RequiresConfig, ProvidesD
         return ['doctrine', 'connection'];
     }
 
-    public function defaultOptions(): array
+    public function defaultOptions(): iterable
     {
         return [
             'params' => [

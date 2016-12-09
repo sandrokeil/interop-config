@@ -39,14 +39,14 @@ class MyAwesomeFactory implements RequiresConfigId
     public function dimensions() : iterable
     {
         return ['vendor-package'];
-    }
-    
-    public function canRetrieveOptions($config, $configId = null) : bool
+    } 
+
+    public function canRetrieveOptions($config, string $configId = null) : bool
     {
         // custom implementation depending on specifications
     }
     
-    public function options($config, $configId = null)
+    public function options($config, string $configId = null)
     {
         // custom implementation depending on specifications
     }

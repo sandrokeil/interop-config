@@ -38,7 +38,7 @@ You should have coding conventions and you should have config conventions. If no
 
 ## Installation
 
-Installation of this module uses composer. For composer documentation, please refer to
+The suggested installation method is via composer. For composer documentation, please refer to
 [getcomposer.org](http://getcomposer.org/).
 
 Run `composer require sandrokeil/interop-config` to install interop-config. Version `1.x` is for PHP < 7.1 and Version `2.x` is for PHP >= 7.1.

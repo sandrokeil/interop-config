@@ -17,6 +17,7 @@ use Interop\Config\Exception\OptionNotFoundException;
 use Interop\Config\Exception\UnexpectedValueException;
 use InteropTest\Config\TestAsset\ConnectionConfiguration;
 use InteropTest\Config\TestAsset\ConnectionContainerIdConfiguration;
+use InteropTest\Config\TestAsset\ConnectionDefaultOptionsConfiguration;
 use InteropTest\Config\TestAsset\ConnectionDefaultOptionsMandatoryContainetIdConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryConfiguration;
 use InteropTest\Config\TestAsset\ConnectionMandatoryContainerIdConfiguration;
@@ -26,6 +27,7 @@ use InteropTest\Config\TestAsset\FlexibleConfiguration;
 use InteropTest\Config\TestAsset\PackageDefaultAndMandatoryOptionsConfiguration;
 use InteropTest\Config\TestAsset\PackageDefaultOptionsConfiguration;
 use InteropTest\Config\TestAsset\PlainConfiguration;
+use InteropTest\Config\TestAsset\UniversalContainerIdConfiguration;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
@@ -136,9 +138,9 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() should throw exception if config id is missing but RequiresConfigId interface is implemented
      *
      * @dataProvider providerConfig
-     * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\Exception\OptionNotFoundException::missingOptions
-     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers       \Interop\Config\ConfigurationTrait::options
+     * @covers       \Interop\Config\Exception\OptionNotFoundException::missingOptions
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsThrowsOptionNotFoundExceptionIfConfigIdIsMissingWithRequiresConfigId($config): void
     {
@@ -275,8 +277,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with container id
      *
      * @dataProvider providerConfig
-     * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers       \Interop\Config\ConfigurationTrait::options
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsReturnsDataWithContainerId($config): void
     {
@@ -294,8 +296,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works without container id
      *
      * @dataProvider providerConfig
-     * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers       \Interop\Config\ConfigurationTrait::options
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsReturnsData($config): void
     {
@@ -312,8 +314,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with flexible dimensions
      *
      * @dataProvider providerConfig
-     * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers       \Interop\Config\ConfigurationTrait::options
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsReturnsDataWithFlexibleDimensions($config): void
     {
@@ -331,8 +333,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with no dimensions
      *
      * @dataProvider providerConfig
-     * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers       \Interop\Config\ConfigurationTrait::options
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsReturnsDataWithNoDimensions($config): void
     {
@@ -350,8 +352,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with default options
      *
      * @dataProvider providerConfig
-     * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers       \Interop\Config\ConfigurationTrait::options
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsReturnsDataWithDefaultOptions($config): void
     {
@@ -364,6 +366,7 @@ class ConfigurationTraitTest extends TestCase
         $options = $stub->options($config, 'orm_default');
         $defaultOptions = $stub->defaultOptions();
 
+        self::assertCount(2, $options);
         self::assertArrayHasKey('params', $options);
         self::assertSame($options['params']['host'], $defaultOptions['params']['host']);
         self::assertSame($options['params']['port'], $defaultOptions['params']['port']);
@@ -380,6 +383,7 @@ class ConfigurationTraitTest extends TestCase
         self::assertTrue($stub->canRetrieveOptions($config, 'orm_default'));
         $options = $stub->options($config, 'orm_default');
 
+        self::assertCount(2, $options);
         self::assertArrayHasKey('params', $options);
         self::assertSame($options['params']['host'], $defaultOptions['params']['host']);
         self::assertSame($options['params']['port'], $defaultOptions['params']['port']);
@@ -404,6 +408,7 @@ class ConfigurationTraitTest extends TestCase
 
         $options = $stub->options([]);
 
+        self::assertCount(2, $options);
         self::assertSame($expected, $options);
     }
 
@@ -411,8 +416,8 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works default options and default options not override provided options
      *
      * @dataProvider providerConfig
-     * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers       \Interop\Config\ConfigurationTrait::options
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsThatDefaultOptionsNotOverrideProvidedOptions($config): void
     {
@@ -421,6 +426,7 @@ class ConfigurationTraitTest extends TestCase
         self::assertTrue($stub->canRetrieveOptions($config, 'orm_default'));
         $options = $stub->options($config, 'orm_default');
 
+        self::assertCount(2, $options);
         self::assertArrayHasKey('params', $options);
         self::assertSame(
             $options['params']['host'],
@@ -440,9 +446,9 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with mandatory options interface
      *
      * @dataProvider providerConfig
-     * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
-     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers       \Interop\Config\ConfigurationTrait::options
+     * @covers       \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsChecksMandatoryOptions($config): void
     {
@@ -451,6 +457,7 @@ class ConfigurationTraitTest extends TestCase
         self::assertTrue($stub->canRetrieveOptions($config));
         $options = $stub->options($config);
 
+        self::assertCount(1, $options);
         self::assertArrayHasKey('orm_default', $options);
     }
 
@@ -458,9 +465,9 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() works with mandatory options interface
      *
      * @dataProvider providerConfig
-     * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
-     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers       \Interop\Config\ConfigurationTrait::options
+     * @covers       \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsChecksMandatoryOptionsWithContainerId($config): void
     {
@@ -469,6 +476,7 @@ class ConfigurationTraitTest extends TestCase
         self::assertTrue($stub->canRetrieveOptions($config, 'orm_default'));
         $options = $stub->options($config, 'orm_default');
 
+        self::assertCount(2, $options);
         self::assertArrayHasKey('driverClass', $options);
         self::assertArrayHasKey('params', $options);
     }
@@ -477,10 +485,10 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() throws a runtime exception if mandatory option is missing
      *
      * @dataProvider providerConfig
-     * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
-     * @covers \Interop\Config\Exception\MandatoryOptionNotFoundException::missingOption
-     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers       \Interop\Config\ConfigurationTrait::options
+     * @covers       \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     * @covers       \Interop\Config\Exception\MandatoryOptionNotFoundException::missingOption
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfMandatoryOptionIsMissing($config): void
     {
@@ -498,10 +506,10 @@ class ConfigurationTraitTest extends TestCase
      * Tests if options() throws a runtime exception if a recursive mandatory option is missing
      *
      * @dataProvider providerConfig
-     * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
-     * @covers \Interop\Config\Exception\MandatoryOptionNotFoundException::missingOption
-     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers       \Interop\Config\ConfigurationTrait::options
+     * @covers       \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     * @covers       \Interop\Config\Exception\MandatoryOptionNotFoundException::missingOption
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsThrowsMandatoryOptionNotFoundExceptionIfMandatoryOptionRecursiveIsMissing($config): void
     {
@@ -519,9 +527,9 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() with recursive mandatory options check
      *
      * @dataProvider providerConfig
-     * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
-     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers       \Interop\Config\ConfigurationTrait::options
+     * @covers       \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsWithRecursiveMandatoryOptionCheck($config): void
     {
@@ -535,9 +543,9 @@ class ConfigurationTraitTest extends TestCase
      * Tests options() with recursive mandatory options as array iterator
      *
      * @dataProvider providerConfig
-     * @covers \Interop\Config\ConfigurationTrait::options
-     * @covers \Interop\Config\ConfigurationTrait::checkMandatoryOptions
-     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers       \Interop\Config\ConfigurationTrait::options
+     * @covers       \Interop\Config\ConfigurationTrait::checkMandatoryOptions
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsWithRecursiveArrayIteratorMandatoryOptionCheck($config): void
     {
@@ -548,11 +556,11 @@ class ConfigurationTraitTest extends TestCase
     }
 
     /**
-     * Tests if options() throws a runtime exception if a recursive mandatory option is missing
+     * Tests if optionsWithFallback()
      *
      * @dataProvider providerConfig
-     * @covers \Interop\Config\ConfigurationTrait::optionsWithFallback
-     * @covers \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     * @covers       \Interop\Config\ConfigurationTrait::optionsWithFallback
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
      */
     public function testOptionsWithFallback($config): void
     {
@@ -590,11 +598,100 @@ class ConfigurationTraitTest extends TestCase
         $stub->options($config, 'orm_default');
     }
 
+    /**
+     * Tests if options() works with an empty \ArrayAccess object and default options.
+     *
+     * @covers \Interop\Config\ConfigurationTrait::options
+     */
+    public function testEmptyArrayAccessWithDefaultOptions()
+    {
+        $stub = new ConnectionDefaultOptionsConfiguration();
+
+        $config = new \ArrayIterator([]);
+
+        $options = $stub->options($config);
+
+        self::assertCount(1, $options);
+        self::assertArrayHasKey('params', $options);
+
+        self::assertSame(
+            $options['params']['host'],
+            'awesomehost'
+        );
+        self::assertSame(
+            $options['params']['port'],
+            '4444'
+        );
+    }
+
+    /**
+     * Tests if options() works with iterable objects like \ArrayIterator or \ArrayObject
+     *
+     * @dataProvider providerConfigObjects
+     * @covers       \Interop\Config\ConfigurationTrait::options
+     * @covers       \Interop\Config\ConfigurationTrait::canRetrieveOptions
+     */
+    public function testOptionsWithObjects($config, $type): void
+    {
+        $stub = new UniversalContainerIdConfiguration($type);
+
+        self::assertTrue($stub->canRetrieveOptions($config, 'orm_default'));
+        $options = $stub->options($config, 'orm_default');
+
+        self::assertCount(2, $options);
+        self::assertArrayHasKey('driverClass', $options);
+        self::assertArrayHasKey('params', $options);
+
+        $driverClass = 'Doctrine\DBAL\Driver\PDOMySql\Driver';
+        $host = 'localhost';
+        $dbname = 'database';
+        $user = 'username';
+        $password = 'password';
+        $port = '4444';
+
+        if ($type !== UniversalContainerIdConfiguration::TYPE_ONLY_ITERATOR) {
+            $driverClass = $config['doctrine']['connection']['orm_default']['driverClass'];
+            $host = $config['doctrine']['connection']['orm_default']['params']['host'];
+            $dbname = $config['doctrine']['connection']['orm_default']['params']['dbname'];
+            $user = $config['doctrine']['connection']['orm_default']['params']['user'];
+            $password = $config['doctrine']['connection']['orm_default']['params']['password'];
+        }
+
+        self::assertSame($options['driverClass'], $driverClass);
+        self::assertSame($options['params']['host'], $host);
+        self::assertSame($options['params']['port'], $port);
+        self::assertSame($options['params']['dbname'], $dbname);
+        self::assertSame($options['params']['user'], $user);
+        self::assertSame($options['params']['password'], $password);
+    }
+
     public function providerConfig(): array
     {
         return [
             [$this->getTestConfig()],
             [new \ArrayObject($this->getTestConfig())],
+            [new \ArrayIterator($this->getTestConfig())],
+        ];
+    }
+
+    public function providerConfigObjects(): array
+    {
+        return [
+            [$this->getTestConfig(), UniversalContainerIdConfiguration::TYPE_ARRAY_ARRAY],
+            [new \ArrayObject($this->getTestConfig()), UniversalContainerIdConfiguration::TYPE_ARRAY_ARRAY],
+            [new \ArrayIterator($this->getTestConfig()), UniversalContainerIdConfiguration::TYPE_ARRAY_ARRAY],
+
+            [$this->getTestConfig(), UniversalContainerIdConfiguration::TYPE_ARRAY_OBJECT],
+            [new \ArrayObject($this->getTestConfig()), UniversalContainerIdConfiguration::TYPE_ARRAY_OBJECT],
+            [new \ArrayIterator($this->getTestConfig()), UniversalContainerIdConfiguration::TYPE_ARRAY_OBJECT],
+
+            [$this->getTestConfig(), UniversalContainerIdConfiguration::TYPE_ARRAY_ITERATOR],
+            [new \ArrayObject($this->getTestConfig()), UniversalContainerIdConfiguration::TYPE_ARRAY_ITERATOR],
+            [new \ArrayIterator($this->getTestConfig()), UniversalContainerIdConfiguration::TYPE_ARRAY_ITERATOR],
+
+            [$this->getTestConfig(), UniversalContainerIdConfiguration::TYPE_ONLY_ITERATOR],
+            [new \ArrayObject($this->getTestConfig()), UniversalContainerIdConfiguration::TYPE_ONLY_ITERATOR],
+            [new \ArrayIterator($this->getTestConfig()), UniversalContainerIdConfiguration::TYPE_ONLY_ITERATOR],
         ];
     }
 

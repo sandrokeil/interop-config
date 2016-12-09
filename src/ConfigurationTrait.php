@@ -13,6 +13,7 @@ namespace Interop\Config;
 
 use ArrayAccess;
 use Interop\Config\Exception;
+use Iterator;
 
 /**
  * ConfigurationTrait which retrieves options from configuration, see interface \Interop\Config\RequiresConfig
@@ -42,6 +43,7 @@ trait ConfigurationTrait
     public function canRetrieveOptions($config, string $configId = null): bool
     {
         $dimensions = $this->dimensions();
+        $dimensions = $dimensions instanceof Iterator ? iterator_to_array($dimensions) : $dimensions;
 
         if ($this instanceof RequiresConfigId) {
             $dimensions[] = $configId;
@@ -82,6 +84,7 @@ trait ConfigurationTrait
     public function options($config, string $configId = null)
     {
         $dimensions = $this->dimensions();
+        $dimensions = $dimensions instanceof Iterator ? iterator_to_array($dimensions) : $dimensions;
 
         if ($this instanceof RequiresConfigId) {
             $dimensions[] = $configId;
@@ -115,7 +118,12 @@ trait ConfigurationTrait
         }
 
         if ($this instanceof ProvidesDefaultOptions) {
-            $config = array_replace_recursive($this->defaultOptions(), $config);
+            $options = $this->defaultOptions();
+
+            $config = array_replace_recursive(
+                $options instanceof Iterator ? iterator_to_array($options) : (array)$options,
+                (array)$config
+            );
         }
         return $config;
     }

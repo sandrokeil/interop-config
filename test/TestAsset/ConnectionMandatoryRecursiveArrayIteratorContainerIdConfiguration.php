@@ -24,7 +24,7 @@ class ConnectionMandatoryRecursiveArrayIteratorContainerIdConfiguration implemen
      */
     public function dimensions(): iterable
     {
-        return ['doctrine', 'connection'];
+        return new \ArrayIterator(['doctrine', 'connection']);
     }
 
     /**
@@ -32,6 +32,6 @@ class ConnectionMandatoryRecursiveArrayIteratorContainerIdConfiguration implemen
      */
     public function mandatoryOptions(): iterable
     {
-        return ['params' => ['user', 'dbname'], 'driverClass'];
+        return new \ArrayIterator(['params' => ['user', 'dbname'], 'driverClass']);
     }
 }
