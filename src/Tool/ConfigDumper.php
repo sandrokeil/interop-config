@@ -16,14 +16,13 @@ use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\RequiresConfig;
 use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
-use Traversable;
 
 /**
  * Dumps configuration based on factory definition
  *
  * @copyright Copyright (c) 2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
-class ConfigDumper
+class ConfigDumper extends AbstractConfigDumper
 {
     const CONFIG_TEMPLATE = <<<EOC
 <?php
@@ -34,11 +33,6 @@ class ConfigDumper
 
 return %s;
 EOC;
-
-    /**
-     * @var ConsoleHelper
-     */
-    private $helper;
 
     public function __construct(ConsoleHelper $helper = null)
     {
@@ -64,15 +58,6 @@ EOC;
 
         $interfaces = $reflectionClass->getInterfaceNames();
 
-        if (in_array(RequiresConfigId::class, $interfaces, true)) {
-            while (true) {
-                $configId = $this->helper->readLine('config id or name');
-                if ('' !== $configId) {
-                    break;
-                }
-            }
-        }
-
         $factory = $reflectionClass->newInstanceWithoutConstructor();
         $dimensions = [];
         $mandatoryOptions = [];
@@ -80,6 +65,16 @@ EOC;
 
         if (in_array(RequiresConfig::class, $interfaces, true)) {
             $dimensions = $factory->dimensions();
+        }
+
+        if (in_array(RequiresConfigId::class, $interfaces, true)) {
+            while (true) {
+                $configId = $this->helper->readLine('config id or name');
+                if ('' !== $configId) {
+                    break;
+                }
+            }
+            $dimensions[] = $configId;
         }
 
         if (in_array(RequiresMandatoryOptions::class, $interfaces, true)) {
@@ -90,7 +85,6 @@ EOC;
             $defaultOptions = $this->readDefaultOption($factory->defaultOptions());
         }
 
-        $dimensions[] = $configId;
 
         $parent = &$config;
 
@@ -149,82 +143,14 @@ EOC;
     {
         switch (gettype($originValue)) {
             case 'boolean':
-                return (bool) $value;
+                return (bool)$value;
             case 'integer':
-                return (int) $value;
+                return (int)$value;
             case 'double':
-                return (float) $value;
+                return (float)$value;
             case 'string':
             default:
                 return $value;
         }
-    }
-
-    /**
-     * @throws InvalidArgumentException if class name is not a string or does not exist.
-     */
-    private function validateClassName(string $className): void
-    {
-        if (!is_string($className)) {
-            throw new InvalidArgumentException(
-                sprintf('Class name must be a string, %s given', gettype($className))
-            );
-        }
-
-        if (!class_exists($className)) {
-            throw new InvalidArgumentException(sprintf('Cannot find class with name "%s".', $className));
-        }
-    }
-
-    public function dumpConfigFile(iterable $config): string
-    {
-        return sprintf(
-            self::CONFIG_TEMPLATE,
-            get_class($this),
-            date('Y-m-d H:i:s'),
-            $this->prepareConfig($config)
-        );
-    }
-
-    private function prepareConfig(iterable $config, int $indentLevel = 1): string
-    {
-        $indent = str_repeat(' ', $indentLevel * 4);
-        $entries = [];
-
-        foreach ($config as $key => $value) {
-            $key = $this->createConfigKey($key);
-            $entries[] = sprintf(
-                '%s%s%s,',
-                $indent,
-                $key ? sprintf('%s => ', $key) : '',
-                $this->createConfigValue($value, $indentLevel)
-            );
-        }
-
-        $outerIndent = str_repeat(' ', ($indentLevel - 1) * 4);
-
-        return sprintf(
-            "[\n%s\n%s]",
-            implode("\n", $entries),
-            $outerIndent
-        );
-    }
-
-    private function createConfigKey($key): string
-    {
-        return sprintf("'%s'", $key);
-    }
-
-    private function createConfigValue($value, int $indentLevel): string
-    {
-        if (is_array($value) || $value instanceof Traversable) {
-            return $this->prepareConfig($value, $indentLevel + 1);
-        }
-
-        if (is_string($value) && class_exists($value)) {
-            return sprintf('\\%s::class', ltrim($value, '\\'));
-        }
-
-        return var_export($value, true);
     }
 }

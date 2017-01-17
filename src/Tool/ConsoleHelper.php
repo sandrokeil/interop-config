@@ -67,9 +67,9 @@ class ConsoleHelper
         $this->supportsColor = $this->detectColorCapabilities($resource);
     }
 
-    public function readLine(string $name): string
+    public function readLine(string $name, string $text = 'Please provide a value for'): string
     {
-        return readline($this->colorize(sprintf('Please provide a value for <info>%s</info>: ', $name)));
+        return readline($this->colorize(sprintf('%s <info>%s</info>: ', $text, $name)));
     }
 
     /**

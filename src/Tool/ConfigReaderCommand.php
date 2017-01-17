@@ -18,7 +18,7 @@ use Interop\Config\Exception\InvalidArgumentException;
  *
  * @copyright Copyright (c) 2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
-class ConfigDumperCommand extends AbstractCommand
+class ConfigReaderCommand extends AbstractCommand
 {
     const COMMAND_DUMP = 'dump';
     const COMMAND_ERROR = 'error';
@@ -28,21 +28,18 @@ class ConfigDumperCommand extends AbstractCommand
 
 <info>Usage:</info>
 
-  %s [-h|--help|help] <configFile> <className>
+  %s [-h|--help|help] <className>
 
 <info>Arguments:</info>
 
   <info>-h|--help|help</info>    This usage message
-  <info><configFile></info>      Path to a config file or php://stdout for which to generate configuration.
-                    If the file does not exist, it will be created. If it does
-                    exist, it must return an array, and the file will be
-                    updated with new configuration.
-  <info><className></info>       Name of the class to reflect and for which to generate
+  <info><configFile></info>      Path to a config file for which to displa configuration.
+                    It must return an array / ArrayObject.
+  <info><className></info>       Name of the class to reflect and for which to display
                     dependency configuration.
 
-Reads the provided configuration file (creating it if it does not exist),
-and injects it with config dependency configuration for
-the provided class name, writing the changes back to the file.
+Reads the provided configuration file and displays dependency 
+configuration for the provided class name.
 EOH;
 
     public function __construct(ConsoleHelper $helper = null)
@@ -72,9 +69,10 @@ EOH;
                 break;
         }
 
-        $dumper = new ConfigDumper();
+        $dumper = new ConfigReader();
+
         try {
-            $config = $dumper->createDependencyConfig($arguments->config, $arguments->class);
+            $config = $dumper->displayDependencyConfig($arguments->config, $arguments->class);
         } catch (InvalidArgumentException $e) {
             $this->helper->writeErrorMessage(
                 sprintf('Unable to create config for "%s": %s', $arguments->class, $e->getMessage())
@@ -83,9 +81,8 @@ EOH;
             return 1;
         }
 
-        file_put_contents($arguments->configFile, $dumper->dumpConfigFile($config) . PHP_EOL);
+        fwrite(STDOUT, $dumper->displayConfigFile($config) . PHP_EOL);
 
-        $this->helper->writeLine(sprintf('<info>[DONE]</info> Changes written to %s', $arguments->configFile));
         return 0;
     }
 
@@ -127,9 +124,9 @@ EOH;
             case false:
                 // fall-through
             default:
-                if (!is_writable(dirname($configFile)) && 'php://stdout' !== $configFile) {
+                if (!is_readable(dirname($configFile))) {
                     return $this->createErrorArgument(sprintf(
-                        'Cannot create configuration at path "%s"; not writable.',
+                        'Cannot read configuration at path "%s".',
                         $configFile
                     ));
                 }

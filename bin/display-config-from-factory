@@ -22,6 +22,6 @@ if (file_exists($a = getcwd() . '/vendor/autoload.php')) {
     exit(1);
 }
 
-$command = new Tool\ConfigDumperCommand();
+$command = new Tool\ConfigReaderCommand();
 $status = $command(array_slice($argv, 1));
 exit($status);
