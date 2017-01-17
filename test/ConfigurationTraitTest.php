@@ -620,7 +620,7 @@ class ConfigurationTraitTest extends TestCase
         );
         self::assertSame(
             $options['params']['port'],
-            '4444'
+            4444
         );
     }
 
@@ -647,7 +647,7 @@ class ConfigurationTraitTest extends TestCase
         $dbname = 'database';
         $user = 'username';
         $password = 'password';
-        $port = '4444';
+        $port = 4444;
 
         if ($type !== UniversalContainerIdConfiguration::TYPE_ONLY_ITERATOR) {
             $driverClass = $config['doctrine']['connection']['orm_default']['driverClass'];

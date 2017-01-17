@@ -65,7 +65,12 @@ EOC;
         $interfaces = $reflectionClass->getInterfaceNames();
 
         if (in_array(RequiresConfigId::class, $interfaces, true)) {
-            $configId = $this->helper->readLine('config id (name)');
+            while (true) {
+                $configId = $this->helper->readLine('config id or name');
+                if ('' !== $configId) {
+                    break;
+                }
+            }
         }
 
         $factory = $reflectionClass->newInstanceWithoutConstructor();
@@ -82,13 +87,8 @@ EOC;
         }
 
         if (in_array(ProvidesDefaultOptions::class, $interfaces)) {
-            $defaultOptions = $factory->defaultOptions();
+            $defaultOptions = $this->readDefaultOption($factory->defaultOptions());
         }
-
-        $options = array_replace_recursive(
-            $defaultOptions instanceof \Iterator ? iterator_to_array($defaultOptions) : (array)$defaultOptions,
-            (array)$mandatoryOptions
-        );
 
         $dimensions[] = $configId;
 
@@ -100,6 +100,11 @@ EOC;
             }
             $parent = &$parent[$dimension];
         }
+
+        $options = array_replace_recursive(
+            $defaultOptions instanceof \Iterator ? iterator_to_array($defaultOptions) : (array)$defaultOptions,
+            (array)$mandatoryOptions
+        );
 
         $parent = $options;
 
@@ -118,6 +123,41 @@ EOC;
             $options[$mandatoryOption] = $this->helper->readLine(trim($path . '.' . $mandatoryOption, '.'));
         }
         return $options;
+    }
+
+    private function readDefaultOption(iterable $defaultOptions, $path = ''): array
+    {
+        $options = [];
+
+        foreach ($defaultOptions as $key => $defaultOption) {
+            if (!is_scalar($defaultOption)) {
+                $options[$key] = $this->readDefaultOption($defaultOptions[$key], trim($path . '.' . $key, '.'));
+                continue;
+            }
+            $options[$key] = $this->helper->readLine(trim($path . '.' . $key, '.') . ' (' . $defaultOption . ')');
+
+            if ('' === $options[$key] && '' !== $defaultOption) {
+                $options[$key] = $defaultOption;
+            } else {
+                $options[$key] = $this->convertToType($options[$key], $defaultOption);
+            }
+        }
+        return $options;
+    }
+
+    private function convertToType($value, $originValue)
+    {
+        switch (gettype($originValue)) {
+            case 'boolean':
+                return (bool) $value;
+            case 'integer':
+                return (int) $value;
+            case 'double':
+                return (float) $value;
+            case 'string':
+            default:
+                return $value;
+        }
     }
 
     /**

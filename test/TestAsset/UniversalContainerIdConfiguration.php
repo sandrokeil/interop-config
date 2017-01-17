@@ -36,7 +36,7 @@ class UniversalContainerIdConfiguration implements RequiresConfigId, ProvidesDef
     private static $defaultOptions = [
         'params' => [
             'host' => 'awesomehost',
-            'port' => '4444',
+            'port' => 4444,
         ],
     ];
 

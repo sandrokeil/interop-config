@@ -29,7 +29,7 @@ class ConnectionDefaultOptionsConfiguration implements RequiresConfig, ProvidesD
         return [
             'params' => [
                 'host' => 'awesomehost',
-                'port' => '4444',
+                'port' => 4444,
             ],
         ];
     }
