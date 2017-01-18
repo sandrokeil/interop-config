@@ -77,15 +77,6 @@ EOC;
             $dimensions[] = $configId;
         }
 
-        if (in_array(RequiresMandatoryOptions::class, $interfaces, true)) {
-            $mandatoryOptions = $this->readMandatoryOption($factory->mandatoryOptions());
-        }
-
-        if (in_array(ProvidesDefaultOptions::class, $interfaces)) {
-            $defaultOptions = $this->readDefaultOption($factory->defaultOptions());
-        }
-
-
         $parent = &$config;
 
         foreach ($dimensions as $dimension) {
@@ -93,6 +84,14 @@ EOC;
                 $parent[$dimension] = [];
             }
             $parent = &$parent[$dimension];
+        }
+
+        if (in_array(RequiresMandatoryOptions::class, $interfaces, true)) {
+            $mandatoryOptions = $this->readMandatoryOption($factory->mandatoryOptions(), $parent);
+        }
+
+        if (in_array(ProvidesDefaultOptions::class, $interfaces)) {
+            $defaultOptions = $this->readDefaultOption($factory->defaultOptions(), $parent);
         }
 
         $options = array_replace_recursive(
@@ -105,33 +104,53 @@ EOC;
         return $config;
     }
 
-    private function readMandatoryOption(iterable $mandatoryOptions, $path = ''): array
+    private function readMandatoryOption(iterable $mandatoryOptions, array $config, $path = ''): array
     {
         $options = [];
 
         foreach ($mandatoryOptions as $key => $mandatoryOption) {
             if (!is_scalar($mandatoryOption)) {
-                $options[$key] = $this->readMandatoryOption($mandatoryOptions[$key], trim($path . '.' . $key, '.'));
+                $options[$key] = $this->readMandatoryOption(
+                    $mandatoryOptions[$key],
+                    $config[$key] ?? [],
+                    trim($path . '.' . $key, '.')
+                );
                 continue;
             }
-            $options[$mandatoryOption] = $this->helper->readLine(trim($path . '.' . $mandatoryOption, '.'));
+            $previousValue = isset($config[$mandatoryOption]) ? ' (' . $config[$mandatoryOption] . ')' : '';
+
+            $options[$mandatoryOption] = $this->helper->readLine(
+                trim($path . '.' . $mandatoryOption, '.') . $previousValue
+            );
+
+            if ('' === $options[$mandatoryOption] && isset($config[$mandatoryOption])) {
+                $options[$mandatoryOption] = $config[$mandatoryOption];
+            }
+            return $options;
         }
-        return $options;
     }
 
-    private function readDefaultOption(iterable $defaultOptions, $path = ''): array
+    private function readDefaultOption(iterable $defaultOptions, array $config, $path = ''): array
     {
         $options = [];
 
         foreach ($defaultOptions as $key => $defaultOption) {
             if (!is_scalar($defaultOption)) {
-                $options[$key] = $this->readDefaultOption($defaultOptions[$key], trim($path . '.' . $key, '.'));
+                $options[$key] = $this->readDefaultOption(
+                    $defaultOptions[$key],
+                    $config[$key],
+                    trim($path . '.' . $key, '.')
+                );
                 continue;
             }
-            $options[$key] = $this->helper->readLine(trim($path . '.' . $key, '.') . ' (' . $defaultOption . ')');
+            $previousValue = isset($config[$key])
+                ? ' (' . $config[$key] . ' | ' . $defaultOption . ')'
+                : ' (' . $defaultOption . ')';
 
-            if ('' === $options[$key] && '' !== $defaultOption) {
-                $options[$key] = $defaultOption;
+            $options[$key] = $this->helper->readLine(trim($path . '.' . $key, '.') . $previousValue);
+
+            if ('' === $options[$key]) {
+                $options[$key] = $config[$key] ?? $defaultOption;
             } else {
                 $options[$key] = $this->convertToType($options[$key], $defaultOption);
             }
