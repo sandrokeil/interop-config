@@ -9,47 +9,9 @@
 
 namespace Interop\Config\Tool;
 
-use Interop\Config\Exception\InvalidArgumentException;
-
-abstract class AbstractConfigDumper
+class AbstractConfig
 {
-    /**
-     * @var ConsoleHelper
-     */
-    protected $helper;
-
-    /**
-     * @throws InvalidArgumentException if class name is not a string or does not exist.
-     */
-    protected function validateClassName(string $className): void
-    {
-        if (!is_string($className)) {
-            throw new InvalidArgumentException(
-                sprintf('Class name must be a string, %s given', gettype($className))
-            );
-        }
-
-        if (!class_exists($className)) {
-            throw new InvalidArgumentException(sprintf('Cannot find class with name "%s".', $className));
-        }
-    }
-
-    public function dumpConfigFile(iterable $config): string
-    {
-        return sprintf(
-            static::CONFIG_TEMPLATE,
-            get_class($this),
-            date('Y-m-d H:i:s'),
-            $this->prepareConfig($config)
-        );
-    }
-
-    public function displayConfigFile(iterable $config): string
-    {
-        return $this->prepareConfig($config);
-    }
-
-    private function prepareConfig(iterable $config, int $indentLevel = 1): string
+    protected function prepareConfig(iterable $config, int $indentLevel = 1): string
     {
         $indent = str_repeat(' ', $indentLevel * 4);
         $entries = [];
@@ -66,11 +28,7 @@ abstract class AbstractConfigDumper
 
         $outerIndent = str_repeat(' ', ($indentLevel - 1) * 4);
 
-        return sprintf(
-            "[\n%s\n%s]",
-            implode("\n", $entries),
-            $outerIndent
-        );
+        return sprintf("[\n%s\n%s]", implode("\n", $entries), $outerIndent);
     }
 
     private function createConfigKey($key): string

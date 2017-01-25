@@ -22,7 +22,7 @@ use Interop\Config\RequiresMandatoryOptions;
  *
  * @copyright Copyright (c) 2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
-class ConfigDumper extends AbstractConfigDumper
+class ConfigDumper extends AbstractConfig
 {
     const CONFIG_TEMPLATE = <<<EOC
 <?php
@@ -33,6 +33,11 @@ class ConfigDumper extends AbstractConfigDumper
 
 return %s;
 EOC;
+
+    /**
+     * @var ConsoleHelper
+     */
+    private $helper;
 
     public function __construct(ConsoleHelper $helper = null)
     {
@@ -45,10 +50,8 @@ EOC;
      * @return array
      * @throws InvalidArgumentException for invalid $className
      */
-    public function createDependencyConfig(array $config, $className)
+    public function createConfig(array $config, string $className)
     {
-        $this->validateClassName($className);
-
         $reflectionClass = new \ReflectionClass($className);
 
         // class is an interface; do nothing
@@ -99,12 +102,12 @@ EOC;
             (array)$mandatoryOptions
         );
 
-        $parent = $options;
+        $parent = array_replace_recursive($parent, $options);
 
         return $config;
     }
 
-    private function readMandatoryOption(iterable $mandatoryOptions, array $config, $path = ''): array
+    private function readMandatoryOption(iterable $mandatoryOptions, array $config, string $path = ''): array
     {
         $options = [];
 
@@ -126,11 +129,11 @@ EOC;
             if ('' === $options[$mandatoryOption] && isset($config[$mandatoryOption])) {
                 $options[$mandatoryOption] = $config[$mandatoryOption];
             }
-            return $options;
         }
+        return $options;
     }
 
-    private function readDefaultOption(iterable $defaultOptions, array $config, $path = ''): array
+    private function readDefaultOption(iterable $defaultOptions, array $config, string $path = ''): array
     {
         $options = [];
 
@@ -138,13 +141,13 @@ EOC;
             if (!is_scalar($defaultOption)) {
                 $options[$key] = $this->readDefaultOption(
                     $defaultOptions[$key],
-                    $config[$key],
+                    $config[$key] ?? [],
                     trim($path . '.' . $key, '.')
                 );
                 continue;
             }
             $previousValue = isset($config[$key])
-                ? ' (' . $config[$key] . ' | ' . $defaultOption . ')'
+                ? ' = ' . $config[$key] . ' (' . $defaultOption . ')'
                 : ' (' . $defaultOption . ')';
 
             $options[$key] = $this->helper->readLine(trim($path . '.' . $key, '.') . $previousValue);
@@ -171,5 +174,15 @@ EOC;
             default:
                 return $value;
         }
+    }
+
+    public function dumpConfigFile(iterable $config): string
+    {
+        return sprintf(
+            static::CONFIG_TEMPLATE,
+            get_class($this),
+            date('Y-m-d H:i:s'),
+            $this->prepareConfig($config)
+        );
     }
 }

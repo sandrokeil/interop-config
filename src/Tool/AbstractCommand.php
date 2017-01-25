@@ -11,14 +11,23 @@ namespace Interop\Config\Tool;
 
 abstract class AbstractCommand
 {
+    const COMMAND_DUMP = 'dump';
+    const COMMAND_ERROR = 'error';
+    const COMMAND_HELP = 'help';
+
     /**
      * @var ConsoleHelper
      */
     protected $helper;
 
+    public function __construct(ConsoleHelper $helper = null)
+    {
+        $this->helper = $helper ?: new ConsoleHelper();
+    }
+
     protected function help($resource = STDOUT): void
     {
-        $this->helper->writeErrorMessage(sprintf(static::HELP_TEMPLATE, 'aasd'));
+        $this->helper->writeErrorMessage(sprintf(static::HELP_TEMPLATE, static::COMMAND_CLI_NAME));
     }
 
     /**
@@ -53,4 +62,61 @@ abstract class AbstractCommand
             'command' => static::COMMAND_HELP,
         ];
     }
+
+    protected function parseArgs(array $args): \stdClass
+    {
+        if (!count($args)) {
+            return $this->createHelpArgument();
+        }
+
+        $arg1 = array_shift($args);
+
+        if (in_array($arg1, ['-h', '--help', 'help'], true)) {
+            return $this->createHelpArgument();
+        }
+
+        if (!count($args)) {
+            return $this->createErrorArgument('Missing class name');
+        }
+
+        $configFile = $arg1;
+        switch (file_exists($configFile)) {
+            case true:
+                $config = require $configFile;
+
+                if ($config instanceof \Iterator) {
+                    $config = iterator_to_array($config);
+                } elseif ($config instanceof \IteratorAggregate) {
+                    $config = iterator_to_array($config->getIterator());
+                }
+
+                if (!is_array($config)) {
+                    return $this->createErrorArgument(sprintf(
+                        'Configuration at path "%s" does not return an array.',
+                        $configFile
+                    ));
+                }
+
+                break;
+            case false:
+                // fall-through
+            default:
+                if ($command = $this->checkFile($configFile)) {
+                    return $command;
+                }
+
+                $config = [];
+                break;
+        }
+
+        $class = array_shift($args);
+
+        if (!class_exists($class)) {
+            return $this->createErrorArgument(sprintf('Class "%s" does not exist or could not be autoloaded.', $class));
+        }
+
+        return $this->createArguments(self::COMMAND_DUMP, $configFile, $config, $class);
+    }
+
+    abstract protected function checkFile(string $configFile): ?\stdClass;
 }

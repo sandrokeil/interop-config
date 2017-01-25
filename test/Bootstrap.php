@@ -9,16 +9,24 @@
 
 declare(strict_types = 1);
 
-// set error reporting
-error_reporting(E_ALL | E_STRICT);
+namespace Interop\Config\Tool {
 
-chdir(dirname(__DIR__));
+    function date($format)
+    {
+        return '2017-01-22 18:42:56';
+    }
 
-if (!file_exists('vendor/autoload.php')) {
-    throw new \RuntimeException(
-        'Unable to load dependencies. Run `php composer.phar install`'
-    );
+    // set error reporting
+    error_reporting(E_ALL | E_STRICT);
+
+    chdir(dirname(__DIR__));
+
+    if (!file_exists('vendor/autoload.php')) {
+        throw new \RuntimeException(
+            'Unable to load dependencies. Run `php composer.phar install`'
+        );
+    }
+
+    // Setup autoloading
+    include 'vendor/autoload.php';
 }
-
-// Setup autoloading
-include 'vendor/autoload.php';

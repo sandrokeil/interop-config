@@ -20,31 +20,33 @@ use Interop\Config\Exception\InvalidArgumentException;
  */
 class ConfigReaderCommand extends AbstractCommand
 {
-    const COMMAND_DUMP = 'dump';
-    const COMMAND_ERROR = 'error';
-    const COMMAND_HELP = 'help';
+    const COMMAND_CLI_NAME = 'display-config';
 
     const HELP_TEMPLATE = <<< EOH
 
 <info>Usage:</info>
 
-  %s [-h|--help|help] <className>
+  %s [-h|--help|help] <configFile> <className>
 
 <info>Arguments:</info>
 
   <info>-h|--help|help</info>    This usage message
   <info><configFile></info>      Path to a config file for which to displa configuration.
                     It must return an array / ArrayObject.
-  <info><className></info>       Name of the class to reflect and for which to display
-                    dependency configuration.
+  <info><className></info>       Name of the class to reflect and for which to display dependency configuration.
 
-Reads the provided configuration file and displays dependency 
-configuration for the provided class name.
+Reads the provided configuration file and displays dependency configuration for the provided class name.
 EOH;
 
-    public function __construct(ConsoleHelper $helper = null)
+    /**
+     * @var ConfigReader
+     */
+    private $configReader;
+
+    public function __construct(ConsoleHelper $helper = null, ConfigReader $configReader = null)
     {
-        $this->helper = $helper ?: new ConsoleHelper();
+        parent::__construct($helper);
+        $this->configReader = $configReader ?: new ConfigReader($this->helper);
     }
 
     /**
@@ -60,8 +62,8 @@ EOH;
                 $this->help();
                 return 0;
             case self::COMMAND_ERROR:
-                fwrite(STDERR, $arguments->message);
-                $this->help(STDERR);
+                $this->helper->writeErrorLine($arguments->message);
+                $this->help();
                 return 1;
             case self::COMMAND_DUMP:
                 // fall-through
@@ -69,81 +71,29 @@ EOH;
                 break;
         }
 
-        $dumper = new ConfigReader();
-
         try {
-            $config = $dumper->displayDependencyConfig($arguments->config, $arguments->class);
+            $config = $this->configReader->readConfig($arguments->config, $arguments->class);
         } catch (InvalidArgumentException $e) {
             $this->helper->writeErrorMessage(
-                sprintf('Unable to create config for "%s": %s', $arguments->class, $e->getMessage())
+                sprintf('Unable to read config for "%s": %s', $arguments->class, $e->getMessage())
             );
-            $this->help(STDERR);
+            $this->help();
             return 1;
         }
 
-        fwrite(STDOUT, $dumper->displayConfigFile($config) . PHP_EOL);
+        $this->helper->write($this->configReader->dumpConfigFile($config) . PHP_EOL);
 
         return 0;
     }
 
-    private function parseArgs(array $args): \stdClass
+    protected function checkFile(string $configFile): ?\stdClass
     {
-        if (!count($args)) {
-            return $this->createHelpArgument();
-        }
-
-        $arg1 = array_shift($args);
-
-        if (in_array($arg1, ['-h', '--help', 'help'], true)) {
-            return $this->createHelpArgument();
-        }
-
-        if (!count($args)) {
-            return $this->createErrorArgument('Missing class name');
-        }
-
-        $configFile = $arg1;
-        switch (file_exists($configFile)) {
-            case true:
-                $config = require $configFile;
-
-                if ($config instanceof \Iterator) {
-                    $config = iterator_to_array($config);
-                } elseif ($config instanceof \IteratorAggregate) {
-                    $config = iterator_to_array($config->getIterator());
-                }
-
-                if (!is_array($config)) {
-                    return $this->createErrorArgument(sprintf(
-                        'Configuration at path "%s" does not return an array.',
-                        $configFile
-                    ));
-                }
-
-                break;
-            case false:
-                // fall-through
-            default:
-                if (!is_readable(dirname($configFile))) {
-                    return $this->createErrorArgument(sprintf(
-                        'Cannot read configuration at path "%s".',
-                        $configFile
-                    ));
-                }
-
-                $config = [];
-                break;
-        }
-
-        $class = array_shift($args);
-
-        if (!class_exists($class)) {
+        if (!is_readable(dirname($configFile))) {
             return $this->createErrorArgument(sprintf(
-                'Class "%s" does not exist or could not be autoloaded.',
-                $class
+                'Cannot read configuration at path "%s".',
+                $configFile
             ));
         }
-
-        return $this->createArguments(self::COMMAND_DUMP, $configFile, $config, $class);
+        return null;
     }
 }

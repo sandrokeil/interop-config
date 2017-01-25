@@ -50,26 +50,41 @@ class ConsoleHelper
     private $eol = PHP_EOL;
 
     /**
-     * @var resource Exists only for testing.
-     */
-    private $stderr = STDERR;
-
-    /**
      * @var bool
      */
     private $supportsColor;
 
     /**
-     * @param resource $resource
+     * @var resource Exists only for testing.
      */
-    public function __construct($resource = STDOUT)
+    private $errorStream = STDERR;
+
+    /**
+     * Input stream
+     *
+     * @var resource
+     */
+    private $inputStream;
+
+    /**
+     * Output stream
+     *
+     * @var resource
+     */
+    private $outputStream;
+
+    public function __construct($inputStream = STDIN, $outputStream = STDOUT, $errorStream = STDERR)
     {
-        $this->supportsColor = $this->detectColorCapabilities($resource);
+        $this->inputStream = $inputStream;
+        $this->outputStream = $outputStream;
+        $this->errorStream = $errorStream;
+        $this->supportsColor = $this->detectColorCapabilities($outputStream);
     }
 
     public function readLine(string $name, string $text = 'Please provide a value for'): string
     {
-        return readline($this->colorize(sprintf('%s <info>%s</info>: ', $text, $name)));
+        fwrite($this->outputStream, $this->colorize(sprintf('%s <info>%s</info>: ', $text, $name)));
+        return fread($this->inputStream, 1024);
     }
 
     /**
@@ -96,29 +111,43 @@ class ConsoleHelper
     /**
      * @param string $string
      * @param bool $colorize Whether or not to colorize the string
-     * @param resource $resource Defaults to STDOUT
      * @return void
      */
-    public function write(string $string, bool $colorize = true, $resource = STDOUT): void
+    public function write(string $string, bool $colorize = true): void
     {
         if ($colorize) {
             $string = $this->colorize($string);
         }
-
         $string = $this->formatNewlines($string);
 
-        fwrite($resource, $string);
+        fwrite($this->outputStream, $string);
     }
 
     /**
      * @param string $string
      * @param bool $colorize Whether or not to colorize the line
-     * @param resource $resource Defaults to STDOUT
      * @return void
      */
-    public function writeLine(string $string, bool $colorize = true, $resource = STDOUT): void
+    public function writeLine(string $string, bool $colorize = true): void
     {
-        $this->write($string . $this->eol, $colorize, $resource);
+        $this->write($string . $this->eol, $colorize);
+    }
+
+    /**
+     * @param string $string
+     * @param bool $colorize Whether or not to colorize the line
+     * @return void
+     */
+    public function writeErrorLine(string $string, bool $colorize = true): void
+    {
+        $string .= $this->eol;
+
+        if ($colorize) {
+            $string = $this->colorize($string);
+        }
+        $string = $this->formatNewlines($string);
+
+        fwrite($this->errorStream, $string);
     }
 
     /**
@@ -133,8 +162,8 @@ class ConsoleHelper
      */
     public function writeErrorMessage(string $message): void
     {
-        $this->writeLine(sprintf('<error>%s</error>', $message), true, $this->stderr);
-        $this->writeLine('', false, $this->stderr);
+        $this->writeErrorLine(sprintf('<error>%s</error>', $message), true);
+        $this->writeErrorLine('', false);
     }
 
     /**
@@ -150,7 +179,11 @@ class ConsoleHelper
                 || 'xterm' === getenv('TERM');
         }
 
-        return function_exists('posix_isatty') && posix_isatty($resource);
+        try {
+            return function_exists('posix_isatty') && posix_isatty($resource);
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 
     /**

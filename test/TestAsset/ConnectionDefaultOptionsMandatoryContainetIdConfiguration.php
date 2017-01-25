@@ -35,7 +35,7 @@ class ConnectionDefaultOptionsMandatoryContainetIdConfiguration implements Requi
         return [
             'params' => [
                 'host' => 'awesomehost',
-                'port' => '4444',
+                'port' => 4444,
             ],
         ];
     }

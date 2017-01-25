@@ -12,8 +12,9 @@ namespace Interop\Config\Tool;
 use Interop\Config\Exception\OptionNotFoundException;
 use Interop\Config\RequiresConfig;
 use Interop\Config\RequiresConfigId;
+use Interop\Config\Exception\InvalidArgumentException;
 
-class ConfigReader extends AbstractConfigDumper
+class ConfigReader extends AbstractConfig
 {
     const CONFIG_TEMPLATE = '%s;';
 
@@ -22,10 +23,8 @@ class ConfigReader extends AbstractConfigDumper
         $this->helper = $helper ?: new ConsoleHelper();
     }
 
-    public function displayDependencyConfig(array $config, $className)
+    public function readConfig(array $config, string $className)
     {
-        $this->validateClassName($className);
-
         $reflectionClass = new \ReflectionClass($className);
 
         // class is an interface; do nothing
@@ -50,7 +49,7 @@ class ConfigReader extends AbstractConfigDumper
         }
 
         if (in_array(RequiresConfigId::class, $interfaces, true)) {
-            $configId = $this->helper->readLine(implode(',', array_keys($config)), 'For which config id');
+            $configId = $this->helper->readLine(implode(', ', array_keys($config)), 'For which config id');
 
             if ('' !== $configId) {
                 return $config[$configId] ?? [];
@@ -58,5 +57,10 @@ class ConfigReader extends AbstractConfigDumper
         }
 
         return $config;
+    }
+
+    public function dumpConfigFile(iterable $config): string
+    {
+        return $this->prepareConfig($config);
     }
 }
