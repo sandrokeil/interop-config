@@ -12,7 +12,6 @@ namespace Interop\Config\Tool;
 use Interop\Config\Exception\OptionNotFoundException;
 use Interop\Config\RequiresConfig;
 use Interop\Config\RequiresConfigId;
-use Interop\Config\Exception\InvalidArgumentException;
 
 class ConfigReader extends AbstractConfig
 {
@@ -28,7 +27,7 @@ class ConfigReader extends AbstractConfig
         $this->helper = $helper ?: new ConsoleHelper();
     }
 
-    public function readConfig(array $config, string $className)
+    public function readConfig(array $config, string $className): array
     {
         $reflectionClass = new \ReflectionClass($className);
 
@@ -54,10 +53,17 @@ class ConfigReader extends AbstractConfig
         }
 
         if (in_array(RequiresConfigId::class, $interfaces, true)) {
-            $configId = $this->helper->readLine(implode(', ', array_keys($config)), 'For which config id');
+            while (true) {
+                $configId = $this->helper->readLine(implode(', ', array_keys($config)), 'For which config id');
 
-            if ('' !== $configId) {
-                return $config[$configId] ?? [];
+                if ('' !== $configId) {
+                    if (isset($config[$configId])) {
+                        return $config[$configId];
+                    }
+                    $this->helper->writeErrorMessage(sprintf('No config id with name "%s" exists.', $configId));
+                    continue;
+                }
+                break;
             }
         }
 
