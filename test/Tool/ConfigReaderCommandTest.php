@@ -104,12 +104,21 @@ EOF;
         self::assertSame($expectedOutput, TestAsset\TestStream::$data['output']);
     }
 
+    public function providerMultipleConfigIds()
+    {
+        return [
+            [self::CONFIG_FILE],
+            [__DIR__ . '/_files/iterator.php'],
+            [__DIR__ . '/_files/iterator_aggregate.php'],
+        ];
+    }
+
     /**
      * @test
+     * @dataProvider providerMultipleConfigIds
      */
-    public function itReadsConfigMultipleConfigIds()
+    public function itReadsConfigMultipleConfigIds($file)
     {
-
         $expectedOutput = <<<EOF
 For which config id orm_default, orm_second: [
     'orm_default' => [
@@ -134,8 +143,9 @@ For which config id orm_default, orm_second: [
 ]
 
 EOF;
+
         TestAsset\TestStream::$inputStack = [''];
-        $argv = [self::CONFIG_FILE, TestAsset\UniversalContainerIdConfiguration::class];
+        $argv = [$file, TestAsset\UniversalContainerIdConfiguration::class];
 
         $cut = new ConfigReaderCommand($this->consoleHelper, new ConfigReader($this->consoleHelper));
 

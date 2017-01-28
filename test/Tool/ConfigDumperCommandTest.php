@@ -145,6 +145,20 @@ class ConfigDumperCommandTest extends TestCase
     /**
      * @test
      */
+    public function itDisplaysErrorIfFileReturnsNoArray()
+    {
+        $argv = [__DIR__ . '/_files/no_array.php', 'UnknownClassName'];
+
+        $cut = new ConfigDumperCommand($this->consoleHelper, new ConfigDumper($this->consoleHelper));
+
+        $cut($argv);
+
+        self::assertStringStartsWith('Configuration at path', TestAsset\TestStream::$data['error']);
+    }
+
+    /**
+     * @test
+     */
     public function itDisplaysError()
     {
         $argv = ['wrong'];

@@ -80,7 +80,26 @@ EOH;
             return 1;
         }
 
-        file_put_contents($arguments->configFile, $this->configDumper->dumpConfigFile($config) . PHP_EOL);
+        $fileHeader = '';
+
+        if (file_exists($arguments->configFile)) {
+            foreach (token_get_all(file_get_contents($arguments->configFile)) as $token) {
+                if (is_array($token)) {
+                    if (isset($token[1]) && 'return' === $token[1]) {
+                        break;
+                    }
+                    $fileHeader .= $token[1];
+                    continue;
+                }
+                $fileHeader .= $token;
+            }
+        }
+
+        if (empty($fileHeader)) {
+            $fileHeader = ConfigDumper::CONFIG_TEMPLATE;
+        }
+
+        file_put_contents($arguments->configFile, $fileHeader . $this->configDumper->dumpConfigFile($config) . PHP_EOL);
 
         $this->helper->writeLine(sprintf('<info>[DONE]</info> Changes written to %s', $arguments->configFile));
         return 0;
