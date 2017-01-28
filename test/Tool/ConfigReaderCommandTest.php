@@ -154,7 +154,7 @@ EOF;
 
         $cut($argv);
 
-        self::assertStringStartsWith("\nUsage:", TestAsset\TestStream::$data['error']);
+        self::assertStringStartsWith('Usage:', TestAsset\TestStream::$data['error']);
     }
 
     /**
@@ -168,7 +168,7 @@ EOF;
 
         $cut($argv);
 
-        self::assertStringStartsWith("\nUsage:", TestAsset\TestStream::$data['error']);
+        self::assertStringStartsWith('Usage:', TestAsset\TestStream::$data['error']);
     }
 
     /**
@@ -182,7 +182,7 @@ EOF;
 
         $cut($argv);
 
-        self::assertStringStartsWith("Missing class name", TestAsset\TestStream::$data['error']);
+        self::assertStringStartsWith('Missing class name', TestAsset\TestStream::$data['error']);
     }
 
     /**
@@ -204,7 +204,7 @@ EOF;
      */
     public function itDisplaysErrorIfFileIsNotReadable()
     {
-        $argv = ['/unknown/place/config.phpp', 'UnknownClassName'];
+        $argv = ['/unknown/place/config.php', 'UnknownClassName'];
 
         $cut = new ConfigReaderCommand($this->consoleHelper, new ConfigReader($this->consoleHelper));
 

@@ -253,7 +253,7 @@ class ConfigDumperTest extends TestCase
 
         // @codingStandardsIgnoreStart
         $output = 'Please provide a value for config id or name: Please provide a value for driverClass: Please provide a value for params.host (awesomehost): Please provide a value for params.port (4444):';
-        $outputExistingConfig = 'Please provide a value for config id or name: Please provide a value for driverClass (Doctrine\DBAL\Driver\PDOMySql\Driver): Please provide a value for params.host = localhost (awesomehost): Please provide a value for params.port = 3306 (4444):';
+        $outputExistingConfig = 'Please provide a value for config id or name: Please provide a value for driverClass (Doctrine\DBAL\Driver\PDOMySql\Driver): Please provide a value for params.host (localhost), provided was awesomehost: Please provide a value for params.port (3306), provided was 4444:';
         // @codingStandardsIgnoreEnd
 
         // order is expected, config from file, input stack, output
@@ -343,7 +343,7 @@ class ConfigDumperTest extends TestCase
 
         // @codingStandardsIgnoreStart
         $output = 'Please provide a value for config id or name: Please provide a value for params.user: Please provide a value for params.dbname: Please provide a value for driverClass: Please provide a value for params.host (awesomehost): Please provide a value for params.port (4444):';
-        $outputExistingConfig = 'Please provide a value for config id or name: Please provide a value for params.user (username): Please provide a value for params.dbname (database): Please provide a value for driverClass (Doctrine\DBAL\Driver\PDOMySql\Driver): Please provide a value for params.host = localhost (awesomehost): Please provide a value for params.port (4444):';
+        $outputExistingConfig = 'Please provide a value for config id or name: Please provide a value for params.user (username): Please provide a value for params.dbname (database): Please provide a value for driverClass (Doctrine\DBAL\Driver\PDOMySql\Driver): Please provide a value for params.host (localhost), provided was awesomehost: Please provide a value for params.port (4444):';
         // @codingStandardsIgnoreEnd
 
         // order is expected, config from file, input stack, output

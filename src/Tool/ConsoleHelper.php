@@ -33,14 +33,17 @@ namespace Interop\Config\Tool;
 class ConsoleHelper
 {
     const COLOR_GREEN = "\033[32m";
+    const COLOR_YELLOW = "\033[33m";
     const COLOR_RED = "\033[31m";
     const COLOR_RESET = "\033[0m";
 
     const HIGHLIGHT_INFO = 'info';
+    const HIGHLIGHT_VALUE = 'value';
     const HIGHLIGHT_ERROR = 'error';
 
     private $highlightMap = [
-        self::HIGHLIGHT_INFO => self::COLOR_GREEN,
+        self::HIGHLIGHT_VALUE => self::COLOR_GREEN,
+        self::HIGHLIGHT_INFO => self::COLOR_YELLOW,
         self::HIGHLIGHT_ERROR => self::COLOR_RED,
     ];
 
@@ -84,7 +87,7 @@ class ConsoleHelper
     public function readLine(string $name, string $text = 'Please provide a value for'): string
     {
         fwrite($this->outputStream, $this->colorize(sprintf('%s <info>%s</info>: ', $text, $name)));
-        return fread($this->inputStream, 1024);
+        return trim(fread($this->inputStream, 1024), "\n");
     }
 
     /**

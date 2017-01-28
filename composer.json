@@ -60,6 +60,9 @@
       "dev-develop": "2.2-dev"
     }
   },
+  "bin": [
+    "bin/interop-config"
+  ],
   "scripts": {
     "check": [
       "@cs",

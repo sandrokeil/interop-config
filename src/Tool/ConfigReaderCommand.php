@@ -22,21 +22,21 @@ class ConfigReaderCommand extends AbstractCommand
 {
     const COMMAND_CLI_NAME = 'display-config';
 
+    // @codingStandardsIgnoreStart
     const HELP_TEMPLATE = <<< EOH
-
 <info>Usage:</info>
-
-  %s [-h|--help|help] <configFile> <className>
+  %s  [options] [<configFile>] [<className>]
+  
+<info>Options:</info>
+  <value>-h, --help, help</value>       Display this help message
 
 <info>Arguments:</info>
+  <value>configFile</value>             Path to a config file for which to display options. It must return an array / ArrayObject.
+  <value>className</value>              Name of the class to reflect and for which to display options.
 
-  <info>-h|--help|help</info>    This usage message
-  <info><configFile></info>      Path to a config file for which to displa configuration.
-                    It must return an array / ArrayObject.
-  <info><className></info>       Name of the class to reflect and for which to display dependency configuration.
-
-Reads the provided configuration file and displays dependency configuration for the provided class name.
+Reads the provided configuration file and displays options for the provided class name.
 EOH;
+    // @codingStandardsIgnoreEnd
 
     /**
      * @var ConfigReader

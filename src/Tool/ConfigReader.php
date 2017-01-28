@@ -18,6 +18,11 @@ class ConfigReader extends AbstractConfig
 {
     const CONFIG_TEMPLATE = '%s;';
 
+    /**
+     * @var ConsoleHelper
+     */
+    private $helper;
+
     public function __construct(ConsoleHelper $helper = null)
     {
         $this->helper = $helper ?: new ConsoleHelper();

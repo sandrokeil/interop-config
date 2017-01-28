@@ -147,7 +147,7 @@ EOC;
                 continue;
             }
             $previousValue = isset($config[$key])
-                ? ' = ' . $config[$key] . ' (' . $defaultOption . ')'
+                ? ' (' . $config[$key] . '), provided was <value>' . $defaultOption . '</value>'
                 : ' (' . $defaultOption . ')';
 
             $options[$key] = $this->helper->readLine(trim($path . '.' . $key, '.') . $previousValue);

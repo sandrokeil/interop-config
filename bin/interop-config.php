@@ -28,16 +28,15 @@ $argv = array_slice($argv, 1);
 $command = array_shift($argv);
 
 $help = <<<EOF
-Usage:
+<info>Usage:</info>
   command [options] [arguments]
 
-Options:
-  -h, --help            Display this help message
+<info>Options:</info>
+  <value>-h, --help, help</value>          Display this help message
 
-Available commands:
-  help                      Displays help for a command
-  display-config            Displays dependency configuration for the provided class name
-  generate-config           Generates dependency configuration for the provided class name
+<info>Available commands:</info>
+  <value>generate-config</value>           Generates options for the provided class name
+  <value>display-config</value>            Displays current options for the provided class name
 EOF;
 
 
@@ -50,9 +49,15 @@ switch ($command) {
         $command = new Tool\ConfigDumperCommand();
         $status = $command($argv);
         exit($status);
+    case '-h':
+    case '--help':
+    case 'help':
+        $consoleHelper = new ConsoleHelper();
+        $consoleHelper->writeLine($help);
+        exit(0);
     default:
         $consoleHelper = new ConsoleHelper();
-        $consoleHelper->writeErrorMessage($help);
+        $consoleHelper->writeErrorMessage(strip_tags($help));
         exit(1);
 }
 

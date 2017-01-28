@@ -97,7 +97,7 @@ class ConfigDumperCommandTest extends TestCase
 
         $cut($argv);
 
-        self::assertStringStartsWith("\nUsage:", TestAsset\TestStream::$data['error']);
+        self::assertStringStartsWith('Usage:', TestAsset\TestStream::$data['error']);
     }
 
     /**
@@ -111,7 +111,7 @@ class ConfigDumperCommandTest extends TestCase
 
         $cut($argv);
 
-        self::assertStringStartsWith("\nUsage:", TestAsset\TestStream::$data['error']);
+        self::assertStringStartsWith('Usage:', TestAsset\TestStream::$data['error']);
     }
 
     /**
@@ -133,7 +133,7 @@ class ConfigDumperCommandTest extends TestCase
      */
     public function itDisplaysErrorIfFileIsNotWriteable()
     {
-        $argv = ['/unknown/place/config.phpp', 'UnknownClassName'];
+        $argv = ['/unknown/place/config.php', 'UnknownClassName'];
 
         $cut = new ConfigDumperCommand($this->consoleHelper, new ConfigDumper($this->consoleHelper));
 
@@ -153,6 +153,6 @@ class ConfigDumperCommandTest extends TestCase
 
         $cut($argv);
 
-        self::assertStringStartsWith("Missing class name", TestAsset\TestStream::$data['error']);
+        self::assertStringStartsWith('Missing class name', TestAsset\TestStream::$data['error']);
     }
 }

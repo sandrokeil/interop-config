@@ -23,21 +23,18 @@ class ConfigDumperCommand extends AbstractCommand
     const COMMAND_CLI_NAME = 'generate-config';
 
     const HELP_TEMPLATE = <<< EOH
-
 <info>Usage:</info>
+  %s  [options] [<configFile>] [<className>]
 
-  %s [-h|--help|help] <configFile> <className>
+<info>Options:</info>
+  <value>-h, --help, help</value>       Display this help message
 
 <info>Arguments:</info>
+  <value>configFile</value>             Path to a config file or php://stdout for which to generate options.
+  <value>className</value>              Name of the class to reflect and for which to generate options.
 
-  <info>-h|--help|help</info>    This usage message
-  <info><configFile></info>      Path to a config file or php://stdout for which to generate configuration.
-                    If the file does not exist, it will be created. If it does exist, it must return an 
-                    array, and the file will be updated with new configuration.
-  <info><className></info>       Name of the class to reflect and for which to generate dependency configuration.
-
-Reads the provided configuration file (creating it if it does not exist), and injects it with config dependency 
-configuration for the provided class name, writing the changes back to the file.
+Reads the provided configuration file (creating it if it does not exist), and injects it with options for the provided 
+class name, writing the changes back to the file.
 EOH;
 
     /**
