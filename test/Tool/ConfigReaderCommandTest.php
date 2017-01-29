@@ -214,13 +214,30 @@ EOF;
      */
     public function itDisplaysErrorIfFileIsNotReadable()
     {
-        $argv = ['/unknown/place/config.php', 'UnknownClassName'];
+        $argv = ['/unknown/place/config.php', TestAsset\UniversalContainerIdConfiguration::class];
 
         $cut = new ConfigReaderCommand($this->consoleHelper, new ConfigReader($this->consoleHelper));
 
         $cut($argv);
 
         self::assertStringStartsWith('Cannot read configuration', TestAsset\TestStream::$data['error']);
+    }
+
+    /**
+     * @test
+     */
+    public function itDisplaysErrorIfClassDoesNotImplementRequiresConfig()
+    {
+        $argv = [self::CONFIG_FILE, TestAsset\TestStream::class];
+
+        $cut = new ConfigReaderCommand($this->consoleHelper, new ConfigReader($this->consoleHelper));
+
+        $cut($argv);
+
+        self::assertStringStartsWith(
+            'Class "InteropTest\Config\TestAsset\TestStream" does not implement',
+            TestAsset\TestStream::$data['error']
+        );
     }
 
     /**

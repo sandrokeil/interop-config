@@ -31,11 +31,6 @@ class ConfigReader extends AbstractConfig
     {
         $reflectionClass = new \ReflectionClass($className);
 
-        // class is an interface; do nothing
-        if ($reflectionClass->isInterface()) {
-            return $config;
-        }
-
         $interfaces = $reflectionClass->getInterfaceNames();
 
         $factory = $reflectionClass->newInstanceWithoutConstructor();

@@ -9,6 +9,8 @@
 
 namespace Interop\Config\Tool;
 
+use Interop\Config\RequiresConfig;
+
 abstract class AbstractCommand
 {
     const COMMAND_DUMP = 'dump';
@@ -76,7 +78,23 @@ abstract class AbstractCommand
         }
 
         if (!count($args)) {
-            return $this->createErrorArgument('Missing class name');
+            return $this->createErrorArgument('<error>Missing class name</error>');
+        }
+
+        $class = array_shift($args);
+
+        if (!class_exists($class)) {
+            return $this->createErrorArgument(
+                sprintf('<error>Class "%s" does not exist or could not be autoloaded.</error>', $class)
+            );
+        }
+
+        $reflectionClass = new \ReflectionClass($class);
+
+        if (!in_array(RequiresConfig::class, $reflectionClass->getInterfaceNames(), true)) {
+            return $this->createErrorArgument(
+                sprintf('<error>Class "%s" does not implement "%s".</error>', $class, RequiresConfig::class)
+            );
         }
 
         $configFile = $arg1;
@@ -91,10 +109,9 @@ abstract class AbstractCommand
                 }
 
                 if (!is_array($config)) {
-                    return $this->createErrorArgument(sprintf(
-                        'Configuration at path "%s" does not return an array.',
-                        $configFile
-                    ));
+                    return $this->createErrorArgument(
+                        sprintf('<error>Configuration at path "%s" does not return an array.</error>', $configFile)
+                    );
                 }
 
                 break;
@@ -107,12 +124,6 @@ abstract class AbstractCommand
 
                 $config = [];
                 break;
-        }
-
-        $class = array_shift($args);
-
-        if (!class_exists($class)) {
-            return $this->createErrorArgument(sprintf('Class "%s" does not exist or could not be autoloaded.', $class));
         }
 
         return $this->createArguments(self::COMMAND_DUMP, $configFile, $config, $class);

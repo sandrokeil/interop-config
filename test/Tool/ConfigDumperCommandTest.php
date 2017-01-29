@@ -133,7 +133,7 @@ class ConfigDumperCommandTest extends TestCase
      */
     public function itDisplaysErrorIfFileIsNotWriteable()
     {
-        $argv = ['/unknown/place/config.php', 'UnknownClassName'];
+        $argv = ['/unknown/place/config.php', TestAsset\ConnectionConfiguration::class];
 
         $cut = new ConfigDumperCommand($this->consoleHelper, new ConfigDumper($this->consoleHelper));
 
@@ -147,13 +147,30 @@ class ConfigDumperCommandTest extends TestCase
      */
     public function itDisplaysErrorIfFileReturnsNoArray()
     {
-        $argv = [__DIR__ . '/_files/no_array.php', 'UnknownClassName'];
+        $argv = [__DIR__ . '/_files/no_array.php', TestAsset\ConnectionConfiguration::class];
 
         $cut = new ConfigDumperCommand($this->consoleHelper, new ConfigDumper($this->consoleHelper));
 
         $cut($argv);
 
         self::assertStringStartsWith('Configuration at path', TestAsset\TestStream::$data['error']);
+    }
+
+    /**
+     * @test
+     */
+    public function itDisplaysErrorIfClassDoesNotImplementRequiresConfig()
+    {
+        $argv = [self::CONFIG_FILE, TestAsset\TestStream::class];
+
+        $cut = new ConfigDumperCommand($this->consoleHelper, new ConfigDumper($this->consoleHelper));
+
+        $cut($argv);
+
+        self::assertStringStartsWith(
+            'Class "InteropTest\Config\TestAsset\TestStream" does not implement',
+            TestAsset\TestStream::$data['error']
+        );
     }
 
     /**
