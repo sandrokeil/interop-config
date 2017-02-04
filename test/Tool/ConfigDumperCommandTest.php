@@ -13,7 +13,7 @@ use Interop\Config\Tool\ConfigDumper;
 use Interop\Config\Tool\ConfigDumperCommand;
 use Interop\Config\Tool\ConsoleHelper;
 use InteropTest\Config\TestAsset;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Interop\Config\Tool\AbstractCommand

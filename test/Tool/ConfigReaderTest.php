@@ -12,7 +12,7 @@ namespace InteropTest\Config\Tool;
 use Interop\Config\Tool\ConfigReader;
 use Interop\Config\Tool\ConsoleHelper;
 use InteropTest\Config\TestAsset;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Interop\Config\Tool\AbstractConfig

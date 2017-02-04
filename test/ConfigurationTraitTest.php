@@ -28,7 +28,7 @@ use InteropTest\Config\TestAsset\PackageDefaultAndMandatoryOptionsConfiguration;
 use InteropTest\Config\TestAsset\PackageDefaultOptionsConfiguration;
 use InteropTest\Config\TestAsset\PlainConfiguration;
 use InteropTest\Config\TestAsset\UniversalContainerIdConfiguration;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * ConfigurationTraitTest
