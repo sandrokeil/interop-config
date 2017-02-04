@@ -71,15 +71,7 @@ EOH;
                 break;
         }
 
-        try {
-            $config = $this->configReader->readConfig($arguments->config, $arguments->class);
-        } catch (InvalidArgumentException $e) {
-            $this->helper->writeErrorMessage(
-                sprintf('Unable to read config for "%s": %s', $arguments->class, $e->getMessage())
-            );
-            $this->help();
-            return 1;
-        }
+        $config = $this->configReader->readConfig($arguments->config, $arguments->class);
 
         $this->helper->write($this->configReader->dumpConfigFile($config) . PHP_EOL);
 

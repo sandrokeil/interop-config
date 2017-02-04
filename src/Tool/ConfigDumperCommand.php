@@ -70,15 +70,7 @@ EOH;
                 break;
         }
 
-        try {
-            $config = $this->configDumper->createConfig($arguments->config, $arguments->class);
-        } catch (InvalidArgumentException $e) {
-            $this->helper->writeErrorMessage(
-                sprintf('Unable to create config for "%s": %s', $arguments->class, $e->getMessage())
-            );
-            $this->help();
-            return 1;
-        }
+        $config = $this->configDumper->createConfig($arguments->config, $arguments->class);
 
         $fileHeader = '';
 

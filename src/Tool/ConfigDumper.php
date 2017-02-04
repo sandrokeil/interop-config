@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Interop\Config\Tool;
 
-use Interop\Config\Exception\InvalidArgumentException;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\RequiresConfig;
 use Interop\Config\RequiresConfigId;
@@ -48,7 +47,6 @@ EOC;
      * @param array $config
      * @param string $className
      * @return array
-     * @throws InvalidArgumentException for invalid $className
      */
     public function createConfig(array $config, string $className): array
     {

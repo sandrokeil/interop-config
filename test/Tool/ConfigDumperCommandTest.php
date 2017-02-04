@@ -89,6 +89,51 @@ class ConfigDumperCommandTest extends TestCase
     /**
      * @test
      */
+    public function itWritesConfigToExistingFile()
+    {
+        $testConfig = <<<EOF
+<?php
+/**
+ * Sandro Keil (https://sandro-keil.de)
+ *
+ * @link      http://github.com/sandrokeil/interop-config for the canonical source repository
+ * @copyright Copyright (c) 2017-2017 Sandro Keil
+ * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
+ */
+
+use Interop\Config\RequiresConfig;
+
+// my comment
+return [
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'driverClass' => \PDO::class,
+                'params' => [
+                    'host' => 'localhost',
+                    'port' => 3306,
+                ],
+            ],
+        ],
+    ],
+];
+
+EOF;
+
+        file_put_contents(self::CONFIG_FILE, $testConfig);
+
+        $argv = [self::CONFIG_FILE, TestAsset\ConnectionConfiguration::class];
+
+        $cut = new ConfigDumperCommand($this->consoleHelper, new ConfigDumper());
+
+        $cut($argv);
+        self::assertSame($testConfig, file_get_contents(self::CONFIG_FILE));
+        unlink(self::CONFIG_FILE);
+    }
+
+    /**
+     * @test
+     */
     public function itDisplaysHelp()
     {
         $argv = ['help'];

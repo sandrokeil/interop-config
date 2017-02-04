@@ -9,6 +9,7 @@
 
 namespace InteropTest\Config\Tool;
 
+use Interop\Config\Exception\OptionNotFoundException;
 use Interop\Config\Tool\ConfigReader;
 use Interop\Config\Tool\ConsoleHelper;
 use InteropTest\Config\TestAsset;
@@ -88,14 +89,18 @@ class ConfigReaderTest extends TestCase
      */
     public function itDisplaysConfigFromFactoryByConfigId()
     {
-        TestAsset\TestStream::$inputStack = ['orm_default'];
+        TestAsset\TestStream::$inputStack = ['unknown', 'orm_default'];
         $cut = new ConfigReader($this->consoleHelper);
 
         $fullConfig = $this->getTestConfig();
 
         $config = $cut->readConfig($fullConfig, TestAsset\UniversalContainerIdConfiguration::class);
 
-        self::assertSame('For which config id orm_default, orm_second:', trim(TestAsset\TestStream::$data['output']));
+        self::assertSame('No config id with name "unknown" exists.', trim(TestAsset\TestStream::$data['error']));
+        self::assertSame(
+            'For which config id orm_default, orm_second: For which config id orm_default, orm_second:',
+            trim(TestAsset\TestStream::$data['output'])
+        );
         self::assertSame($fullConfig['doctrine']['universal']['orm_default'], $config);
     }
 
@@ -113,6 +118,18 @@ class ConfigReaderTest extends TestCase
 
         self::assertSame('For which config id orm_default, orm_second:', trim(TestAsset\TestStream::$data['output']));
         self::assertSame($fullConfig['doctrine']['universal'], $config);
+    }
+
+    /**
+     * @test
+     */
+    public function itThrowsOptionNotFoundException()
+    {
+        $cut = new ConfigReader($this->consoleHelper);
+
+        $this->expectException(OptionNotFoundException::class);
+
+        $cut->readConfig([], TestAsset\ConnectionConfiguration::class);
     }
 
     /**
