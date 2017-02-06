@@ -64,11 +64,12 @@ EOC;
         }
 
         if (in_array(RequiresConfigId::class, $interfaces, true)) {
-            while (true) {
-                $configId = $this->helper->readLine('config id or name');
-                if ('' !== $configId) {
-                    break;
-                }
+            $configId = $this->helper->readLine(
+                'config id (default)',
+                'Multiple instances are supported, please enter a'
+            );
+            if ('' === $configId) {
+                $configId = 'default';
             }
             $dimensions[] = $configId;
         }
@@ -140,7 +141,7 @@ EOC;
                 continue;
             }
             $previousValue = isset($config[$key])
-                ? ' (' . $config[$key] . '), provided was <value>' . $defaultOption . '</value>'
+                ? ' (' . $config[$key] . '), current value <value>' . $defaultOption . '</value>'
                 : ' (' . $defaultOption . ')';
 
             $options[$key] = $this->helper->readLine(trim($path . '.' . $key, '.') . $previousValue);

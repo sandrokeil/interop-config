@@ -1,7 +1,7 @@
 # Console Tools
 Starting in 2.1.0, interop-config began shipping with console tools.
 
-To get an overview of available commands run `./vendor/bin/interop-config help`. This displays the following help message.
+To get an overview of available commands run in your CLI `./vendor/bin/interop-config help`. This displays the following help message.
 
 ```bash
 Usage:

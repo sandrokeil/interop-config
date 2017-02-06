@@ -128,7 +128,7 @@ class ConfigDumperTest extends TestCase
         $config = $cut->createConfig($configFromFile, TestAsset\ConnectionContainerIdConfiguration::class);
 
         self::assertSame(
-            'Please provide a value for config id or name:',
+            'Multiple instances are supported, please enter a config id (default):',
             trim(TestAsset\TestStream::$data['output'])
         );
         self::assertSame($expected, $config);
@@ -136,17 +136,18 @@ class ConfigDumperTest extends TestCase
 
     /**
      * @test
-     * @dataProvider providerConfigId
      */
-    public function itDumpsConfigFromFactoryByConfigIdInfinite($expected, $configFromFile)
+    public function itDumpsConfigFromFactoryByConfigIdWithDefault()
     {
-        TestAsset\TestStream::$inputStack = ['', '', '', 'orm_default'];
+        TestAsset\TestStream::$inputStack = [''];
         $cut = new ConfigDumper($this->consoleHelper);
 
-        $config = $cut->createConfig($configFromFile, TestAsset\ConnectionContainerIdConfiguration::class);
+        $expected =  ['doctrine' => ['connection' => ['default' => []]]];
+
+        $config = $cut->createConfig([], TestAsset\ConnectionContainerIdConfiguration::class);
 
         self::assertSame(
-            trim(str_repeat('Please provide a value for config id or name: ', 4)),
+            trim('Multiple instances are supported, please enter a config id (default):'),
             trim(TestAsset\TestStream::$data['output'])
         );
         self::assertSame($expected, $config);
@@ -167,8 +168,8 @@ class ConfigDumperTest extends TestCase
             ],
         ];
 
-        $output = 'Please provide a value for params.host (awesomehost): '
-            . 'Please provide a value for params.port (4444):';
+        $output = 'Please enter a value for params.host (awesomehost): '
+            . 'Please enter a value for params.port (4444):';
 
         // order is expected, config from file, input stack, output
         return [
@@ -252,8 +253,8 @@ class ConfigDumperTest extends TestCase
         ];
 
         // @codingStandardsIgnoreStart
-        $output = 'Please provide a value for config id or name: Please provide a value for driverClass: Please provide a value for params.host (awesomehost): Please provide a value for params.port (4444):';
-        $outputExistingConfig = 'Please provide a value for config id or name: Please provide a value for driverClass (Doctrine\DBAL\Driver\PDOMySql\Driver): Please provide a value for params.host (localhost), provided was awesomehost: Please provide a value for params.port (3306), provided was 4444:';
+        $output = 'Multiple instances are supported, please enter a config id (default): Please enter a value for driverClass: Please enter a value for params.host (awesomehost): Please enter a value for params.port (4444):';
+        $outputExistingConfig = 'Multiple instances are supported, please enter a config id (default): Please enter a value for driverClass (Doctrine\DBAL\Driver\PDOMySql\Driver): Please enter a value for params.host (localhost), current value awesomehost: Please enter a value for params.port (3306), current value 4444:';
         // @codingStandardsIgnoreEnd
 
         // order is expected, config from file, input stack, output
@@ -342,8 +343,8 @@ class ConfigDumperTest extends TestCase
         );
 
         // @codingStandardsIgnoreStart
-        $output = 'Please provide a value for config id or name: Please provide a value for params.user: Please provide a value for params.dbname: Please provide a value for driverClass: Please provide a value for params.host (awesomehost): Please provide a value for params.port (4444):';
-        $outputExistingConfig = 'Please provide a value for config id or name: Please provide a value for params.user (username): Please provide a value for params.dbname (database): Please provide a value for driverClass (Doctrine\DBAL\Driver\PDOMySql\Driver): Please provide a value for params.host (localhost), provided was awesomehost: Please provide a value for params.port (4444):';
+        $output = 'Multiple instances are supported, please enter a config id (default): Please enter a value for params.user: Please enter a value for params.dbname: Please enter a value for driverClass: Please enter a value for params.host (awesomehost): Please enter a value for params.port (4444):';
+        $outputExistingConfig = 'Multiple instances are supported, please enter a config id (default): Please enter a value for params.user (username): Please enter a value for params.dbname (database): Please enter a value for driverClass (Doctrine\DBAL\Driver\PDOMySql\Driver): Please enter a value for params.host (localhost), current value awesomehost: Please enter a value for params.port (4444):';
         // @codingStandardsIgnoreEnd
 
         // order is expected, config from file, input stack, output

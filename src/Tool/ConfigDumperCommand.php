@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace Interop\Config\Tool;
 
-use Interop\Config\Exception\InvalidArgumentException;
-
 /**
  * Command to dump a configuration from a factory class
  *
@@ -93,7 +91,7 @@ EOH;
 
         file_put_contents($arguments->configFile, $fileHeader . $this->configDumper->dumpConfigFile($config) . PHP_EOL);
 
-        $this->helper->writeLine(sprintf('<info>[DONE]</info> Changes written to %s', $arguments->configFile));
+        $this->helper->writeLine(sprintf('<value>[DONE]</value> Changes written to %s', $arguments->configFile));
         return 0;
     }
 
