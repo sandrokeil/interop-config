@@ -39,26 +39,30 @@ $help = <<<EOF
   <value>display-config</value>            Displays current options for the provided class name
 EOF;
 
-
-switch ($command) {
-    case 'display-config':
-        $command = new Tool\ConfigReaderCommand();
-        $status = $command($argv);
-        exit($status);
-    case 'generate-config':
-        $command = new Tool\ConfigDumperCommand();
-        $status = $command($argv);
-        exit($status);
-    case '-h':
-    case '--help':
-    case 'help':
-        $consoleHelper = new ConsoleHelper();
-        $consoleHelper->writeLine($help);
-        exit(0);
-    default:
-        $consoleHelper = new ConsoleHelper();
-        $consoleHelper->writeErrorMessage(strip_tags($help));
-        exit(1);
+try {
+    switch ($command) {
+        case 'display-config':
+            $command = new Tool\ConfigReaderCommand();
+            $status = $command($argv);
+            exit($status);
+        case 'generate-config':
+            $command = new Tool\ConfigDumperCommand();
+            $status = $command($argv);
+            exit($status);
+        case '-h':
+        case '--help':
+        case 'help':
+            $consoleHelper = new ConsoleHelper();
+            $consoleHelper->writeLine($help);
+            exit(0);
+        default:
+            $consoleHelper = new ConsoleHelper();
+            $consoleHelper->writeErrorMessage(strip_tags($help));
+            exit(1);
+    }
+} catch (\Throwable $e) {
+    $consoleHelper = new ConsoleHelper();
+    $consoleHelper->writeErrorMessage($e->getMessage());
+    $consoleHelper->writeLine($help);
+    exit(1);
 }
-
-
