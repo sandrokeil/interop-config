@@ -7,6 +7,7 @@
   ],
   "target": "./html",
   "tocDepth": 2,
+  "numbering": false,
   "template": "../vendor/tobiju/bookdown-bootswatch-templates/templates/main.php",
   "copyright": "Visit interop-config on <a href=\"https://github.com/sandrokeil/interop-config\" title=\"interop-config on GitHub\">GitHub</a><br/>Copyright (c) 2015-2016 <a href=\"https://sandro-keil.de/\" title=\"I write about topics, advices and trends of web development\">Sandro Keil</a> <br/> Powered by <a href=\"https://github.com/tobiju/bookdown-bootswatch-templates\" title=\"Visit project to generate your own docs\">Bookdown Bootswatch Templates</a>"
 }
