@@ -7,9 +7,9 @@
 <meta name="HandheldFriendly" content="True"/>
 <title>Using GIT</title>
     <link rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
+      href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/yeti/bootstrap.min.css">
 <link rel="stylesheet"
-      href="https://tobiju.github.io/share/prismjs/prism-ghcolors.css"/>
+      href="https://tobiju.github.io/share/prismjs/prism-okaidia.css"/>
 <link rel="stylesheet"
       href="https://tobiju.github.io/share/prismjs/prism-linenumbers.css"/>
 <style>
@@ -346,7 +346,7 @@
     }
 </style>
 </head>
-    <body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-cerulean">
+    <body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-yeti">
 <div class="page-wrapper">
     <header>
     
@@ -406,6 +406,10 @@
     </li>
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/reference/tutorial.html">Tutorial</a>
+
+    </li>
+                        <li>
+    <a href="https://sandrokeil.github.io/interop-config/reference/console-tools.html">Console Tools</a>
 
     </li>
             </ul>
@@ -469,8 +473,8 @@
 </nav>
         </div>
                 <div class="col-md-9">
-<div id="section-main"><h1 id="3-2">3.2. Using GIT</h1>
-<h2 id="3-2-1">3.2.1. Setup your own public GitHub repository</h2>
+<div id="section-main"><h1 id="3-2">Using GIT</h1>
+<h2 id="3-2-1">Setup your own public GitHub repository</h2>
 <p>Your first step is to establish a public repository from which you can pull your work into the master repository.</p>
 <ol>
 <li>
@@ -492,7 +496,7 @@ $ git fetch upstream
 </code></pre>
 </li>
 </ol>
-<h2 id="3-2-2">3.2.2. Keeping Up-to-Date</h2>
+<h2 id="3-2-2">Keeping Up-to-Date</h2>
 <p>Periodically, you should update your fork to match the canonical <code>interop-config</code> repository. we have
 added a remote to the <code>interop-config</code> repository, which allows you to do the following:</p>
 <pre><code class="language-sh">$ git checkout master
@@ -502,7 +506,7 @@ $ git push origin
 </code></pre>
 <p>If you're tracking other branches -- for example, the <em>develop</em> branch, where new feature development occurs --
 you'll want to do the same operations for that branch; simply substitute  "develop" for "master".</p>
-<h2 id="3-2-3">3.2.3. Working on interop-config</h2>
+<h2 id="3-2-3">Working on interop-config</h2>
 <p>When working on <code>interop-config</code>, we recommend you do each new feature or bugfix in a new branch. This simplifies the
 task of code review as well as of merging your changes into the canonical repository.</p>
 <p>A typical work flow will then consist of the following:</p>
@@ -532,14 +536,14 @@ To ssh://git@github.com/sandrokeil/interop-config.git
 </code></pre>
 <p>You can do the pull request from GitHub. Navigate to your repository, select the branch you just created, and then
 select the "Pull Request" button in the upper right. Select the user <em>sandrokeil</em> as the recipient.</p>
-<h3 id="3-2-3-1">3.2.3.1. Branch to issue the pull request</h3>
+<h3 id="3-2-3-1">Branch to issue the pull request</h3>
 <p>Which branch should you issue a pull request against?</p>
 <ul>
 <li>For fixes against the stable release, issue the pull request against the <em>master</em> branch.</li>
 <li>For new features, or fixes that introduce new elements to the public API
 (such as new public methods or properties), issue the pull request against the <em>develop</em> branch.</li>
 </ul>
-<h2 id="3-2-4">3.2.4. Branch Cleanup</h2>
+<h2 id="3-2-4">Branch Cleanup</h2>
 <p>As you might imagine, if you are a frequent contributor, you'll start to get a ton of branches both locally and on
 your remote.</p>
 <p>Once you know that your changes have been accepted to the master repository, we suggest doing some cleanup of these
@@ -556,7 +560,7 @@ branches.</p>
 </code></pre>
 </li>
 </ul>
-<h2 id="3-2-5">3.2.5. Feed and emails</h2>
+<h2 id="3-2-5">Feed and emails</h2>
 <p>RSS feeds may be found at:</p>
 <p><code>https://github.com/sandrokeil/interop-config/commits/&lt;branch&gt;.atom</code></p>
 <p>where &lt;branch&gt; is a branch in the repository.</p>
@@ -580,7 +584,7 @@ branches.</p>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
+                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2017 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>

@@ -7,9 +7,9 @@
 <meta name="HandheldFriendly" content="True"/>
 <title>Overview</title>
     <link rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
+      href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/yeti/bootstrap.min.css">
 <link rel="stylesheet"
-      href="https://tobiju.github.io/share/prismjs/prism-ghcolors.css"/>
+      href="https://tobiju.github.io/share/prismjs/prism-okaidia.css"/>
 <link rel="stylesheet"
       href="https://tobiju.github.io/share/prismjs/prism-linenumbers.css"/>
 <style>
@@ -346,7 +346,7 @@
     }
 </style>
 </head>
-    <body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-cerulean">
+    <body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-yeti">
 <div class="page-wrapper">
     <header>
     
@@ -408,6 +408,10 @@
     <a href="https://sandrokeil.github.io/interop-config/reference/tutorial.html">Tutorial</a>
 
     </li>
+                        <li>
+    <a href="https://sandrokeil.github.io/interop-config/reference/console-tools.html">Console Tools</a>
+
+    </li>
             </ul>
 
     </li>
@@ -460,7 +464,7 @@
 </nav>
         </div>
                 <div class="col-md-9">
-<div id="section-main"><h1 id="1-1">1.1. Overview</h1>
+<div id="section-main"><h1 id="1-1">Overview</h1>
 <blockquote>
 <p>You want to configure your factories?</p>
 </blockquote>
@@ -504,13 +508,13 @@ configuration files.</p>
 </ul>
 <p>You should have coding conventions and you should have config conventions. If not, you should think about that.
 <code>interop-config</code> is universally applicable! See further documentation for more details.</p>
-<h2 id="1-1-1">1.1.1. Installation</h2>
+<h2 id="1-1-1">Installation</h2>
 <p>The suggested installation method is via composer. For composer documentation, please refer to
 <a href="http://getcomposer.org/">getcomposer.org</a>.</p>
 <p>Run <code>composer require sandrokeil/interop-config</code> to install interop-config.</p>
-<p>It is recommended to use <a href="https://github.com/container-interop/container-interop">container-interop</a> to retrieve the
+<p>It is recommended to use <a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md">psr-11</a> to retrieve the
 configuration in your factories.</p>
-<h2 id="1-1-2">1.1.2. Config Structure</h2>
+<h2 id="1-1-2">Config Structure</h2>
 <blockquote>
 <p>The following example is a common practice for libraries. You are free to use another config structure. See examples.</p>
 </blockquote>
@@ -544,12 +548,12 @@ instance options follow. The following example uses <code>ConfigurationTrait</co
 options from a configuration. <code>RequiresConfigId</code> interface ensures support for more than one instance.</p>
 <blockquote>
 <p>Note that the configuration above is injected as <code>$config</code> in <code>options()</code> and
-<a href="https://github.com/container-interop/container-interop">container-interop</a> is used to retrieve the application configuration.</p>
+<a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md">psr-11</a> is used to retrieve the application configuration.</p>
 </blockquote>
 <pre><code class="language-php">use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
@@ -610,7 +614,7 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
+                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2017 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>

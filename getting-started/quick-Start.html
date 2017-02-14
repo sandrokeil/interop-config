@@ -7,9 +7,9 @@
 <meta name="HandheldFriendly" content="True"/>
 <title>Quick Start</title>
     <link rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
+      href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/yeti/bootstrap.min.css">
 <link rel="stylesheet"
-      href="https://tobiju.github.io/share/prismjs/prism-ghcolors.css"/>
+      href="https://tobiju.github.io/share/prismjs/prism-okaidia.css"/>
 <link rel="stylesheet"
       href="https://tobiju.github.io/share/prismjs/prism-linenumbers.css"/>
 <style>
@@ -346,7 +346,7 @@
     }
 </style>
 </head>
-    <body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-cerulean">
+    <body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-yeti">
 <div class="page-wrapper">
     <header>
     
@@ -406,6 +406,10 @@
     </li>
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/reference/tutorial.html">Tutorial</a>
+
+    </li>
+                        <li>
+    <a href="https://sandrokeil.github.io/interop-config/reference/console-tools.html">Console Tools</a>
 
     </li>
             </ul>
@@ -472,9 +476,9 @@
 </nav>
         </div>
                 <div class="col-md-9">
-<div id="section-main"><h1 id="1-2">1.2. Quick Start</h1>
+<div id="section-main"><h1 id="1-2">Quick Start</h1>
 <p>Typically you will have a factory which creates a concrete instance depending on some options (dependencies).</p>
-<h2 id="1-2-1">1.2.1. RequiresConfig interface</h2>
+<h2 id="1-2-1">RequiresConfig interface</h2>
 <p>Let's say <em>My factory requires a configuration</em> so you will implement the <code>RequiresConfig</code> interface.</p>
 <pre><code class="language-php">use Interop\Config\RequiresConfig;
 
@@ -496,7 +500,7 @@ class MyAwesomeFactory implements RequiresConfig
     }
 }
 </code></pre>
-<h3 id="1-2-1-1">1.2.1.1. Need configuration per container id</h3>
+<h3 id="1-2-1-1">Need configuration per container id</h3>
 <p>If you support more than one instance with different configuration then you simply use the <code>RequiresConfigId</code> interface.</p>
 <blockquote>
 <p>Don't use the dimensions() method for container id configuration</p>
@@ -537,7 +541,7 @@ return [
 </code></pre>
 <p>As you can see that you have to implement the functionality of <code>canRetrieveOptions()</code> and <code>options()</code> method. Good news,
 this is not necessary. See <code>ConfigurationTrait</code>.</p>
-<h2 id="1-2-2">1.2.2. ConfigurationTrait</h2>
+<h2 id="1-2-2">ConfigurationTrait</h2>
 <p>The <code>ConfigurationTrait</code> is a concrete implementation of the <code>RequiresConfig</code> interface and has full support of
 <code>ProvidesDefaultOptions</code>, <code>RequiresMandatoryOptions</code> and <code>RequiresConfigId</code>interfaces. It's a
 <a href="http://php.net/manual/en/language.oop5.traits.php" title="PHP Trait Documentation">PHP Trait</a> so you can extend your factory
@@ -557,18 +561,18 @@ class MyAwesomeFactory implements RequiresConfigId
 }
 </code></pre>
 <p>Now you have all the ingredients to create multiple different instances depending on configuration.</p>
-<h2 id="1-2-3">1.2.3. Create an instance</h2>
+<h2 id="1-2-3">Create an instance</h2>
 <p>Factories are often implemented as a <a href="http://php.net/manual/en/language.oop5.magic.php#object.invoke" title="PHP __invoke() Documentation">callable</a>.
 This means that your factory instance can be called like a function. You can also use a <code>create</code> method or something else.</p>
 <p>The factory gets a <code>ContainerInterface</code> (<a href="https://github.com/php-fig/fig-standards/blob/master/proposed/container-meta.md">Container PSR</a>)
 provided to retrieve the configuration.</p>
 <blockquote>
 <p>Note that the configuration above is injected as <code>$config</code> in <code>options()</code> and
-<a href="https://github.com/container-interop/container-interop">container-interop</a> is used to retrieve the application configuration.</p>
+<a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md">psr-11</a> is used to retrieve the application configuration.</p>
 </blockquote>
 <pre><code class="language-php">use Interop\Config\RequiresConfigId;
 use Interop\Config\ConfigurationTrait;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyAwesomeFactory implements RequiresConfigId
 {
@@ -591,7 +595,7 @@ class MyAwesomeFactory implements RequiresConfigId
 </code></pre>
 <p>The <code>ConfigurationTrait</code> does the job to check and retrieve options depending on implemented interfaces. <em>Nice, but what is
 if I have mandatory options?</em> See <code>RequiresMandatoryOptions</code> interface.</p>
-<h2 id="1-2-4">1.2.4. RequiresMandatoryOptions interface</h2>
+<h2 id="1-2-4">RequiresMandatoryOptions interface</h2>
 <p>The <code>RequiresConfig::options()</code> interface specification says that it MUST support mandatory options check. Let's say that we need
 params for a db connection. Our config <em>should</em> looks like that:</p>
 <pre><code class="language-php">// interop config example
@@ -615,7 +619,7 @@ the developer gets an exact exception message with what is wrong. This is useful
 <pre><code class="language-php">use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ConfigurationTrait;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
@@ -645,7 +649,7 @@ class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions
 <p><em>Hey, the database port and host is missing.</em> That's right, but the default value of the port is <em>3306</em> and the host is
 <em>localhost</em>. It makes no sense to set it in the configuration. <em>So I make the database port/host not configurable?</em> No, you
 use the <code>ProvidesDefaultOptions</code> interface.</p>
-<h2 id="1-2-5">1.2.5. ProvidesDefaultOptions interface</h2>
+<h2 id="1-2-5">ProvidesDefaultOptions interface</h2>
 <p>The <code>ProvidesDefaultOptions</code> interface defines default options for your instance. These options are merged with the provided
 options.</p>
 <p>Remember: <em>My factory requires configuration, requires a container id along with mandatory options and it provides default options.</em></p>
@@ -653,7 +657,7 @@ options.</p>
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
@@ -693,7 +697,7 @@ class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, Pr
 </code></pre>
 <p>Now you have a bullet proof factory class which throws meaningful exceptions if something goes wrong. <em>This is cool, but
 I don't want to use exceptions.</em> No problem, see next.</p>
-<h2 id="1-2-6">1.2.6. Avoid exceptions</h2>
+<h2 id="1-2-6">Avoid exceptions</h2>
 <p>The <code>RequiresConfig</code> interface provides a method <code>canRetrieveOptions()</code>. This method checks if options are available depending on
 implemented interfaces and checks that the retrieved options are an array or have implemented <code>\ArrayAccess</code>.</p>
 <blockquote>
@@ -705,7 +709,7 @@ It does however mean that <code>options()</code> will not throw an <code>OptionN
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
@@ -738,7 +742,7 @@ of the specification but is implemented in <code>ConfigurationTrait</code> to re
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
@@ -779,7 +783,7 @@ the interfaces in a sense order.</p>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
+                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2017 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>

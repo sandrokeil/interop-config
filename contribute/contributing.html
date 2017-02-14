@@ -7,9 +7,9 @@
 <meta name="HandheldFriendly" content="True"/>
 <title>Contributing</title>
     <link rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
+      href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/yeti/bootstrap.min.css">
 <link rel="stylesheet"
-      href="https://tobiju.github.io/share/prismjs/prism-ghcolors.css"/>
+      href="https://tobiju.github.io/share/prismjs/prism-okaidia.css"/>
 <link rel="stylesheet"
       href="https://tobiju.github.io/share/prismjs/prism-linenumbers.css"/>
 <style>
@@ -346,7 +346,7 @@
     }
 </style>
 </head>
-    <body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-cerulean">
+    <body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-yeti">
 <div class="page-wrapper">
     <header>
     
@@ -406,6 +406,10 @@
     </li>
                         <li>
     <a href="https://sandrokeil.github.io/interop-config/reference/tutorial.html">Tutorial</a>
+
+    </li>
+                        <li>
+    <a href="https://sandrokeil.github.io/interop-config/reference/console-tools.html">Console Tools</a>
 
     </li>
             </ul>
@@ -472,14 +476,14 @@
 </nav>
         </div>
                 <div class="col-md-9">
-<div id="section-main"><h1 id="3-1">3.1. Contributing</h1>
+<div id="section-main"><h1 id="3-1">Contributing</h1>
 <p>Visit <a href="https://github.com/sandrokeil/interop-config/" title="Project Website">github.com/sandrokeil/interop-config/</a> for the project website.</p>
 <ul>
 <li>Make sure you have execute <code>composer install</code>
 </li>
 <li>Be sure you are in the root directory</li>
 </ul>
-<h2 id="3-1-1">3.1.1. Resources</h2>
+<h2 id="3-1-1">Resources</h2>
 <p>If you wish to contribute to <code>interop-config</code>, please be sure to read to the following resources:</p>
 <ul>
 <li>Coding Standards: <a href="https://github.com/php-fig/fig-standards/tree/master/accepted">PSR-0/1/2/4</a>
@@ -489,7 +493,7 @@
 </ul>
 <p>If you are working on new features, or refactoring an existing component, please create an issue first, so we can discuss
 it.</p>
-<h2 id="3-1-2">3.1.2. Running tests</h2>
+<h2 id="3-1-2">Running tests</h2>
 <p>To run tests execute <em>phpunit</em>:</p>
 <pre><code class="language-sh">$ ./vendor/bin/phpunit
 </code></pre>
@@ -502,22 +506,22 @@ To do so:</p>
 <li>Edit <code>TestConfig.php</code> to enable any specific functionality you want to test, as well as to provide test values to
 utilize.</li>
 </ul>
-<h2 id="3-1-3">3.1.3. Running PHPCodeSniffer</h2>
+<h2 id="3-1-3">Running PHPCodeSniffer</h2>
 <p>To check coding standards execute <em>phpcs</em>:</p>
 <pre><code class="language-sh">$ ./vendor/bin/phpcs
 </code></pre>
 <p>To auto fix coding standard issues execute:</p>
 <pre><code class="language-sh">$ ./vendor/bin/phpcbf
 </code></pre>
-<h2 id="3-1-4">3.1.4. Running benchmarks</h2>
+<h2 id="3-1-4">Running benchmarks</h2>
 <p>To run benchmarks execute <em>phpbench</em>:</p>
 <pre><code class="language-sh">$ ./vendor/bin/phpbench run --report=aggregate
 </code></pre>
-<h2 id="3-1-5">3.1.5. Generate documentation</h2>
+<h2 id="3-1-5">Generate documentation</h2>
 <p>To generate the documentation execute <em>bookdown</em>:</p>
 <pre><code class="language-sh">$ ./vendor/bin/bookdown doc/bookdown.json
 </code></pre>
-<h2 id="3-1-6">3.1.6. Composer shortcuts</h2>
+<h2 id="3-1-6">Composer shortcuts</h2>
 <p>For every program above there are shortcuts defined in the <code>composer.json</code> file.</p>
 <ul>
 <li>
@@ -554,7 +558,7 @@ utilize.</li>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
+                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2017 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>

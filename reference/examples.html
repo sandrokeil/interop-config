@@ -7,9 +7,9 @@
 <meta name="HandheldFriendly" content="True"/>
 <title>Examples</title>
     <link rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
+      href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/yeti/bootstrap.min.css">
 <link rel="stylesheet"
-      href="https://tobiju.github.io/share/prismjs/prism-ghcolors.css"/>
+      href="https://tobiju.github.io/share/prismjs/prism-okaidia.css"/>
 <link rel="stylesheet"
       href="https://tobiju.github.io/share/prismjs/prism-linenumbers.css"/>
 <style>
@@ -346,7 +346,7 @@
     }
 </style>
 </head>
-    <body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-cerulean">
+    <body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-yeti">
 <div class="page-wrapper">
     <header>
     
@@ -408,6 +408,10 @@
     <a href="https://sandrokeil.github.io/interop-config/reference/tutorial.html">Tutorial</a>
 
     </li>
+                        <li>
+    <a href="https://sandrokeil.github.io/interop-config/reference/console-tools.html">Console Tools</a>
+
+    </li>
             </ul>
 
     </li>
@@ -463,13 +467,13 @@
 </nav>
         </div>
                 <div class="col-md-9">
-<div id="section-main"><h1 id="2-2">2.2. Examples</h1>
+<div id="section-main"><h1 id="2-2">Examples</h1>
 <p>This files contains examples for each interface. The factory class uses the <code>ConfigurationTrait</code> to retrieve options
 from a configuration and optional to perform a mandatory option check or merge default options. There is also an
 example for a independent config structure of the Zend Expressive TwigRendererFactory. The
-<a href="https://github.com/container-interop/container-interop" title="Container Interoperability">container-interop</a> specification
+<a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md" title="Container Interoperability">psr-11</a> specification
 is used, so it's framework agnostic.</p>
-<h2 id="2-2-1">2.2.1. Use a vendor.package.id config structure</h2>
+<h2 id="2-2-1">Use a vendor.package.id config structure</h2>
 <p>Let's assume we have the following module configuration:</p>
 <pre><code class="language-php">// interop config example
 return [
@@ -496,11 +500,11 @@ return [
 <blockquote>
 <p>Note that the configuration above is injected as <code>$config</code> in <code>options()</code></p>
 </blockquote>
-<h3 id="2-2-1-1">2.2.1.1. Retrieving options</h3>
+<h3 id="2-2-1-1">Retrieving options</h3>
 <p>Then you have easily access to the <code>orm_default</code> options in your method with <code>ConfigurationTrait</code>.</p>
 <pre><code class="language-php">use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresConfigId;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyDBALConnectionFactory implements RequiresConfigId
 {
@@ -553,14 +557,14 @@ class MyDBALConnectionFactory implements RequiresConfigId
     }
 }
 </code></pre>
-<h3 id="2-2-1-2">2.2.1.2. Mandatory options check</h3>
+<h3 id="2-2-1-2">Mandatory options check</h3>
 <p>You can also check for mandatory options automatically with <code>MandatoryOptionsInterface</code>. Now we want also check that
 option <code>driverClass</code> and <code>params</code> are available. So we also implement in the example above the interface
 <code>RequiresMandatoryOptions</code>. If one of these options are missing, an exception is raised.</p>
 <pre><code class="language-php">use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\RequiresConfigId;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
@@ -605,7 +609,7 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
     }
 }
 </code></pre>
-<h2 id="2-2-2">2.2.2. Use a static factory</h2>
+<h2 id="2-2-2">Use a static factory</h2>
 <p>Creation of a new instance of a specific config key is really easy by using the static variants of the factory. With
 this you don't have to instantiate a factory to use another config id in your config, which is really awesome. Remember,
 config files should only contain scalar values, so you can cache it in production. We have to add some lines of code
@@ -613,7 +617,7 @@ to our factory. The magic is done via the <code>__callStatic()</code> method.</p
 <pre><code class="language-php">use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\RequiresConfigId;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
@@ -699,7 +703,7 @@ class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOpti
     }
 }
 </code></pre>
-<h3 id="2-2-2-1">2.2.2.1. Default options</h3>
+<h3 id="2-2-2-1">Default options</h3>
 <p>Use the <code>ProvidesDefaultOptions</code> interface if you have default options. These options are merged with the provided options in
 <code>\Interop\Config\RequiresConfig::options()</code>. Let's look at this example from
 <a href="https://github.com/doctrine/DoctrineORMModule/blob/master/docs/configuration.md#how-to-use-two-connections">DoctrineORMModule</a>.
@@ -768,7 +772,7 @@ class ConfigurationFactory implements RequiresConfigId, ProvidesDefaultOptions
     }
 }
 </code></pre>
-<h2 id="2-2-3">2.2.3. Use arbitrary configuration structure</h2>
+<h2 id="2-2-3">Use arbitrary configuration structure</h2>
 <p>Whatever configuration structure you use, <code>interop-config</code> can handle it. You can use a three-dimensional array with
 <code>vendor.package.id</code> like the examples above or you don't care of it and organize your configuration by behavior or
 nature (db, cache, ... or sale, admin).</p>
@@ -804,7 +808,7 @@ factory and gives the user the possibility to find out the config structure. Mor
 configuration file from the factory.</p>
 <pre><code class="language-php">namespace Zend\Expressive\Twig;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Twig_Environment as TwigEnvironment;
 use Twig_Extension_Debug as TwigExtensionDebug;
 use Twig_ExtensionInterface;
@@ -945,7 +949,7 @@ class TwigRendererFactory implements RequiresConfig, ProvidesDefaultOptions
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2016 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
+                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2017 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>
