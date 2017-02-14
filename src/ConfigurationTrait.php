@@ -135,6 +135,7 @@ trait ConfigurationTrait
      * @param array|ArrayAccess $config Configuration
      * @param string $configId Config name, must be provided if factory uses RequiresConfigId interface
      * @return array|ArrayAccess options Default options or an empty array
+     * @throws Exception\MandatoryOptionNotFoundException If a mandatory option is missing
      */
     public function optionsWithFallback($config, string $configId = null)
     {
@@ -142,8 +143,7 @@ trait ConfigurationTrait
 
         if ($this->canRetrieveOptions($config, $configId)) {
             $options = $this->options($config, $configId);
-        }
-        if (empty($options) && $this instanceof ProvidesDefaultOptions) {
+        } elseif ($this instanceof ProvidesDefaultOptions) {
             $options = $this->defaultOptions();
         }
         return $options;
