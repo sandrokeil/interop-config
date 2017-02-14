@@ -51,7 +51,7 @@ Documentation is [in the doc tree](doc/), and can be compiled using [bookdown](h
 
 ```console
 $ docker run -it --rm -v $(pwd):/app sandrokeil/bookdown doc/bookdown.json
-$ docker run -it --rm -p 8080:8080 -v $(pwd):/app php:7.0-cli php -S 0.0.0.0:8080 -t /app/doc/html
+$ docker run -it --rm -p 8080:8080 -v $(pwd):/app php:7.1-cli php -S 0.0.0.0:8080 -t /app/doc/html
 ```
 
 or run *bookdown*
@@ -64,18 +64,12 @@ $ php -S 0.0.0.0:8080 -t doc/html/
 Then browse to [http://localhost:8080/](http://localhost:8080/)
 
 ## Projects
-This is a list of projects who are using `interop-config` interfaces (incomplete).
+This is a list of projects who are using `interop-config` interfaces ([incomplete](https://packagist.org/packages/sandrokeil/interop-config/dependents)).
 
 * [prooph/service-bus](https://github.com/prooph/service-bus) - PHP Lightweight Message Bus supporting CQRS
 * [prooph/event-store](https://github.com/prooph/event-store) - PHP EventStore Implementation 
-* [prooph/event-store-doctrine-adapter](https://github.com/prooph/event-store-doctrine-adapter) - Doctrine Adapter for ProophEventStore
-* [prooph/event-store-mongodb-adapter](https://github.com/prooph/event-store-mongodb-adapter) - MongoDB Adapter for ProophEventStore
-* [prooph/snapshotter](https://github.com/prooph/snapshotter) - snapshot tool for prooph event-store 
-* [prooph/snapshot-memcached-adapter](https://github.com/prooph/snapshot-memcached-adapter) - Snapshot Memcached Adapter for ProophEventStore 
-* [prooph/snapshot-doctrine-adapter](https://github.com/prooph/snapshot-doctrine-adapter) - Snapshot Doctrine Adapter for ProophEventStore 
-* [prooph/laravel-package](https://github.com/prooph/laravel-package) - Laravel package for prooph components
-* [prooph/service-bus-symfony-bundle](https://github.com/prooph/service-bus-symfony-bundle) - Symfony Bundle for prooph service bus
-* [prooph/event-store-symfony-bundle](https://github.com/prooph/event-store-symfony-bundle) - Symfony Bundle for prooph event store
+* [prooph/snapshot-store](https://github.com/prooph/snapshot-store) - Simple and lightweight snapshot store
+* [prooph/psr7-middleware](https://github.com/prooph/psr7-middleware) - PSR-7 Middleware for prooph components
 
 ## Benchmarks
 The benchmarks uses [PHPBench](http://phpbench.readthedocs.org/en/latest/) and can be started by the following command:

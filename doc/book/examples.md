@@ -3,7 +3,7 @@
 This files contains examples for each interface. The factory class uses the `ConfigurationTrait` to retrieve options 
 from a configuration and optional to perform a mandatory option check or merge default options. There is also an 
 example for a independent config structure of the Zend Expressive TwigRendererFactory. The 
-[container-interop](https://github.com/container-interop/container-interop "Container Interoperability") specification 
+[psr-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md "Container Interoperability") specification 
 is used, so it's framework agnostic.
 
 ## Use a vendor.package.id config structure
@@ -42,7 +42,7 @@ Then you have easily access to the `orm_default` options in your method with `Co
 ```php
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresConfigId;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyDBALConnectionFactory implements RequiresConfigId
 {
@@ -105,7 +105,7 @@ option `driverClass` and `params` are available. So we also implement in the exa
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\RequiresConfigId;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
@@ -161,7 +161,7 @@ to our factory. The magic is done via the `__callStatic()` method.
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\RequiresConfigId;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
@@ -364,7 +364,7 @@ configuration file from the factory.
 ```php
 namespace Zend\Expressive\Twig;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Twig_Environment as TwigEnvironment;
 use Twig_Extension_Debug as TwigExtensionDebug;
 use Twig_ExtensionInterface;

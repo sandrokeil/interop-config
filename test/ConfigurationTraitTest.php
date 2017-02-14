@@ -3,7 +3,7 @@
  * Sandro Keil (https://sandro-keil.de)
  *
  * @link      http://github.com/sandrokeil/interop-config for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Sandro Keil
+ * @copyright Copyright (c) 2015-2017 Sandro Keil
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
@@ -28,7 +28,7 @@ use InteropTest\Config\TestAsset\PackageDefaultAndMandatoryOptionsConfiguration;
 use InteropTest\Config\TestAsset\PackageDefaultOptionsConfiguration;
 use InteropTest\Config\TestAsset\PlainConfiguration;
 use InteropTest\Config\TestAsset\UniversalContainerIdConfiguration;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * ConfigurationTraitTest
@@ -620,7 +620,7 @@ class ConfigurationTraitTest extends TestCase
         );
         self::assertSame(
             $options['params']['port'],
-            '4444'
+            4444
         );
     }
 
@@ -647,7 +647,7 @@ class ConfigurationTraitTest extends TestCase
         $dbname = 'database';
         $user = 'username';
         $password = 'password';
-        $port = '4444';
+        $port = 4444;
 
         if ($type !== UniversalContainerIdConfiguration::TYPE_ONLY_ITERATOR) {
             $driverClass = $config['doctrine']['connection']['orm_default']['driverClass'];

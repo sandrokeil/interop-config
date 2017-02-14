@@ -3,7 +3,7 @@
  * Sandro Keil (https://sandro-keil.de)
  *
  * @link      http://github.com/sandrokeil/interop-config for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Sandro Keil
+ * @copyright Copyright (c) 2015-2017 Sandro Keil
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
@@ -135,6 +135,7 @@ trait ConfigurationTrait
      * @param array|ArrayAccess $config Configuration
      * @param string $configId Config name, must be provided if factory uses RequiresConfigId interface
      * @return array|ArrayAccess options Default options or an empty array
+     * @throws Exception\MandatoryOptionNotFoundException If a mandatory option is missing
      */
     public function optionsWithFallback($config, string $configId = null)
     {
@@ -142,8 +143,7 @@ trait ConfigurationTrait
 
         if ($this->canRetrieveOptions($config, $configId)) {
             $options = $this->options($config, $configId);
-        }
-        if (empty($options) && $this instanceof ProvidesDefaultOptions) {
+        } elseif ($this instanceof ProvidesDefaultOptions) {
             $options = $this->defaultOptions();
         }
         return $options;
