@@ -41,7 +41,7 @@ The suggested installation method is via composer. For composer documentation, p
 
 Run `composer require sandrokeil/interop-config` to install interop-config.
     
-It is recommended to use [container-interop](https://github.com/container-interop/container-interop) to retrieve the
+It is recommended to use [psr-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) to retrieve the
 configuration in your factories.
 
 ## Config Structure
@@ -81,13 +81,13 @@ instance options follow. The following example uses `ConfigurationTrait` which i
 options from a configuration. `RequiresConfigId` interface ensures support for more than one instance.
 
 > Note that the configuration above is injected as `$config` in `options()` and
-[container-interop](https://github.com/container-interop/container-interop) is used to retrieve the application configuration.
+[psr-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) is used to retrieve the application configuration.
 
 ```php
 use Interop\Config\ConfigurationTrait;
 use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyDBALConnectionFactory implements RequiresConfigId, RequiresMandatoryOptions
 {

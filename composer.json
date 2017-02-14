@@ -50,7 +50,7 @@
     "malukenho/docheader": "^0.1.5"
   },
   "suggest": {
-    "container-interop/container-interop": "To retrieve config in your factories"
+    "psr/container": "To retrieve config in your factories"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,

@@ -107,12 +107,12 @@ The factory gets a `ContainerInterface` ([Container PSR](https://github.com/php-
 provided to retrieve the configuration. 
 
 > Note that the configuration above is injected as `$config` in `options()` and
-[container-interop](https://github.com/container-interop/container-interop) is used to retrieve the application configuration.
+[psr-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) is used to retrieve the application configuration.
 
 ```php
 use Interop\Config\RequiresConfigId;
 use Interop\Config\ConfigurationTrait;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyAwesomeFactory implements RequiresConfigId
 {
@@ -165,7 +165,7 @@ the developer gets an exact exception message with what is wrong. This is useful
 use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ConfigurationTrait;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions
 {
@@ -208,7 +208,7 @@ use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
@@ -265,7 +265,7 @@ use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
@@ -301,7 +301,7 @@ use Interop\Config\RequiresConfigId;
 use Interop\Config\RequiresMandatoryOptions;
 use Interop\Config\ProvidesDefaultOptions;
 use Interop\Config\ConfigurationTrait;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class MyAwesomeFactory implements RequiresConfigId, RequiresMandatoryOptions, ProvidesDefaultOptions
 {
