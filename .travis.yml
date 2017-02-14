@@ -19,7 +19,6 @@ matrix:
         - EXECUTE_TEST_COVERALLS=true
         - EXECUTE_CS_CHECK=true
         - EXECUTE_DOCHEADER_CHECK=true
-    - php: hhvm
   allow_failures:
     - php: hhvm
 

@@ -3,7 +3,7 @@
  * Sandro Keil (https://sandro-keil.de)
  *
  * @link      http://github.com/sandrokeil/interop-config for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Sandro Keil
+ * @copyright Copyright (c) 2015-2017 Sandro Keil
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
@@ -36,7 +36,7 @@ class UniversalContainerIdConfiguration implements RequiresConfigId, ProvidesDef
     private static $defaultOptions = [
         'params' => [
             'host' => 'awesomehost',
-            'port' => '4444',
+            'port' => 4444,
         ],
     ];
 

@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.1.0 (2017-02-14)
+
+### Added
+
+* [#36](https://github.com/sandrokeil/interop-config/issues/36): Create console tools to generate/display config based on factories. Read more in the [docs](https://sandrokeil.github.io/interop-config/reference/console-tools.html).
+* Composer suggestion of `psr/container`
+
+### Deprecated
+
+* Nothing
+
+### Removed
+
+* Composer suggestion of `container-interop/container-interop`
+
+### Fixed
+
+* Nothing
+
+
 ## 2.0.1 (2016-12-09)
 This release contains **no** BC break.
 

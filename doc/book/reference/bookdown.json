@@ -9,6 +9,9 @@
     },
     {
       "tutorial": "../tutorial.md"
+    },
+    {
+      "console-tools": "../console-tools.md"
     }
   ],
   "target": "./html",
