@@ -15,13 +15,8 @@
 [![Build Status](https://travis-ci.org/sandrokeil/interop-config.png?branch=master)](https://travis-ci.org/sandrokeil/interop-config)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/sandrokeil/interop-config/badges/quality-score.png?s=cdef161c14156e3e36ed0ce3d6fd7979d38d916c)](https://scrutinizer-ci.com/g/sandrokeil/interop-config/)
 [![Coverage Status](https://coveralls.io/repos/sandrokeil/interop-config/badge.svg?branch=master)](https://coveralls.io/r/sandrokeil/interop-config?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/55ddfcba2383e9001700007e/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55ddfcba2383e9001700007e)
-[![HHVM Status](http://hhvm.h4cc.de/badge/sandrokeil/interop-config.svg?style=flat)](http://hhvm.h4cc.de/package/sandrokeil/interop-config)
-[![PHP 7 ready](http://php7ready.timesplinter.ch/sandrokeil/interop-config/badge.svg)](https://travis-ci.org/sandrokeil/interop-config)
 [![Latest Stable Version](https://poser.pugx.org/sandrokeil/interop-config/v/stable.png)](https://packagist.org/packages/sandrokeil/interop-config)
-[![Dependency Status](https://www.versioneye.com/user/projects/53615c75fe0d0720eb00009e/badge.png)](https://www.versioneye.com/php/sandrokeil:interop-config/0.3.1)
 [![Total Downloads](https://poser.pugx.org/sandrokeil/interop-config/downloads.png)](https://packagist.org/packages/sandrokeil/interop-config)
-[![Reference Status](https://www.versioneye.com/php/sandrokeil:interop-config/reference_badge.svg?style=flat)](https://www.versioneye.com/php/sandrokeil:interop-config/references)
 [![License](https://poser.pugx.org/sandrokeil/interop-config/license.png)](https://packagist.org/packages/sandrokeil/interop-config)
 
 `interop-config` provides interfaces and a concrete implementation to create instances depending on configuration via
@@ -45,7 +40,7 @@ Run `composer require sandrokeil/interop-config` to install interop-config. Vers
 
 ## Documentation
 For the latest online documentation visit [http://sandrokeil.github.io/interop-config/](http://sandrokeil.github.io/interop-config/ "Latest interop-config documentation").
-Refer the *Quick Start* section for a detailed explanation. 
+Refer the *Quick Start* section for a detailed explanation.
 
 Documentation is [in the doc tree](doc/), and can be compiled using [bookdown](http://bookdown.io) or [Docker](https://www.docker.com/)
 
@@ -67,24 +62,24 @@ Then browse to [http://localhost:8080/](http://localhost:8080/)
 This is a list of projects who are using `interop-config` interfaces ([incomplete](https://packagist.org/packages/sandrokeil/interop-config/dependents)).
 
 * [prooph/service-bus](https://github.com/prooph/service-bus) - PHP Lightweight Message Bus supporting CQRS
-* [prooph/event-store](https://github.com/prooph/event-store) - PHP EventStore Implementation 
+* [prooph/event-store](https://github.com/prooph/event-store) - PHP EventStore Implementation
 * [prooph/snapshot-store](https://github.com/prooph/snapshot-store) - Simple and lightweight snapshot store
 * [prooph/psr7-middleware](https://github.com/prooph/psr7-middleware) - PSR-7 Middleware for prooph components
 
 ## Benchmarks
 The benchmarks uses [PHPBench](http://phpbench.readthedocs.org/en/latest/) and can be started by the following command:
- 
+
 ```console
 $ ./vendor/bin/phpbench run -v --report=table
 ```
- 
+
 or with [Docker](https://www.docker.com/)
- 
+
 ```console
 $ docker run --rm -it --volume $(pwd):/app prooph/php:7.1-cli-opcache php ./vendor/bin/phpbench run --report=table
 ```
 
-You can use the `group` and `filter` argument to get only results for a specific group/filter. 
+You can use the `group` and `filter` argument to get only results for a specific group/filter.
 
 These groups are available: `perf`, `config`, `configId`, `mandatory`, `mandatoryRev` and `default`
 

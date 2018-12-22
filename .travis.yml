@@ -21,6 +21,7 @@ matrix:
     - php: 7.1
       env:
         - EXECUTE_DOCHEADER_CHECK=true
+        - DEPLOY_DOCS="$(if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then echo -n 'true' ; else echo -n 'false' ; fi)"
     - php: 7.2
       env:
         - EXECUTE_TEST_COVERALLS=true
@@ -43,7 +44,7 @@ script:
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then ./vendor/bin/phpunit --no-coverage ; fi
   - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/phpcs ; fi
   - if [[ $EXECUTE_DOCHEADER_CHECK == 'true' ]]; then ./vendor/bin/docheader check src/ test/ ; fi
-  - if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then vendor/bin/bookdown doc/bookdown.json --root-href=https://sandrokeil.github.io/interop-config/ ; fi
+  - if [[ DEPLOY_DOCS == 'true' ]]; then vendor/bin/bookdown doc/bookdown.json --root-href=https://sandrokeil.github.io/interop-config/ ; fi
 
 deploy:
   provider: pages
@@ -53,6 +54,7 @@ deploy:
   local-dir: doc/html
   on:
     branch: master
+    condition: $DEPLOY_DOCS = 'true'
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry php vendor/bin/php-coveralls -v ; fi
