@@ -4,8 +4,7 @@ language: php
 
 env:
   global:
-    - secure: Zm2DsIhujHC0dUasj/VYEZeCT0/U7uMbZNddlYNMRNjMFg7i+7oX/FwWrhipmOiXchfAaIYP15Nd8xi43y/Ija+oOe7yX8pHwmm7TYCGk7YrkRS6inHO03PRsbe/74GHphJh6H/jSQwuwSkKaicXh1854r+/yUM8xEsiB9mc+f95Vs7bmMuPvUXpTeRIkArL2VvwF/LumPizknjfU/wgCs9a+mAkUumZljD2LrpFmn7TJWRBhLwh+wVkY/RT9fA3yV7nD+07Zy3DHhbkA/1wsSondyXNGiKrQoc2o9+DFj7Ft8n0lt9XwuNAmEzGSKU7/mZqw6pHEaZ1puzckWR+mEmGi0XXWJrjFxOdTM0Y1IR/gQHOU+r6gDyz6UslIrY3rrcyCuhDkITDsqLeyTL8cmVD6y4/ZcKys90rVA0BSb1q6W3EI5u5/31BQifFEr/3bWzm3uwFWfh7gwPURjj++V+NXzDaR+yOE+F+mfrS7Qrs2DRzqJk2TqNO6UrSrN0MzhUXlTHwku6+e+wec1PKYqBFLHqUg4vNsAsUPN1d6zdq7NAIAouZ3iC0f929HFRY1hKpxXA5EWwlASQczJbpNjsK9KLxbYRQS3EUgJPpIJdcdecW9IpTWzqFUDt1YF4XqInxSLcNLkFvwqrFxsY8dVC+KqsFI2l92tVTJKXjBR0=
-
+    - secure: "q+yZZRkLtxe0KE7StvQYZFobuHOixuPfcQJJ/pbTtvEBNLMWqUZo+JBiGiDzamh9p3mW7eZ7Safpm7KXwTrsr4zOo+rkwWcPWD2yqX10n9kndKsYKXOi3wpX7z16DxtX0dT8V6+8R6Y/JXb7KN71DDcTOGed8wEn36MgIR0gYGNKDAK1UbqUhOBxhKIPnjodPUuQpFtNf4hiOp67wZ9BZGaNNniCreMkTkAFnY3VXnx0UuxvU3LCVlAXarOV8Pbyll0AnAYRMaOrh2QJPhQKSMxIWhTx0PlRce0a7rfarZ3x0NJBY41IlYG+k4crFVUTZ54s29xunTpGzHofcdUKYJ0iAMLG2g3qVtz9oyWNJ3qC7NAD9YM8HyPZ8WO09emLjdRZ8Pjspm5XqlzROaLp53KOmZL4PTuF7fIHuPFU1zJN79Z/C+4ikbXVu5pu0ERWa8HWhEDrHMTa+xZuG6PK131joqKSaNe+a5AgYBXAvVxkmSeDrARzYKb7hjORV7b4T0XeFfuF/aJFQJRtH79avDSJUoNM/I0HH3CS2mc3vxmlXPdH08Y7/dr8SQ8EuQHCWwiXIJI6Z9S7/EPMbb3C6lA2W76ukKY6eghwoVn2q+b44y6zI8qGA4mZkrgLK33JkGUr+DorwFa6nkZuAvFOy4FhySE4WaMHZRs9q27DQnA="
 branches:
   except:
     - /^release-.*$/
@@ -44,14 +43,14 @@ script:
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then ./vendor/bin/phpunit --no-coverage ; fi
   - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/phpcs ; fi
   - if [[ $EXECUTE_DOCHEADER_CHECK == 'true' ]]; then ./vendor/bin/docheader check src/ test/ ; fi
-  - if [[ $TRAVIS_BRANCH == 'master' ]]; then vendor/bin/bookdown doc/bookdown.json --root-href=https://sandrokeil.github.io/interop-config/ ; fi
+  - if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then vendor/bin/bookdown doc/bookdown.json --root-href=https://sandrokeil.github.io/interop-config/ ; fi
 
 deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   keep-history: true
-  local-dir: html
+  local-dir: doc/html
   on:
     branch: master
 
