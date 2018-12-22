@@ -1,15 +1,16 @@
+
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
     <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
 <meta name="HandheldFriendly" content="True"/>
 <title>Changelog</title>
     <link rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/yeti/bootstrap.min.css">
+      href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
 <link rel="stylesheet"
-      href="https://tobiju.github.io/share/prismjs/prism-okaidia.css"/>
+      href="https://tobiju.github.io/share/prismjs/prism-ghcolors.css"/>
 <link rel="stylesheet"
       href="https://tobiju.github.io/share/prismjs/prism-linenumbers.css"/>
 <style>
@@ -165,29 +166,39 @@
     }
 
     /* TOC */
+    .list-toc {
+        padding: 0;
+    }
+
     .list-toc .list-group-item {
         background: 0 none;
         position: relative;
         font-weight: bold;
         padding: 0;
+        margin: 0;
+    }
+
+    .list-toc li .text-number {
+        padding-left: 20px;
+    }
+    .list-toc li li .text-number {
+        padding-left: 40px;
+    }
+    .list-toc li li li .text-number {
+        padding-left: 60px;
+    }
+    .list-toc li li li li .text-number {
+        padding-left: 80px;
+    }
+    .list-toc li li li li li .text-number {
+        padding-left: 100px;
+    }
+    .list-toc .text-number {
+        padding-left: 100px;
     }
 
     .list-toc .list-group-item .row {
-        padding: 7px 0;
-    }
-
-    .list-toc .list-group-item .text-number {
-        padding-left: 10px;
-    }
-
-    .list-toc .list-toc-nested .list-group-item {
-        font-weight: normal;
-        border: 0 none !important;
-    }
-
-    .list-toc .list-toc-nested {
-        margin-bottom: 0;
-        padding-bottom: 10px;
+        padding: 7px 0 7px;
     }
 
     .list-toc .list-group-item .bbt-toc-toggle {
@@ -349,7 +360,7 @@
     }
 </style>
 </head>
-    <body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-yeti">
+<body data-spy="scroll" data-target="#sideNav" data-offset="50" class="bbt-theme-cerulean">
 <div class="page-wrapper">
     <header>
     
@@ -727,21 +738,21 @@ factory methods.</p>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2017 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/tobiju/bookdown-bootswatch-templates" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
+                    <p>Visit interop-config on <a href="https://github.com/sandrokeil/interop-config" title="interop-config on GitHub">GitHub</a><br/>Copyright (c) 2015-2017 <a href="https://sandro-keil.de/" title="I write about topics, advices and trends of web development">Sandro Keil</a> <br/> Powered by <a href="https://github.com/bookdown/Bookdown.Themes" title="Visit project to generate your own docs">Bookdown Bootswatch Templates</a></p>
                 </div>
             </div>
         </div>
     </div>
 </footer>
 </div>
-<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+<script src="//code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
         integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.6.0/lunr.min.js"></script>
-<script src="http://bartaz.github.io/sandbox.js/jquery.highlight.js"></script>
-<script src="https://tobiju.github.io/share/prismjs/main.js"></script>
-<script src="https://tobiju.github.io/share/prismjs/prism.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/lunr.js/0.6.0/lunr.min.js"></script>
+<script src="//bartaz.github.io/sandbox.js/jquery.highlight.js"></script>
+<script src="//tobiju.github.io/share/prismjs/main.js"></script>
+<script src="//tobiju.github.io/share/prismjs/prism.js"></script>
 <script type="text/javascript">
 
     function Search() {
