@@ -42,12 +42,13 @@
     "php": "^7.1"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.0.3",
+    "phpunit/phpunit": "^7.0.1",
     "squizlabs/php_codesniffer": "^3.0",
-    "phpbench/phpbench": "^1.0@dev",
-    "bookdown/bookdown": "1.x-dev as 1.0.0",
-    "tobiju/bookdown-bootswatch-templates": "1.1",
-    "malukenho/docheader": "^0.1.5"
+    "phpbench/phpbench": "^0.15",
+    "bookdown/bookdown": "^1.1.0",
+    "webuni/commonmark-table-extension": "^0.6.1",
+    "webuni/commonmark-attributes-extension": "^0.5.0",
+    "malukenho/docheader": "^0.1.7"
   },
   "suggest": {
     "psr/container": "To retrieve config in your factories"
@@ -73,7 +74,7 @@
     "cs-fix": "phpcbf",
     "test": "phpunit --no-coverage",
     "test-coverage": "phpunit",
-    "docheader": "docheader check src/ test/",
+    "docheader": "docheader check src/ test/ benchmark/",
     "docs": "bookdown doc/bookdown.json",
     "benchmark": "phpbench run -v --report=table"
   },

@@ -2,6 +2,10 @@ sudo: false
 
 language: php
 
+env:
+  global:
+    - secure: Zm2DsIhujHC0dUasj/VYEZeCT0/U7uMbZNddlYNMRNjMFg7i+7oX/FwWrhipmOiXchfAaIYP15Nd8xi43y/Ija+oOe7yX8pHwmm7TYCGk7YrkRS6inHO03PRsbe/74GHphJh6H/jSQwuwSkKaicXh1854r+/yUM8xEsiB9mc+f95Vs7bmMuPvUXpTeRIkArL2VvwF/LumPizknjfU/wgCs9a+mAkUumZljD2LrpFmn7TJWRBhLwh+wVkY/RT9fA3yV7nD+07Zy3DHhbkA/1wsSondyXNGiKrQoc2o9+DFj7Ft8n0lt9XwuNAmEzGSKU7/mZqw6pHEaZ1puzckWR+mEmGi0XXWJrjFxOdTM0Y1IR/gQHOU+r6gDyz6UslIrY3rrcyCuhDkITDsqLeyTL8cmVD6y4/ZcKys90rVA0BSb1q6W3EI5u5/31BQifFEr/3bWzm3uwFWfh7gwPURjj++V+NXzDaR+yOE+F+mfrS7Qrs2DRzqJk2TqNO6UrSrN0MzhUXlTHwku6+e+wec1PKYqBFLHqUg4vNsAsUPN1d6zdq7NAIAouZ3iC0f929HFRY1hKpxXA5EWwlASQczJbpNjsK9KLxbYRQS3EUgJPpIJdcdecW9IpTWzqFUDt1YF4XqInxSLcNLkFvwqrFxsY8dVC+KqsFI2l92tVTJKXjBR0=
+
 branches:
   except:
     - /^release-.*$/
@@ -9,35 +13,49 @@ branches:
 cache:
   directories:
     - $HOME/.composer/cache
-    - vendor
+    - $HOME/.php-cs-fixer
+    - $HOME/.local
 
 matrix:
   fast_finish: true
   include:
     - php: 7.1
       env:
-        - EXECUTE_TEST_COVERALLS=true
-        - EXECUTE_CS_CHECK=true
         - EXECUTE_DOCHEADER_CHECK=true
+    - php: 7.2
+      env:
+        - EXECUTE_TEST_COVERALLS=true
+    - php: 7.3
+      env:
+        - EXECUTE_CS_CHECK=true
+    - php: nightly
+
   allow_failures:
-    - php: hhvm
+    - php: nightly
 
 before_install:
+  - mkdir -p "$HOME/.php-cs-fixer"
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
   - composer self-update
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then composer require --no-update satooshi/php-coveralls:dev-master ; fi
-
-install:
-  - travis_retry composer install --no-interaction --prefer-source
-  - composer info -i
+  - composer update --prefer-dist
 
 script:
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit --coverage-text; fi
+  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml; fi
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then ./vendor/bin/phpunit --no-coverage ; fi
   - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/phpcs ; fi
   - if [[ $EXECUTE_DOCHEADER_CHECK == 'true' ]]; then ./vendor/bin/docheader check src/ test/ ; fi
+  - if [[ $TRAVIS_BRANCH == 'master' ]]; then vendor/bin/bookdown doc/bookdown.json --root-href=https://sandrokeil.github.io/interop-config/ ; fi
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  local-dir: html
+  on:
+    branch: master
 
 after_script:
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/coveralls ; fi
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry php vendor/bin/php-coveralls -v ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then wget https://scrutinizer-ci.com/ocular.phar ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml ; fi
