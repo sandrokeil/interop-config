@@ -24,7 +24,7 @@ matrix:
         - DEPLOY_DOCS="$(if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then echo -n 'true' ; else echo -n 'false' ; fi)"
     - php: 7.2
       env:
-        - EXECUTE_TEST_COVERALLS=true
+        - TEST_COVERAGE=true
     - php: 7.3
       env:
         - EXECUTE_CS_CHECK=true
@@ -35,13 +35,13 @@ matrix:
 
 before_install:
   - mkdir -p "$HOME/.php-cs-fixer"
-  - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
+  - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
   - composer self-update
   - composer update --prefer-dist
 
 script:
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml; fi
-  - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then ./vendor/bin/phpunit --no-coverage ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then ./vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml; fi
+  - if [[ $TEST_COVERAGE != 'true' ]]; then ./vendor/bin/phpunit --no-coverage ; fi
   - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/phpcs ; fi
   - if [[ $EXECUTE_DOCHEADER_CHECK == 'true' ]]; then ./vendor/bin/docheader check src/ test/ ; fi
   - if [[ $DEPLOY_DOCS == 'true' ]]; then vendor/bin/bookdown doc/bookdown.json --root-href=https://sandrokeil.github.io/interop-config/ ; fi
