@@ -15,6 +15,9 @@
     "standard",
     "configuration"
   ],
+  "config": {
+    "sort-packages": true
+  },
   "authors": [
     {
       "name": "Sandro Keil",
@@ -42,13 +45,14 @@
     "php": "^7.1"
   },
   "require-dev": {
+    "bookdown/bookdown": "^1.1.0",
+    "malukenho/docheader": "^0.1.7",
+    "php-coveralls/php-coveralls": "^2.1",
+    "phpbench/phpbench": "^0.15",
     "phpunit/phpunit": "^7.0.1",
     "squizlabs/php_codesniffer": "^3.0",
-    "phpbench/phpbench": "^0.15",
-    "bookdown/bookdown": "^1.1.0",
-    "webuni/commonmark-table-extension": "^0.6.1",
     "webuni/commonmark-attributes-extension": "^0.5.0",
-    "malukenho/docheader": "^0.1.7"
+    "webuni/commonmark-table-extension": "^0.6.1"
   },
   "suggest": {
     "psr/container": "To retrieve config in your factories"
