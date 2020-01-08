@@ -3,7 +3,7 @@
  * Sandro Keil (https://sandro-keil.de)
  *
  * @link      http://github.com/sandrokeil/interop-config for the canonical source repository
- * @copyright Copyright (c) 2017-2019 Sandro Keil
+ * @copyright Copyright (c) 2017-2020 Sandro Keil
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
@@ -97,7 +97,7 @@ class ConfigDumperCommandTest extends TestCase
  * Sandro Keil (https://sandro-keil.de)
  *
  * @link      http://github.com/sandrokeil/interop-config for the canonical source repository
- * @copyright Copyright (c) 2017-2019 Sandro Keil
+ * @copyright Copyright (c) 2017-2020 Sandro Keil
  * @license   http://github.com/sandrokeil/interop-config/blob/master/LICENSE.md New BSD License
  */
 
