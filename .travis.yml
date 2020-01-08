@@ -21,13 +21,15 @@ matrix:
     - php: 7.1
       env:
         - EXECUTE_DOCHEADER_CHECK=true
-        - DEPLOY_DOCS="$(if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then echo -n 'true' ; else echo -n 'false' ; fi)"
     - php: 7.2
       env:
-        - TEST_COVERAGE=true
+        - DEPLOY_DOCS="$(if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then echo -n 'true' ; else echo -n 'false' ; fi)"
     - php: 7.3
       env:
         - EXECUTE_CS_CHECK=true
+    - php: 7.4
+      env:
+        - TEST_COVERAGE=true
     - php: nightly
 
   allow_failures:
