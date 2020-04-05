@@ -82,7 +82,7 @@ class ConfigDumperCommandTest extends TestCase
         $cut = new ConfigDumperCommand($this->consoleHelper, new ConfigDumper());
 
         $cut($argv);
-        self::assertTrue(file_exists(self::CONFIG_FILE));
+        self::assertFileExists(self::CONFIG_FILE);
         unlink(self::CONFIG_FILE);
     }
 
