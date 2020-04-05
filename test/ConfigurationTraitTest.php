@@ -67,21 +67,19 @@ class ConfigurationTraitTest extends TestCase
     {
         $stub = new ConnectionConfiguration();
 
-        self::assertSame(false, $stub->canRetrieveOptions(''));
-        self::assertSame(false, $stub->canRetrieveOptions(new \stdClass()));
-        self::assertSame(false, $stub->canRetrieveOptions(null));
+        self::assertFalse($stub->canRetrieveOptions(''));
+        self::assertFalse($stub->canRetrieveOptions(new \stdClass()));
+        self::assertFalse($stub->canRetrieveOptions(null));
 
-        self::assertSame(
-            false,
+        self::assertFalse(
             $stub->canRetrieveOptions(['doctrine' => ['invalid' => ['default' => ['params' => '']]]])
         );
 
-        self::assertSame(
-            false,
+        self::assertFalse(
             $stub->canRetrieveOptions(['doctrine' => ['connection' => new \stdClass()]])
         );
 
-        self::assertSame(true, $stub->canRetrieveOptions($this->getTestConfig()));
+        self::assertTrue($stub->canRetrieveOptions($this->getTestConfig()));
     }
 
     /**
@@ -93,15 +91,13 @@ class ConfigurationTraitTest extends TestCase
     {
         $stub = new ConnectionContainerIdConfiguration();
 
-        self::assertSame(false, $stub->canRetrieveOptions(['doctrine' => ['connection' => null]]), 'orm_default');
+        self::assertFalse($stub->canRetrieveOptions(['doctrine' => ['connection' => null]]), 'orm_default');
 
-        self::assertSame(
-            false,
+        self::assertFalse(
             $stub->canRetrieveOptions(['doctrine' => ['connection' => ['invalid' => ['test' => 1]]]], 'orm_default')
         );
 
-        self::assertSame(
-            false,
+        self::assertFalse(
             $stub->canRetrieveOptions(
                 [
                     'doctrine' => [
@@ -114,7 +110,7 @@ class ConfigurationTraitTest extends TestCase
             )
         );
 
-        self::assertSame(true, $stub->canRetrieveOptions($this->getTestConfig(), 'orm_default'));
+        self::assertTrue($stub->canRetrieveOptions($this->getTestConfig(), 'orm_default'));
     }
 
     /**
