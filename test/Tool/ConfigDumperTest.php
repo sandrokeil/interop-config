@@ -48,7 +48,7 @@ class ConfigDumperTest extends TestCase
     private $consoleHelper;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -62,7 +62,7 @@ class ConfigDumperTest extends TestCase
         $this->consoleHelper = new ConsoleHelper($this->inputStream, $this->outputStream, $this->errorStream);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         stream_wrapper_unregister('test');
         TestAsset\TestStream::$inputStack = [];

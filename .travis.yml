@@ -30,10 +30,10 @@ matrix:
     - php: 7.4
       env:
         - TEST_COVERAGE=true
-    - php: nightly
+    - php: 8.0
 
   allow_failures:
-    - php: nightly
+    - php: 8.0
 
 before_install:
   - mkdir -p "$HOME/.php-cs-fixer"

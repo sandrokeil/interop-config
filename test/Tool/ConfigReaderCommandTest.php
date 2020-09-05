@@ -51,7 +51,7 @@ class ConfigReaderCommandTest extends TestCase
     private $consoleHelper;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -67,7 +67,7 @@ class ConfigReaderCommandTest extends TestCase
         file_put_contents(self::CONFIG_FILE, $this->getTestConfig());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         stream_wrapper_unregister('test');
         TestAsset\TestStream::$inputStack = [];
